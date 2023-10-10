@@ -39,7 +39,13 @@ export default function Home() {
             pressed={activeToggle === filter.name}
             key={`${filter.name}-${index}`}
             variant="outline"
-            onClick={() => setActiveToggle(filter.name)}
+            onClick={() => {
+              if (filter.name === activeToggle) {
+                setActiveToggle(null);
+              } else {
+                setActiveToggle(filter.name);
+              }
+            }}
           >
             {filter.name}
           </Toggle>
@@ -52,7 +58,13 @@ export default function Home() {
               pressed={activeOption === option}
               key={`${option}-${index}`}
               variant="outline"
-              onClick={() => setActiveOption(option)}
+              onClick={() => {
+                if (option === activeOption) {
+                  setActiveOption(null);
+                } else {
+                  setActiveOption(option);
+                }
+              }}
             >
               {option}
             </Toggle>
