@@ -1,6 +1,9 @@
+'use client';
+
 import Header from '@/components/Header';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toggle } from '@/components/ui/toggle';
+import { useState } from 'react';
 
 export default function Home() {
   const filters = [
@@ -13,6 +16,9 @@ export default function Home() {
     { name: 'בגדים', options: [] },
     { name: 'אחר', options: [] },
   ];
+  const [activeToggle, setActiveToggle] = useState<string | null>(null);
+  const [activeOption, setActiveOption] = useState<string | null>(null);
+  const selectedFilter = filters.find((key) => key.name === activeToggle);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
@@ -29,21 +35,29 @@ export default function Home() {
       </Tabs>
       <div className="flex gap-5 w-full mt-[60px]">
         {filters.map((filter, index) => (
-          <Toggle key={`${filter.name}-${index}`} variant="outline">
+          <Toggle
+            pressed={activeToggle === filter.name}
+            key={`${filter.name}-${index}`}
+            variant="outline"
+            onClick={() => setActiveToggle(filter.name)}
+          >
             {filter.name}
           </Toggle>
         ))}
       </div>
       <div className="w-full mt-5">
-        <Tabs defaultValue="need-help" className="w-fit">
-          <TabsList className="w-full rtl:flex-row-reverse flex">
-            {filters[0].options.map((option, index) => (
-              <TabsTrigger value={option} className="w-full" key={`${option}-${index}`}>
-                {option}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+        <div className="flex gap-5 w-full">
+          {selectedFilter?.options.map((option, index) => (
+            <Toggle
+              pressed={activeOption === option}
+              key={`${option}-${index}`}
+              variant="outline"
+              onClick={() => setActiveOption(option)}
+            >
+              {option}
+            </Toggle>
+          ))}
+        </div>
       </div>
     </main>
   );
