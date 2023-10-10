@@ -34,12 +34,6 @@ export default function Home() {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <Post
-        name="יוסי פהפדג"
-        city="חיפה"
-        message="The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax."
-        phones={['52952642985', '654815651', '+616162161']}
-      />
       <div className="flex gap-5 w-full mt-[60px]">
         {filters.map((filter, index) => (
           <Toggle
@@ -52,6 +46,7 @@ export default function Home() {
               } else {
                 setActiveToggle(filter.name);
               }
+              setActiveOption(null);
             }}
           >
             {filter.name}
@@ -78,6 +73,12 @@ export default function Home() {
           ))}
         </div>
       </div>
+      <Post
+        name="יוסי פהפדג"
+        city="חיפה"
+        message="The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax."
+        phones={['52952642985', '654815651', '+616162161']}
+      />
     </main>
   );
 }
