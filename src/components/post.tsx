@@ -45,14 +45,14 @@ export default function Post({
           : '')
       }
     >
-      <div className={'w-full rounded-md ' + (military ? 'bg-green-800' : 'bg-blue-800')}>
-        <p className="text-white text-center">{military ? 'צבאי' : 'אזרחי'}</p>
+      <div className={'w-full rounded-md ' + (military ? 'bg-green-200' : 'bg-blue-200')}>
+        <p className=" text-center">{military ? 'צבאי' : 'אזרחי'}</p>
       </div>
       <CardHeader>
         <div className="flex flex-row-reverse justify-between align-middle">
           <CardTitle className="ml-auto">{name}</CardTitle>
         </div>
-        <CardDescription>
+        <CardContent>
           <div className="flex items-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,7 @@ export default function Post({
               </small>
             </div>
           )}
-        </CardDescription>
+        </CardContent>
       </CardHeader>
       <CardContent>
         <ScrollArea dir="rtl" className={'border-gray-950 pl-6 ' + (open ? 'h-52' : 'h-[150px]')}>
@@ -156,7 +156,7 @@ export default function Post({
           עותק
         </Button>
         {!open && (
-          <AlertDialogTrigger className="w-full">
+          <AlertDialogTrigger className="w-full" asChild>
             <Button className="w-full">לפתוח</Button>
           </AlertDialogTrigger>
         )}
