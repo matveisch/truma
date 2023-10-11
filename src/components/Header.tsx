@@ -11,7 +11,7 @@ export default function Header() {
         עברית
       </div>
       <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        Truma
+        מיד ליד
       </h1>
       <div className="flex gap-6">
         <Button className="flex gap-1 items-center rtl:flex-row-reverse">

@@ -1,6 +1,7 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardTitle, CardHeader } from './ui/card';
+import { Separator } from './ui/separator';
 
 import {
   AlertDialog,
@@ -16,22 +17,37 @@ interface postProps {
   city: string;
   message: string;
   phones: string[];
+  date: string;
+  time: string;
+  military: boolean;
   urgency?: string;
 }
-export default function Post({ name, city, message, phones, urgency }: postProps) {
+export default function Post({
+  name,
+  city,
+  message,
+  phones,
+  date,
+  time,
+  military,
+  urgency,
+}: postProps) {
   const [open, setOpen] = useState<boolean>(false);
   const card = (
     <Card
       className={
         urgency == '1'
-          ? 'border-red-600 bg-red-100 '
+          ? 'border-red-600 bg-red-100 h-full'
           : urgency == '2'
-          ? 'border-orange-600 bg-orange-100 '
+          ? 'border-orange-600 bg-orange-100 h-full'
           : urgency == '3'
-          ? 'border-blue-600 bg-blue-100 '
-          : ''
+          ? 'border-blue-600 bg-blue-100 h-full'
+          : 'h-full'
       }
     >
+      <div className="w-full bg-black rounded-md">
+        <p className="text-white">{military ? 'צבאי' : 'אזרחי'}</p>
+      </div>
       <CardHeader>
         <div className="flex flex-row-reverse justify-between align-middle">
           {urgency && (
@@ -64,7 +80,11 @@ export default function Post({ name, city, message, phones, urgency }: postProps
               clipRule="evenodd"
             />
           </svg>
-          {city}
+          <p>{city}</p>
+          <Separator orientation="vertical" className="h-5" />
+          <p>{time}</p>
+          <Separator orientation="vertical" className="h-5" />
+          <p>{date}</p>
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -99,7 +119,7 @@ export default function Post({ name, city, message, phones, urgency }: postProps
 
   return (
     <AlertDialog onOpenChange={() => setOpen(!open)}>
-      <AlertDialogTrigger>{card}</AlertDialogTrigger>
+      <AlertDialogTrigger className="min-w-[300px] h-full">{card}</AlertDialogTrigger>
       <AlertDialogContent>
         {card}
         <AlertDialogCancel>Cancel</AlertDialogCancel>
