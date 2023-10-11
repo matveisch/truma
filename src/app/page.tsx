@@ -6,6 +6,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toggle } from '@/components/ui/toggle';
 import { useState } from 'react';
 import NewPostForm from '@/components/NewPostForm';
+import { Button } from '@/components/ui/button';
+import { HomeIcon, Plus } from 'lucide-react';
 
 export default function Home() {
   const filters = [
@@ -66,10 +68,28 @@ export default function Home() {
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const selectedFilter = filters.find((key) => key.name === activeToggle);
+  const [createMode, setCreateMode] = useState(false);
 
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
-      <Header />
+      <Header>
+        <Button
+          className="flex gap-1 items-center rtl:flex-row-reverse"
+          onClick={() => setCreateMode(!createMode)}
+        >
+          {!createMode && (
+            <>
+              <Plus />
+              פירסום מודעה
+            </>
+          )}
+          {createMode && (
+            <>
+              <HomeIcon />
+            </>
+          )}
+        </Button>
+      </Header>
       <Tabs defaultValue="need-help" className="w-[50%] min-w[250px] mt-10">
         <TabsList className="w-full py-6 px-2">
           <TabsTrigger value="offer-help" className="w-full">
@@ -119,23 +139,26 @@ export default function Home() {
           ))}
         </div>
       </div>
-      <div className="grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post, index) => {
-          return (
-            <Post
-              city={post.city}
-              message={post.message}
-              name={post.name}
-              phones={post.phones}
-              time={post.time}
-              date={post.date}
-              military={post.military}
-              urgency={post.urgency}
-            />
-          );
-        })}
-      </div>
-      <NewPostForm />
+      {!createMode && (
+        <div className="grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post, index) => {
+            return (
+              <Post
+                key={post.name + index}
+                city={post.city}
+                message={post.message}
+                name={post.name}
+                phones={post.phones}
+                time={post.time}
+                date={post.date}
+                military={post.military}
+                urgency={post.urgency}
+              />
+            );
+          })}
+        </div>
+      )}
+      {createMode && <NewPostForm />}
     </main>
   );
 }

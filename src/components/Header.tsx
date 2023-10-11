@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import globe from '@/public/Material Symbols Language.svg';
 import { Button } from '@/components/ui/button';
-import plus from '@/public/plus.svg';
+import { ReactNode } from 'react';
 
-export default function Header() {
+export default function Header({ children }: { children: ReactNode }) {
   return (
     <header className="flex justify-between items-center w-full relative rtl:flex-row-reverse">
       <div className="flex gap-1 ">
@@ -14,10 +14,7 @@ export default function Header() {
         מיד ליד
       </h1>
       <div className="flex gap-6">
-        <Button className="flex gap-1 items-center rtl:flex-row-reverse">
-          <Image src={plus} alt={'plus-icon'} />
-          פירסום מודעה
-        </Button>
+        {children}
         <Button variant="ghost">ארגוני מתנדבים</Button>
         <Button variant="ghost">מידע</Button>
       </div>
