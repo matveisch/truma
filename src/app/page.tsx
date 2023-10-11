@@ -5,6 +5,7 @@ import Post from '@/components/post';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toggle } from '@/components/ui/toggle';
 import { useState } from 'react';
+import NewPostForm from '@/components/NewPostForm';
 
 export default function Home() {
   const filters = [
@@ -95,6 +96,7 @@ export default function Home() {
           urgency="2"
         />
       </div>
+      <NewPostForm />
     </main>
   );
 }
