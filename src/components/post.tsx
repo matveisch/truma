@@ -1,16 +1,14 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardTitle, CardHeader } from './ui/card';
+import { Button } from './ui/button';
+import { Card, CardContent, CardDescription, CardTitle, CardHeader, CardFooter } from './ui/card';
+import { useToast } from './ui/use-toast';
 import { Separator } from './ui/separator';
 
-import {
-  AlertDialog,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 import { useState } from 'react';
+import { ScrollArea } from './ui/scroll-area';
 
 interface postProps {
   name: string;
@@ -33,64 +31,77 @@ export default function Post({
   urgency,
 }: postProps) {
   const [open, setOpen] = useState<boolean>(false);
+  // const { toast } = useToast();
   const card = (
     <Card
       className={
-        urgency == '1'
-          ? 'border-red-600 bg-red-100 h-full'
+        'h-full p-1 border-2 ' +
+        (urgency == '1'
+          ? ' border-red-600 h-full'
           : urgency == '2'
-          ? 'border-orange-600 bg-orange-100 h-full'
+          ? ' border-orange-600 h-full'
           : urgency == '3'
-          ? 'border-blue-600 bg-blue-100 h-full'
-          : 'h-full'
+          ? ' border-blue-600 h-full'
+          : '')
       }
     >
-      <div className="w-full bg-black rounded-md">
-        <p className="text-white">{military ? 'צבאי' : 'אזרחי'}</p>
+      <div className={'w-full rounded-md ' + (military ? 'bg-green-800' : 'bg-blue-800')}>
+        <p className="text-white text-center">{military ? 'צבאי' : 'אזרחי'}</p>
       </div>
       <CardHeader>
         <div className="flex flex-row-reverse justify-between align-middle">
-          {urgency && (
-            <div>
-              <small className="text-gray-600 font-bold">דחפות:</small>
-              {urgency == '1' ? (
-                <p className="text-red-600">שעה 1</p>
-              ) : urgency == '2' ? (
-                <p className="text-orange-600">12 שעות</p>
-              ) : urgency == '3' ? (
-                <p className="text-blue-600">24 שעות</p>
-              ) : (
-                <p>לא דחוף</p>
-              )}
-            </div>
-          )}
-
           <CardTitle className="ml-auto">{name}</CardTitle>
         </div>
-        <CardDescription className="flex items-center gap-1">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-4 h-4"
-          >
-            <path
-              fillRule="evenodd"
-              d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <p>{city}</p>
-          <Separator orientation="vertical" className="h-5" />
-          <p>{time}</p>
-          <Separator orientation="vertical" className="h-5" />
-          <p>{date}</p>
+        <CardDescription>
+          <div className="flex items-center gap-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              className="w-4 h-4"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9.69 18.933l.003.001C9.89 19.02 10 19 10 19s.11.02.308-.066l.002-.001.006-.003.018-.008a5.741 5.741 0 00.281-.14c.186-.096.446-.24.757-.433.62-.384 1.445-.966 2.274-1.765C15.302 14.988 17 12.493 17 9A7 7 0 103 9c0 3.492 1.698 5.988 3.355 7.584a13.731 13.731 0 002.273 1.765 11.842 11.842 0 00.976.544l.062.029.018.008.006.003zM10 11.25a2.25 2.25 0 100-4.5 2.25 2.25 0 000 4.5z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <p>{city}</p>
+            <Separator orientation="vertical" className="h-5" />
+            <p>{time}</p>
+            <Separator orientation="vertical" className="h-5" />
+            <p>{date}</p>
+          </div>
+          {urgency && (
+            <div>
+              <small className="text-gray-600 font-bold inline text-right">
+                <span>
+                  דחפות:{'     '}
+                  {urgency == '1' ? (
+                    <p className="text-red-600 inline">שעה 1</p>
+                  ) : urgency == '2' ? (
+                    <p className="text-orange-600 inline">12 שעות</p>
+                  ) : urgency == '3' ? (
+                    <p className="text-blue-600 inline">24 שעות</p>
+                  ) : (
+                    <p>לא דחוף</p>
+                  )}
+                </span>
+              </small>
+            </div>
+          )}
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <p className={open ? 'max-h-full' : 'max-h-[150px] overflow-hidden text-ellipsis'}>
-          {message}
-        </p>
+        <ScrollArea dir="rtl" className={'border-gray-950 pl-6 ' + (open ? 'h-52' : 'h-[150px]')}>
+          <p
+            className={
+              'text-right ' + (open ? 'max-h-full' : 'max-h-[150px] overflow-hidden text-ellipsis')
+            }
+          >
+            {message}
+          </p>
+        </ScrollArea>
       </CardContent>
       <CardContent className="flex flex-col gap-1">
         {phones.map((item, index) => {
@@ -114,16 +125,67 @@ export default function Post({
           );
         })}
       </CardContent>
+      <CardFooter className="flex gap-[20px]">
+        <Button
+          variant={open ? 'default' : 'secondary'}
+          className="w-full"
+          onClick={() => {
+            navigator.clipboard.writeText(
+              name +
+                '\n \n' +
+                message +
+                '\n \n' +
+                phones.map((phone) => {
+                  return 'טל: ' + phone + ' \n';
+                })
+            );
+            // toast({
+            //   description: 'Your message has been sent.',
+            // });
+          }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            className="w-5 h-5 ml-1"
+          >
+            <path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z" />
+            <path d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z" />
+          </svg>
+          עותק
+        </Button>
+        {!open && (
+          <AlertDialogTrigger className="w-full">
+            <Button className="w-full">לפתוח</Button>
+          </AlertDialogTrigger>
+        )}
+      </CardFooter>
     </Card>
   );
 
   return (
-    <AlertDialog onOpenChange={() => setOpen(!open)}>
-      <AlertDialogTrigger className="min-w-[300px] h-full">{card}</AlertDialogTrigger>
-      <AlertDialogContent>
+    <>
+      <AlertDialog onOpenChange={() => setOpen(!open)}>
         {card}
-        <AlertDialogCancel>Cancel</AlertDialogCancel>
-      </AlertDialogContent>
-    </AlertDialog>
+        <AlertDialogContent>
+          <AlertDialogTrigger className="absolute top-1 right-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                fillRule="evenodd"
+                d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm-1.72 6.97a.75.75 0 10-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 101.06 1.06L12 13.06l1.72 1.72a.75.75 0 101.06-1.06L13.06 12l1.72-1.72a.75.75 0 10-1.06-1.06L12 10.94l-1.72-1.72z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </AlertDialogTrigger>
+          {card}
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
