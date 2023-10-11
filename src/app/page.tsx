@@ -2,6 +2,7 @@
 
 import Header from '@/components/Header';
 import Post from '@/components/post';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toggle } from '@/components/ui/toggle';
 import { useState } from 'react';
@@ -100,7 +101,7 @@ export default function Home() {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div className="flex gap-5 w-full mt-[60px]">
+      <div className="flex gap-5 w-full mt-[60px] ">
         {filters.map((filter, index) => (
           <Toggle
             pressed={activeToggle === filter.name}
