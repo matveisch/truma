@@ -66,7 +66,7 @@ export function ComboBox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-full justify-between"
         >
           {value ? value : 'בחר אזור'}
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />

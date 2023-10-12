@@ -11,14 +11,22 @@ import { HomeIcon, Plus } from 'lucide-react';
 
 export default function Home() {
   const filters = [
-    { name: 'דיור', options: ['בן אדם 1', '1-3 אנשים', '3-10 אנשים', 'יותר מ-10 אנשים'] },
-    { name: 'אוכל', options: [] },
-    { name: 'בעלי חיים', options: [] },
-    { name: 'ילדים', options: [] },
-    { name: 'עזרה רוחנית', options: [] },
-    { name: 'תובלה', options: [] },
-    { name: 'בגדים', options: [] },
-    { name: 'אחר', options: [] },
+    {
+      name: 'דיור',
+      options: ['בן אדם 1', '1-3 אנשים', '3-10 אנשים', 'יותר מ-10 אנשים'],
+      description: 'מציאת דירה, חדר או מיטה למי שמוצא את עצמו ללא קורת גג.',
+    },
+    { name: 'אוכל', options: [], description: 'עזרה במציאת מזון, משלוח מזון' },
+    {
+      name: 'בעלי חיים',
+      options: [],
+      description: 'מציאת מקלט לחיות מחמד חסרות בית. חפש גם תרופות לבעלי חיים.',
+    },
+    { name: 'ילדים', options: [], description: 'עזרה במציאת מזון לתינוקות וחלב אם' },
+    { name: 'עזרה רוחנית', options: [], description: 'תמיכה פסיכולוגית לנפגעים' },
+    { name: 'תובלה', options: [], description: 'סיוע בהסעות, חיפוש מכוניות ונהגים' },
+    { name: 'בגדים', options: [], description: 'תרומת חפצים' },
+    { name: 'אחר', options: [], description: '' },
   ];
   const posts = [
     {
@@ -71,7 +79,7 @@ export default function Home() {
   const [needHelp, setNeedHelp] = useState(true);
 
   return (
-    <main className="flex min-h-screen flex-col items-center sm:p-10 p-3">
+    <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
       <Header>
         <Button
           className="flex gap-1 items-center rtl:flex-row-reverse"
@@ -100,7 +108,8 @@ export default function Home() {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div className="flex gap-5 w-full mt-[60px] overflow-scroll">
+      <h2 className="mt-[50px] text-right w-full text-xl">{selectedFilter?.description}</h2>
+      <div className="flex gap-5 w-full mt-[10px] overflow-x-scroll">
         {filters.map((filter, index) => (
           <Toggle
             pressed={activeToggle === filter.name}

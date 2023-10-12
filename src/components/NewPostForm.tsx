@@ -58,8 +58,11 @@ export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
 
   return (
     <Form {...form} setValue={setValue} getValues={getValues}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-start sm:gap-20 flex-wrap">
-        <div>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex w-full justify-between sm:gap-20 "
+      >
+        <div className="w-full">
           <FormField
             control={form.control}
             name="name"
@@ -102,7 +105,7 @@ export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
             />
           </div>
         </div>
-        <div className="flex flex-col items-start justify-start">
+        <div className="flex flex-col items-start justify-start w-full">
           {needHelp && (
             <div className="flex flex-col gap-3 w-full">
               <FormLabel>דחפות</FormLabel>
