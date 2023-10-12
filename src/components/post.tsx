@@ -14,16 +14,17 @@ import PostCard from './ui/postCard';
 import { X } from 'lucide-react';
 
 interface postProps {
+  id: number;
   name: string;
   area: string;
   description: string;
   phones: string[];
-  date?: Date;
-  military?: boolean;
-  urgency?: number;
+  date: Date;
+  military: boolean;
+  urgency: number;
   category: string;
   subCategory: string;
-  helping: boolean;
+  need_help: boolean;
 }
 export default function Post({
   name,
@@ -32,6 +33,7 @@ export default function Post({
   phones,
   date,
   military,
+  need_help,
   urgency,
 }: postProps) {
   const [open, setOpen] = useState<boolean>(false);
@@ -46,6 +48,7 @@ export default function Post({
           phones={phones}
           date={date}
           military={military}
+          need_help={need_help}
           urgency={urgency}
           open={open}
         />
@@ -73,6 +76,7 @@ export default function Post({
             phones={phones}
             date={date}
             military={military}
+            need_help={need_help}
             urgency={urgency}
             open={open}
           />

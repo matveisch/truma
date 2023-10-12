@@ -9,9 +9,10 @@ interface postProps {
   area: string;
   description: string;
   phones: string[];
-  date?: Date;
-  military?: boolean;
-  urgency?: number;
+  date: Date;
+  military: boolean;
+  urgency: number;
+  need_help: boolean;
   open: boolean;
 }
 
@@ -23,22 +24,23 @@ export default function PostCard({
   date,
   military,
   urgency,
+  need_help,
   open,
 }: postProps) {
   return (
     <Card
       className={
         'h-full p-1 border-2 ' +
-        (urgency == 0
+        (urgency == 1
           ? ' border-red-600 h-full'
-          : urgency == 1
-          ? ' border-orange-600 h-full'
           : urgency == 2
+          ? ' border-orange-600 h-full'
+          : urgency == 3
           ? ' border-blue-600 h-full'
           : '')
       }
     >
-      {military != undefined && (
+      {need_help == true && (
         <div className={'w-full rounded-md ' + (military ? 'bg-green-200' : 'bg-blue-200')}>
           <p className=" text-center">{military ? 'צבאי' : 'אזרחי'}</p>
         </div>
@@ -76,16 +78,16 @@ export default function PostCard({
               </div>
             )}
           </div>
-          {urgency && (
+          {urgency !== 0 && (
             <div>
               <small className="text-gray-600 font-bold inline text-right">
                 <span>
                   דחפות:{'     '}
-                  {urgency == 0 ? (
+                  {urgency == 1 ? (
                     <p className="text-red-600 inline">שעה 1</p>
-                  ) : urgency == 1 ? (
-                    <p className="text-orange-600 inline">12 שעות</p>
                   ) : urgency == 2 ? (
+                    <p className="text-orange-600 inline">12 שעות</p>
+                  ) : urgency == 3 ? (
                     <p className="text-blue-600 inline">24 שעות</p>
                   ) : (
                     <p>לא דחוף</p>
