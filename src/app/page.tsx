@@ -90,7 +90,7 @@ export default function Home() {
           )}
         </Button>
       </Header>
-      <Tabs defaultValue="need-help" className="w-[50%] min-w[250px] mt-10">
+      <Tabs defaultValue="need-help" className="min-w[250px] mt-10 sm:w-[50%] w-full">
         <TabsList className="w-full py-6 px-2">
           <TabsTrigger value="offer-help" className="w-full" onClick={() => setNeedHelp(false)}>
             מציע עזרה
