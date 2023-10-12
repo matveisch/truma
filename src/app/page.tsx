@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { HomeIcon, Plus } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import { Database, PostRow } from '@/lib/supabase';
-
+import { ScrollArea } from '@/components/ui/scroll-area';
 export default function Home() {
   const filters = [
     {
@@ -73,7 +73,7 @@ export default function Home() {
         </Button>
       </Header>
       <Tabs defaultValue="need-help" className="min-w[250px] mt-10 sm:w-[50%] w-full">
-        <TabsList className="w-full py-6 px-2">
+        <TabsList className="w-full py-7 px-2">
           <TabsTrigger value="offer-help" className="w-full" onClick={() => setNeedHelp(false)}>
             מציע עזרה
           </TabsTrigger>
@@ -83,47 +83,72 @@ export default function Home() {
         </TabsList>
       </Tabs>
       <h2 className="mt-[50px] text-right w-full text-xl">{selectedFilter?.description}</h2>
-      <div className="flex gap-5 w-full mt-[10px] overflow-x-scroll">
-        {filters.map((filter, index) => (
-          <Toggle
-            pressed={activeToggle === filter.name}
-            key={`${filter.name}-${index}`}
-            variant="outline"
-            onClick={() => {
-              if (filter.name === activeToggle) {
-                setActiveToggle(null);
-              } else {
-                setActiveToggle(filter.name);
-              }
-              setActiveOption(null);
-            }}
-          >
-            {filter.name}
-          </Toggle>
-        ))}
-      </div>
-      <div className="w-full mt-5">
-        <div className="flex gap-5 w-full">
-          {selectedFilter?.options.map((option, index) => (
+      <ScrollArea dir="rtl" aria-orientation="horizontal" className="w-full">
+        <div
+          //  className="flex gap-5 w-full mt-[10px] overflow-x-scroll"
+          className="flex gap-5 w-full mt-[10px]"
+        >
+          {filters.map((filter, index) => (
             <Toggle
-              pressed={activeOption === option}
-              key={`${option}-${index}`}
+              pressed={activeToggle === filter.name}
+              key={`${filter.name}-${index}`}
               variant="outline"
               onClick={() => {
-                if (option === activeOption) {
-                  setActiveOption(null);
+                if (filter.name === activeToggle) {
+                  setActiveToggle(null);
                 } else {
-                  setActiveOption(option);
+                  setActiveToggle(filter.name);
                 }
+                setActiveOption(null);
               }}
             >
-              {option}
+              {filter.name}
             </Toggle>
+          ))}
+        </div>
+      </ScrollArea>
+      <div className="w-full mt-5">
+        <div className="flex gap-2 w-full">
+          {selectedFilter?.options.map((option, index) => (
+            <div className=" flex justify-between align-middle gap-2">
+              <p
+                onClick={() => {
+                  if (option === activeOption) {
+                    setActiveOption(null);
+                  } else {
+                    setActiveOption(option);
+                  }
+                }}
+                className={
+                  'py-2 px-2 rounded-md cursor-pointer ' +
+                  (option === activeOption ? 'bg-slate-200' : 'hover:bg-slate-100')
+                }
+              >
+                {option}
+              </p>
+              {selectedFilter.options.length !== index && (
+                <div className="w-[1px] h-6 m-auto bg-slate-300"></div>
+              )}
+            </div>
+            // <Toggle
+            //   pressed={activeOption === option}
+            //   key={`${option}-${index}`}
+            //   variant="outline"
+            //   onClick={() => {
+            //     if (option === activeOption) {
+            //       setActiveOption(null);
+            //     } else {
+            //       setActiveOption(option);
+            //     }
+            //   }}
+            // >
+            //   {option}
+            // </Toggle>
           ))}
         </div>
       </div>
       {!createMode && (
-        <div className="grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
+        <div className="mt-10 grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
           {backendPosts &&
             backendPosts.map((post, index) => {
               return (

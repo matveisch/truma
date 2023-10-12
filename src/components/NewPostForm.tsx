@@ -148,8 +148,9 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
               render={({ field }) => (
                 <FormItem className="w-full flex mt-2">
                   <div className="flex items-center space-x-2" style={{ direction: 'ltr' }}>
+                    <Label htmlFor="military">אזרחי</Label>
                     <Switch id="military" onCheckedChange={field.onChange} checked={field.value} />
-                    <Label htmlFor="military">צָבָא</Label>
+                    <Label htmlFor="military">צבאי</Label>
                   </div>
                   <FormMessage />
                 </FormItem>
@@ -165,6 +166,15 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
                 {timeOptions.map((option, index) => (
                   <Toggle
                     pressed={activeToggle.name === option.name}
+                    className={
+                      index == 0
+                        ? 'border-red-600'
+                        : index == 1
+                        ? 'border-orange-600'
+                        : index == 2
+                        ? 'border-blue-600'
+                        : ''
+                    }
                     key={`${option}-${index}`}
                     variant="outline"
                     onClick={() => setActiveToggle(option)}
