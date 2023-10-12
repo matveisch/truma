@@ -24,15 +24,23 @@ export default function Home() {
       options: ['בן אדם 1', '1-3 אנשים', '3-10 אנשים', 'יותר מ-10 אנשים'],
       description: 'מציאת דירה, חדר או מיטה למי שמוצא את עצמו ללא קורת גג.',
     },
-    { name: 'אוכל', options: [], description: 'עזרה במציאת מזון, משלוח מזון' },
+    {
+      name: 'אוכל',
+      options: [],
+      description: 'עזרה במציאת מזון, משלוח מזון',
+    },
     {
       name: 'בעלי חיים',
-      options: [],
+      options: ['חיה 1', '2 חיות', '3+ חיות'],
       description: 'מציאת מקלט לחיות מחמד חסרות בית. חפש גם תרופות לבעלי חיים.',
     },
     { name: 'ילדים', options: [], description: 'עזרה במציאת מזון לתינוקות וחלב אם' },
     { name: 'עזרה רוחנית', options: [], description: 'תמיכה פסיכולוגית לנפגעים' },
-    { name: 'תובלה', options: [], description: 'סיוע בהסעות, חיפוש מכוניות ונהגים' },
+    {
+      name: 'תובלה',
+      options: ['מכונית קלה', 'רכב משא'],
+      description: 'סיוע בהסעות, חיפוש מכוניות ונהגים',
+    },
     { name: 'בגדים', options: [], description: 'תרומת חפצים' },
     { name: 'אחר', options: [], description: '' },
   ];
@@ -51,10 +59,7 @@ export default function Home() {
 
   useEffect(() => {
     async function getData() {
-      const { data: posts, error } = await supabase
-        .from('posts')
-        .select()
-        .order('id', { ascending: false });
+      const { data: posts, error } = await supabase.from('posts').select();
       console.log(error?.message); //todo: deal with errors
       return posts;
     }
@@ -113,7 +118,7 @@ export default function Home() {
         </Button>
       </Header>
       <Tabs defaultValue="need-help" className="min-w[250px] mt-10 sm:w-[50%] w-full">
-        <TabsList className="w-full py-7 px-2">
+        <TabsList className="w-full py-8 px-2">
           <TabsTrigger value="offer-help" className="w-full" onClick={() => setNeedHelp(false)}>
             מציע עזרה
           </TabsTrigger>
@@ -123,30 +128,27 @@ export default function Home() {
         </TabsList>
       </Tabs>
       <h2 className="mt-[50px] text-right w-full text-xl">{selectedFilter?.description}</h2>
-      <ScrollArea dir="rtl" aria-orientation="horizontal" className="w-full">
-        <div
-          //  className="flex gap-5 w-full mt-[10px] overflow-x-scroll"
-          className="flex gap-5 w-full mt-[10px]"
-        >
-          {filters.map((filter, index) => (
-            <Toggle
-              pressed={activeToggle === filter.name}
-              key={`${filter.name}-${index}`}
-              variant="outline"
-              onClick={() => {
-                if (filter.name === activeToggle) {
-                  setActiveToggle(null);
-                } else {
-                  setActiveToggle(filter.name);
-                }
-                setActiveOption(null);
-              }}
-            >
-              {filter.name}
-            </Toggle>
-          ))}
-        </div>
-      </ScrollArea>
+      <div className="flex gap-5 w-full mt-[10px] overflow-x-auto overflow-y-hidden direction-alternate-reverse">
+        {filters.map((filter, index) => (
+          <Toggle
+            size={'lg'}
+            className="text-lg w-fit whitespace-nowrap"
+            pressed={activeToggle === filter.name}
+            key={`${filter.name}-${index}`}
+            variant="outline"
+            onClick={() => {
+              if (filter.name === activeToggle) {
+                setActiveToggle(null);
+              } else {
+                setActiveToggle(filter.name);
+              }
+              setActiveOption(null);
+            }}
+          >
+            {filter.name}
+          </Toggle>
+        ))}
+      </div>
       <div className="w-full mt-5">
         <div className="flex gap-2 w-full">
           {selectedFilter?.options.map((option, index) => (
@@ -171,20 +173,6 @@ export default function Home() {
                 <div className="w-[1px] h-6 m-auto bg-slate-300"></div>
               )}
             </div>
-            // <Toggle
-            //   pressed={activeOption === option}
-            //   key={`${option}-${index}`}
-            //   variant="outline"
-            //   onClick={() => {
-            //     if (option === activeOption) {
-            //       setActiveOption(null);
-            //     } else {
-            //       setActiveOption(option);
-            //     }
-            //   }}
-            // >
-            //   {option}
-            // </Toggle>
           ))}
         </div>
       </div>
@@ -213,11 +201,11 @@ export default function Home() {
       )}
       {createMode && (
         <NewPostForm
-          backendPosts={backendPosts}
           needHelp={needHelp}
           activeOption={activeOption}
           activeFilter={activeToggle}
           supabase={supabase}
+          backendPosts={backendPosts}
           setBackendPosts={setBackendPosts}
         />
       )}
