@@ -8,22 +8,42 @@ import {
   MenubarTrigger,
 } from '@/components/ui/menubar';
 import { Globe, Menu } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+function DropdownLanguage() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="flex gap-1 items-center">
+          <Globe size={18} />
+          עברית
+        </Button>
+      </DropdownMenuTrigger>
+      {/*todo: make direction dynamic*/}
+      <DropdownMenuContent style={{ direction: 'rtl' }}>
+        <DropdownMenuItem>עברית</DropdownMenuItem>
+        <DropdownMenuItem>English</DropdownMenuItem>
+        <DropdownMenuItem>Русский</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export default function Header({ children }: { children: ReactNode }) {
   return (
     <header className="w-full">
       <div className="invisible sm:visible flex justify-between items-center w-full relative rtl:flex-row-reverse">
-        <div className="flex gap-1 ">
-          <Globe />
-          עברית
-        </div>
-        <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          מיד ליד
-        </h1>
-        <div className="flex gap-6">
+        <h1 className="">מיד ליד</h1>
+        <div className="flex gap-6 items-center">
           {children}
           <Button variant="ghost">ארגוני מתנדבים</Button>
           <Button variant="ghost">מידע</Button>
+          <DropdownLanguage />
         </div>
       </div>
       <div className="flex justify-between w-full items-center sm:invisible">
@@ -41,10 +61,7 @@ export default function Header({ children }: { children: ReactNode }) {
                 <Button variant="ghost">מידע</Button>
               </MenubarItem>
               <MenubarItem>
-                <Button variant="ghost" className="flex gap-1">
-                  <Globe />
-                  עברית
-                </Button>
+                <DropdownLanguage />
               </MenubarItem>
             </MenubarContent>
           </MenubarMenu>
