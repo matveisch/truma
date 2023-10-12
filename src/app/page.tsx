@@ -30,7 +30,6 @@ export default function Home() {
       phones: ['52952642985', '654815651', '+616162161'],
       date: '11.10.2023',
       time: '12:30',
-      military: true,
     },
     {
       name: 'יוסי פהפדג',

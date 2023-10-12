@@ -17,7 +17,7 @@ interface postProps {
   phones: string[];
   date: string;
   time: string;
-  military: boolean;
+  military?: boolean;
   urgency?: string;
 }
 export default function Post({
@@ -45,14 +45,17 @@ export default function Post({
           : '')
       }
     >
-      <div className={'w-full rounded-md ' + (military ? 'bg-green-200' : 'bg-blue-200')}>
-        <p className=" text-center">{military ? 'צבאי' : 'אזרחי'}</p>
-      </div>
+      {military != undefined && (
+        <div className={'w-full rounded-md ' + (military ? 'bg-green-200' : 'bg-blue-200')}>
+          <p className=" text-center">{military ? 'צבאי' : 'אזרחי'}</p>
+        </div>
+      )}
+
       <CardHeader>
         <div className="flex flex-row-reverse justify-between align-middle">
           <CardTitle className="ml-auto">{name}</CardTitle>
         </div>
-        <CardContent>
+        <CardContent className="p-0 text-slate-500">
           <div className="flex items-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -93,15 +96,18 @@ export default function Post({
         </CardContent>
       </CardHeader>
       <CardContent>
-        <ScrollArea dir="rtl" className={'border-gray-950 pl-6 ' + (open ? 'h-52' : 'h-[150px]')}>
-          <p
-            className={
-              'text-right ' + (open ? 'max-h-full' : 'max-h-[150px] overflow-hidden text-ellipsis')
-            }
-          >
-            {message}
-          </p>
-        </ScrollArea>
+        <div className={'' + (open ? 'border-gray-300 border-2 rounded-md p-2' : '')}>
+          <ScrollArea type="always" dir="rtl" className={'pl-6 ' + (open ? 'h-52' : 'h-[150px]')}>
+            <p
+              className={
+                'text-right ' +
+                (open ? 'max-h-full' : 'max-h-[150px] overflow-hidden text-ellipsis')
+              }
+            >
+              {message}
+            </p>
+          </ScrollArea>
+        </div>
       </CardContent>
       <CardContent className="flex flex-col gap-1">
         {phones.map((item, index) => {
@@ -125,7 +131,7 @@ export default function Post({
           );
         })}
       </CardContent>
-      <CardFooter className="flex gap-[20px]">
+      <CardFooter className="flex gap-[20px] mt-auto">
         <Button
           variant={open ? 'default' : 'secondary'}
           className="w-full"
