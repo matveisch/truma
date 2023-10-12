@@ -1,9 +1,10 @@
-import { Card, CardContent, CardDescription, CardTitle, CardHeader, CardFooter } from './card';
+import { Card, CardContent, CardTitle, CardHeader, CardFooter } from './card';
 import { Button } from './button';
 import { Separator } from './separator';
 import { ScrollArea } from './scroll-area';
 import { AlertDialogTrigger } from './alert-dialog';
 import { Files } from 'lucide-react';
+
 interface postProps {
   name: string;
   area: string;
@@ -14,6 +15,10 @@ interface postProps {
   urgency: number;
   need_help: boolean;
   open: boolean;
+}
+
+function toTwoDigits(num: number) {
+  return String(num).padStart(2, '0');
 }
 
 export default function PostCard({
@@ -40,12 +45,11 @@ export default function PostCard({
           : '')
       }
     >
-      {need_help == true && (
+      {need_help && (
         <div className={'w-full rounded-md ' + (military ? 'bg-green-200' : 'bg-blue-200')}>
           <p className=" text-center">{military ? 'צבאי' : 'אזרחי'}</p>
         </div>
       )}
-
       <CardHeader>
         <div className="flex flex-row-reverse justify-between align-middle">
           <CardTitle className="ml-auto">{name}</CardTitle>
@@ -69,11 +73,12 @@ export default function PostCard({
               <div className="flex gap-2 align-middle">
                 <Separator orientation="vertical" className="h-5" />
                 <p>
-                  {date.getHours()}:{date.getMinutes()}
+                  {toTwoDigits(date.getHours())}:{toTwoDigits(date.getMinutes())}
                 </p>
                 <Separator orientation="vertical" className="h-5" />
                 <p>
-                  {date.getDate()}.{date.getMonth()}.{date.getFullYear()}
+                  {toTwoDigits(date.getDate())}.{toTwoDigits(date.getMonth() + 1)}.
+                  {toTwoDigits(date.getFullYear())}
                 </p>
               </div>
             )}
@@ -148,21 +153,9 @@ export default function PostCard({
                   return 'טל: ' + phone + ' \n';
                 })
             );
-            // toast({
-            //   description: 'Your message has been sent.',
-            // });
           }}
         >
           <Files className="ml-3" />
-          {/* <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5 ml-1"
-          >
-            <path d="M7 3.5A1.5 1.5 0 018.5 2h3.879a1.5 1.5 0 011.06.44l3.122 3.12A1.5 1.5 0 0117 6.622V12.5a1.5 1.5 0 01-1.5 1.5h-1v-3.379a3 3 0 00-.879-2.121L10.5 5.379A3 3 0 008.379 4.5H7v-1z" />
-            <path d="M4.5 6A1.5 1.5 0 003 7.5v9A1.5 1.5 0 004.5 18h7a1.5 1.5 0 001.5-1.5v-5.879a1.5 1.5 0 00-.44-1.06L9.44 6.439A1.5 1.5 0 008.378 6H4.5z" />
-          </svg> */}
           עותק
         </Button>
         {!open && (

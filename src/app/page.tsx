@@ -9,7 +9,7 @@ import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
 import { HomeIcon, Plus } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/lib/supabase';
+import { Database, PostRow } from '@/lib/supabase';
 
 export default function Home() {
   const filters = [
@@ -48,7 +48,7 @@ export default function Home() {
   const selectedFilter = filters.find((key) => key.name === activeToggle);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
-  const [backendPosts, setBackendPosts] = useState<any[] | null>(null);
+  const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
   const d1 = new Date();
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
@@ -136,7 +136,7 @@ export default function Home() {
         </div>
       </div>
       {!createMode && (
-        <div className="grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
           {backendPosts &&
             backendPosts.map((post, index) => {
               return (
@@ -147,12 +147,12 @@ export default function Home() {
                   description={post.description}
                   name={post.name}
                   phones={post.phones}
-                  date={d1}
+                  date={new Date(post.time)}
                   military={post.military}
                   urgency={post.urgency}
-                  subCategory="hehe"
-                  category="hehe"
-                  need_help={post.needHelp}
+                  subCategory={post.subcategory}
+                  category={post.category}
+                  need_help={post.need_help}
                 />
               );
             })}
