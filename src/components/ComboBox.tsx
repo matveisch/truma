@@ -56,7 +56,7 @@ export function ComboBox({
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    setOuterValue('city', value);
+    setOuterValue('area', value);
   }, [value]);
 
   return (

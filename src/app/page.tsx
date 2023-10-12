@@ -30,26 +30,12 @@ export default function Home() {
     { name: 'בגדים', options: [], description: 'תרומת חפצים' },
     { name: 'אחר', options: [], description: '' },
   ];
-  const posts = [
-    {
-      name: 'יוסי פהפדג',
-      area: 'חיפה',
-      description:
-        'המחבלים החלו לזרוק רימונים לתוך חדר האוכל, ואוריאל תפס את הרימונים לפני שהתפוצצו, וזרק אותם חזרה לכיוון המחבלים. ככה פעם אחר פעם, רימון אחר רימון, עד שהמחבל האחרון שנותר עומד ירה בו והרג אותו. שני חבריו, שנפצעו במהלך הקרב, הצליחו לחסל את המחבל.  המחבלים החלו לזרוק רימונים לתוך חדר האוכל, ואוריאל תפס את הרימונים לפני שהתפוצצו, וזרק אותם חזרה לכיוון המחבלים. ככה פעם אחר פעם, רימון אחר רימון, עד שהמחבל האחרון שנותר עומד ירה בו והרג אותו. שני חבריו, שנפצעו במהלך הקרב, הצליחו לחסל את המחבל. ',
-      phones: ['52952642985', '654815651', '+616162161'],
-      date: new Date(),
-      military: true,
-      needHelp: false,
-      urgency: 0,
-    },
-  ];
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const selectedFilter = filters.find((key) => key.name === activeToggle);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
-  const d1 = new Date();
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
@@ -158,7 +144,9 @@ export default function Home() {
             })}
         </div>
       )}
-      {createMode && <NewPostForm needHelp={needHelp} />}
+      {createMode && (
+        <NewPostForm needHelp={needHelp} activeOption={activeOption} activeFilter={activeToggle} />
+      )}
     </main>
   );
 }

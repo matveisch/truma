@@ -23,11 +23,17 @@ interface ImportanceType {
   urgency: number;
 }
 
+interface PropsType {
+  needHelp: boolean;
+  activeFilter: string | null;
+  activeOption: string | null;
+}
+
 export const formSchema = z.object({
   name: z.string().min(1, {
     message: 'Must be filled',
   }),
-  city: z.string().min(1, {
+  area: z.string().min(1, {
     message: 'Must be filled',
   }),
   phone: z.string().min(1, {
@@ -36,21 +42,20 @@ export const formSchema = z.object({
   description: z.string().min(1, {
     message: 'Must be filled',
   }),
-  importance: z.object({
-    name: z.string(),
-    urgency: z.number(),
-  }),
+  urgency: z.number(),
+  military: z.boolean(),
 });
 
-export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
+export default function NewPostForm({ needHelp, activeFilter, activeOption }: PropsType) {
   const { getValues, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      city: '',
+      area: '',
       phone: '',
       description: '',
-      importance: { name: 'לא דחוף', urgency: 0 },
+      urgency: 0,
+      military: false,
     },
   });
   const timeOptions = [
@@ -65,13 +70,18 @@ export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    const dataToPost = {
+      category: activeFilter,
+      subCategory: activeOption,
+      time: new Date(),
+      need_help: needHelp,
+      ...values,
+    };
+    console.log(dataToPost);
   }
 
   useEffect(() => {
-    setValue('importance', activeToggle);
+    setValue('urgency', activeToggle.urgency);
   }, [activeToggle]);
 
   return (
@@ -96,7 +106,7 @@ export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
           />
           <FormField
             control={form.control}
-            name="city"
+            name="area"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>אזור</FormLabel>
