@@ -1,22 +1,72 @@
-import Image from 'next/image';
-import globe from '@/public/Material Symbols Language.svg';
 import { Button } from '@/components/ui/button';
 import { ReactNode } from 'react';
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarTrigger,
+} from '@/components/ui/menubar';
+import { Globe, Menu } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
+function DropdownLanguage() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" className="flex gap-1 items-center">
+          <Globe size={18} />
+          עברית
+        </Button>
+      </DropdownMenuTrigger>
+      {/*todo: make direction dynamic*/}
+      <DropdownMenuContent style={{ direction: 'rtl' }}>
+        <DropdownMenuItem>עברית</DropdownMenuItem>
+        <DropdownMenuItem>English</DropdownMenuItem>
+        <DropdownMenuItem>Русский</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export default function Header({ children }: { children: ReactNode }) {
   return (
-    <header className="flex justify-between items-center w-full relative rtl:flex-row-reverse">
-      <div className="flex gap-1 ">
-        <Image src={globe} alt={'globe icon'} />
-        עברית
+    <header className="w-full">
+      <div className="invisible sm:visible flex justify-between items-center w-full relative rtl:flex-row-reverse">
+        <h1 className="">מיד ליד</h1>
+        <div className="flex gap-6 items-center">
+          {children}
+          <Button variant="ghost">ארגוני מתנדבים</Button>
+          <Button variant="ghost">מידע</Button>
+          <DropdownLanguage />
+        </div>
       </div>
-      <h1 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-        מיד ליד
-      </h1>
-      <div className="flex gap-6">
-        {children}
-        <Button variant="ghost">ארגוני מתנדבים</Button>
-        <Button variant="ghost">מידע</Button>
+      <div className="flex justify-between w-full items-center sm:invisible">
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>
+              <Menu />
+            </MenubarTrigger>
+            {/*todo: make direction dynamic*/}
+            <MenubarContent style={{ direction: 'rtl' }}>
+              <MenubarItem>
+                <Button variant="ghost">ארגוני מתנדבים</Button>
+              </MenubarItem>
+              <MenubarItem>
+                <Button variant="ghost">מידע</Button>
+              </MenubarItem>
+              <MenubarItem>
+                <DropdownLanguage />
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+        <h1 className="">מיד ליד</h1>
       </div>
     </header>
   );
