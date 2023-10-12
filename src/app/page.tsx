@@ -43,7 +43,10 @@ export default function Home() {
 
   useEffect(() => {
     async function getData() {
-      const { data: posts, error } = await supabase.from('posts').select();
+      const { data: posts, error } = await supabase
+        .from('posts')
+        .select()
+        .order('id', { ascending: false });
       console.log(error?.message); //todo: deal with errors
       return posts;
     }
@@ -147,10 +150,12 @@ export default function Home() {
       )}
       {createMode && (
         <NewPostForm
+          backendPosts={backendPosts}
           needHelp={needHelp}
           activeOption={activeOption}
           activeFilter={activeToggle}
           supabase={supabase}
+          setBackendPosts={setBackendPosts}
         />
       )}
     </main>

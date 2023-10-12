@@ -16,9 +16,9 @@ import { Input } from '@/components/ui/input';
 import { ComboBox } from '@/components/ComboBox';
 import { Textarea } from '@/components/ui/textarea';
 import { Toggle } from '@/components/ui/toggle';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Database, PostInsert } from '@/lib/supabase';
+import { Database, PostInsert, PostRow } from '@/lib/supabase';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
@@ -32,6 +32,8 @@ interface PropsType {
   activeFilter: string | null;
   activeOption: string | null;
   supabase: SupabaseClient<Database>;
+  setBackendPosts: Dispatch<SetStateAction<PostRow[] | null>>;
+  backendPosts: PostRow[] | null;
 }
 
 export const formSchema = z.object({
@@ -51,7 +53,14 @@ export const formSchema = z.object({
   military: z.boolean(),
 });
 
-export default function NewPostForm({ needHelp, activeFilter, activeOption, supabase }: PropsType) {
+export default function NewPostForm({
+  needHelp,
+  activeFilter,
+  activeOption,
+  supabase,
+  setBackendPosts,
+  backendPosts,
+}: PropsType) {
   const { getValues, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -85,7 +94,12 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
       ...restValues,
     };
 
-    const { error } = await supabase.from('posts').insert([dataToPost]);
+    const { data, error } = await supabase.from('posts').insert([dataToPost]).select();
+    let p: PostRow[] | null = null;
+    if (backendPosts && data) {
+      p = data.concat(backendPosts);
+    }
+    setBackendPosts(p);
     console.log(error?.message); //todo: deal with errors
   }
 
