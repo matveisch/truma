@@ -142,19 +142,21 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
               )}
             />
           </div>
-          <FormField
-            control={form.control}
-            name="military"
-            render={({ field }) => (
-              <FormItem className="w-full flex mt-2">
-                <div className="flex items-center space-x-2" style={{ direction: 'ltr' }}>
-                  <Switch id="military" onCheckedChange={field.onChange} checked={field.value} />
-                  <Label htmlFor="military">צָבָא</Label>
-                </div>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {needHelp && (
+            <FormField
+              control={form.control}
+              name="military"
+              render={({ field }) => (
+                <FormItem className="w-full flex mt-2">
+                  <div className="flex items-center space-x-2" style={{ direction: 'ltr' }}>
+                    <Switch id="military" onCheckedChange={field.onChange} checked={field.value} />
+                    <Label htmlFor="military">צָבָא</Label>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           {needHelp && (
