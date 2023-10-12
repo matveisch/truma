@@ -105,6 +105,7 @@ export default function NewPostForm({
 
   useEffect(() => {
     setValue('urgency', activeToggle.urgency);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeToggle]);
 
   return (

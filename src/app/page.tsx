@@ -11,8 +11,14 @@ import { HomeIcon, Plus } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import { Database, PostRow } from '@/lib/supabase';
 import { ScrollArea } from '@/components/ui/scroll-area';
+
+interface FilterType {
+  name: string;
+  options: string[];
+  description: string;
+}
 export default function Home() {
-  const filters = [
+  const filters: FilterType[] = [
     {
       name: 'דיור',
       options: ['בן אדם 1', '1-3 אנשים', '3-10 אנשים', 'יותר מ-10 אנשים'],
@@ -36,6 +42,8 @@ export default function Home() {
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
+  const [noOptionsPosts, setNoOptionPosts] = useState<PostRow[] | null>(null);
+  const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
@@ -51,9 +59,49 @@ export default function Home() {
       return posts;
     }
     getData().then((posts) => {
+      setFilteredPosts(posts);
       setBackendPosts(posts);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function handleFilterClick(filter: FilterType) {
+    if (filter.name === activeToggle) {
+      setActiveToggle(null);
+    } else {
+      setActiveToggle(filter.name);
+    }
+    setActiveOption(null);
+  }
+
+  useEffect(() => {
+    let filteredInnerPosts: PostRow[] | null = null;
+    if (backendPosts) {
+      filteredInnerPosts = backendPosts.filter((post) => post.category === activeToggle);
+    }
+    setNoOptionPosts(filteredInnerPosts);
+    setFilteredPosts(filteredInnerPosts);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeToggle]);
+
+  useEffect(() => {
+    if (activeToggle === null) {
+      setFilteredPosts(backendPosts);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeToggle]);
+
+  useEffect(() => {
+    if (activeOption === null) {
+      setFilteredPosts(noOptionsPosts);
+    } else {
+      let filteredInnerOptions: PostRow[] | null = null;
+      if (filteredPosts) {
+        filteredInnerOptions = filteredPosts.filter((post) => post.subcategory === activeOption);
+      }
+      setFilteredPosts(filteredInnerOptions);
+    }
+  }, [activeOption]);
 
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
@@ -96,14 +144,7 @@ export default function Home() {
               pressed={activeToggle === filter.name}
               key={`${filter.name}-${index}`}
               variant="outline"
-              onClick={() => {
-                if (filter.name === activeToggle) {
-                  setActiveToggle(null);
-                } else {
-                  setActiveToggle(filter.name);
-                }
-                setActiveOption(null);
-              }}
+              onClick={() => handleFilterClick(filter)}
             >
               {filter.name}
             </Toggle>
@@ -113,9 +154,10 @@ export default function Home() {
       <div className="w-full mt-5">
         <div className="flex gap-2 w-full">
           {selectedFilter?.options.map((option, index) => (
-            <div className=" flex justify-between align-middle gap-2">
+            <div className=" flex justify-between align-middle gap-2" key={`${option}-${index}`}>
               <p
                 onClick={() => {
+                  setFilteredPosts(noOptionsPosts);
                   if (option === activeOption) {
                     setActiveOption(null);
                   } else {
@@ -152,8 +194,8 @@ export default function Home() {
       </div>
       {!createMode && (
         <div className="mt-10 grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
-          {backendPosts &&
-            backendPosts.map((post, index) => {
+          {filteredPosts &&
+            filteredPosts.map((post, index) => {
               return (
                 <Post
                   key={post.name + index}

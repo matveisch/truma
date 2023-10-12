@@ -57,6 +57,7 @@ export function ComboBox({
 
   useEffect(() => {
     setOuterValue('area', value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   return (
