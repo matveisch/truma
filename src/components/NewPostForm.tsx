@@ -98,7 +98,7 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
     <Form {...form} setValue={setValue} getValues={getValues}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full justify-between sm:gap-20 "
+        className="flex w-full justify-between sm:gap-20 flex-wrap"
       >
         <div className="w-full">
           <FormField

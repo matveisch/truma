@@ -66,6 +66,7 @@ export default function Header({ children }: { children: ReactNode }) {
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
+        {children}
         <h1 className="">מיד ליד</h1>
       </div>
     </header>
