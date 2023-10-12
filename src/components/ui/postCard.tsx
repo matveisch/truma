@@ -6,23 +6,21 @@ import { AlertDialogTrigger } from './alert-dialog';
 import { Files } from 'lucide-react';
 interface postProps {
   name: string;
-  city: string;
-  message: string;
+  area: string;
+  description: string;
   phones: string[];
-  date?: string;
-  time?: string;
+  date?: Date;
   military?: boolean;
-  urgency?: string;
+  urgency?: number;
   open: boolean;
 }
 
 export default function PostCard({
   name,
-  city,
-  message,
+  area,
+  description,
   phones,
   date,
-  time,
   military,
   urgency,
   open,
@@ -31,11 +29,11 @@ export default function PostCard({
     <Card
       className={
         'h-full p-1 border-2 ' +
-        (urgency == '1'
+        (urgency == 0
           ? ' border-red-600 h-full'
-          : urgency == '2'
+          : urgency == 1
           ? ' border-orange-600 h-full'
-          : urgency == '3'
+          : urgency == 2
           ? ' border-blue-600 h-full'
           : '')
       }
@@ -64,13 +62,17 @@ export default function PostCard({
                 clipRule="evenodd"
               />
             </svg>
-            <p>{city}</p>
-            {time && date && (
+            <p>{area}</p>
+            {date && (
               <div className="flex gap-2 align-middle">
                 <Separator orientation="vertical" className="h-5" />
-                <p>{time}</p>
+                <p>
+                  {date.getHours()}:{date.getMinutes()}
+                </p>
                 <Separator orientation="vertical" className="h-5" />
-                <p>{date}</p>
+                <p>
+                  {date.getDate()}.{date.getMonth()}.{date.getFullYear()}
+                </p>
               </div>
             )}
           </div>
@@ -79,11 +81,11 @@ export default function PostCard({
               <small className="text-gray-600 font-bold inline text-right">
                 <span>
                   דחפות:{'     '}
-                  {urgency == '1' ? (
+                  {urgency == 0 ? (
                     <p className="text-red-600 inline">שעה 1</p>
-                  ) : urgency == '2' ? (
+                  ) : urgency == 1 ? (
                     <p className="text-orange-600 inline">12 שעות</p>
-                  ) : urgency == '3' ? (
+                  ) : urgency == 2 ? (
                     <p className="text-blue-600 inline">24 שעות</p>
                   ) : (
                     <p>לא דחוף</p>
@@ -103,7 +105,7 @@ export default function PostCard({
               }
               style={{ display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical' }}
             >
-              {message}
+              {description}
             </p>
           </ScrollArea>
         </div>
@@ -138,7 +140,7 @@ export default function PostCard({
             navigator.clipboard.writeText(
               name +
                 '\n \n' +
-                message +
+                description +
                 '\n \n' +
                 phones.map((phone) => {
                   return 'טל: ' + phone + ' \n';

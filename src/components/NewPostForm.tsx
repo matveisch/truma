@@ -140,7 +140,9 @@ export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
               </FormItem>
             )}
           />
-          <h3 className="mt-1 mb-3">כתוב בקצרה וברורה במה אתם יכולים לעזור</h3>
+          <p className="mt-1 mb-3 text-sm text-muted-foreground">
+            כתוב בקצרה וברורה במה אתם יכולים לעזור
+          </p>
           <Button type="submit">Submit</Button>
         </div>
       </form>
