@@ -18,6 +18,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Toggle } from '@/components/ui/toggle';
 import { useEffect, useState } from 'react';
 
+interface ImportanceType {
+  name: string;
+  urgency: number;
+}
+
 export const formSchema = z.object({
   name: z.string().min(1, {
     message: 'Must be filled',
@@ -28,8 +33,13 @@ export const formSchema = z.object({
   phone: z.string().min(1, {
     message: 'Must be filled',
   }),
-  description: z.string(),
-  importance: z.string(),
+  description: z.string().min(1, {
+    message: 'Must be filled',
+  }),
+  importance: z.object({
+    name: z.string(),
+    urgency: z.number(),
+  }),
 });
 
 export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
@@ -40,11 +50,19 @@ export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
       city: '',
       phone: '',
       description: '',
-      importance: '',
+      importance: { name: 'לא דחוף', urgency: 0 },
     },
   });
-  const timeOptions = ['שעה 1', '12 שעות', '24 שעות', 'לא דחוף'];
-  const [activeToggle, setActiveToggle] = useState<string>('לא דחוף');
+  const timeOptions = [
+    { name: 'שעה 1', urgency: 1 },
+    { name: '12 שעות', urgency: 2 },
+    { name: '24 שעות', urgency: 3 },
+    { name: 'לא דחוף', urgency: 0 },
+  ];
+  const [activeToggle, setActiveToggle] = useState<ImportanceType>({
+    name: 'לא דחוף',
+    urgency: 0,
+  });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -112,12 +130,12 @@ export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
               <div className="flex gap-2">
                 {timeOptions.map((option, index) => (
                   <Toggle
-                    pressed={activeToggle === option}
+                    pressed={activeToggle.name === option.name}
                     key={`${option}-${index}`}
                     variant="outline"
                     onClick={() => setActiveToggle(option)}
                   >
-                    {option}
+                    {option.name}
                   </Toggle>
                 ))}
               </div>
