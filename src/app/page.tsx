@@ -65,32 +65,6 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function handleFilterClick(filter: FilterType) {
-    if (filter.name === activeToggle) {
-      setActiveToggle(null);
-    } else {
-      setActiveToggle(filter.name);
-    }
-    setActiveOption(null);
-  }
-
-  useEffect(() => {
-    let filteredInnerPosts: PostRow[] | null = null;
-    if (backendPosts) {
-      filteredInnerPosts = backendPosts.filter((post) => post.category === activeToggle);
-    }
-    setNoOptionPosts(filteredInnerPosts);
-    setFilteredPosts(filteredInnerPosts);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeToggle]);
-
-  useEffect(() => {
-    if (activeToggle === null) {
-      setFilteredPosts(backendPosts);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeToggle]);
-
   useEffect(() => {
     if (activeOption === null) {
       setFilteredPosts(noOptionsPosts);
@@ -101,7 +75,22 @@ export default function Home() {
       }
       setFilteredPosts(filteredInnerOptions);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOption]);
+
+  useEffect(() => {
+    if (activeToggle === null) {
+      setFilteredPosts(backendPosts);
+    } else {
+      let filteredInnerPosts: PostRow[] | null = null;
+      if (backendPosts) {
+        filteredInnerPosts = backendPosts.filter((post) => post.category === activeToggle);
+      }
+      setNoOptionPosts(filteredInnerPosts);
+      setFilteredPosts(filteredInnerPosts);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeToggle]);
 
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
@@ -144,7 +133,14 @@ export default function Home() {
               pressed={activeToggle === filter.name}
               key={`${filter.name}-${index}`}
               variant="outline"
-              onClick={() => handleFilterClick(filter)}
+              onClick={() => {
+                if (filter.name === activeToggle) {
+                  setActiveToggle(null);
+                } else {
+                  setActiveToggle(filter.name);
+                }
+                setActiveOption(null);
+              }}
             >
               {filter.name}
             </Toggle>
