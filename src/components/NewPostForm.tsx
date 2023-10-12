@@ -19,6 +19,8 @@ import { Toggle } from '@/components/ui/toggle';
 import { useEffect, useState } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database, PostInsert } from '@/lib/supabase';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 interface ImportanceType {
   name: string;
@@ -82,9 +84,10 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
       phones: [phone],
       ...restValues,
     };
+    console.log(dataToPost);
 
-    const { data, error } = await supabase.from('posts').insert([dataToPost]);
-    console.log(data);
+    // const { data, error } = await supabase.from('posts').insert([dataToPost]);
+    // console.log(data);
   }
 
   useEffect(() => {
@@ -139,6 +142,19 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
               )}
             />
           </div>
+          <FormField
+            control={form.control}
+            name="military"
+            render={({ field }) => (
+              <FormItem className="w-full flex mt-2">
+                <div className="flex items-center space-x-2" style={{ direction: 'ltr' }}>
+                  <Switch id="military" onCheckedChange={field.onChange} checked={field.value} />
+                  <Label htmlFor="military">צָבָא</Label>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <div className="flex flex-col items-start justify-start w-full">
           {needHelp && (
