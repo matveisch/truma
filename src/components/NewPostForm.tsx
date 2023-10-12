@@ -32,7 +32,7 @@ export const formSchema = z.object({
   importance: z.string(),
 });
 
-export default function NewPostForm() {
+export default function NewPostForm({ needHelp }: { needHelp: boolean }) {
   const { getValues, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,7 +58,7 @@ export default function NewPostForm() {
 
   return (
     <Form {...form} setValue={setValue} getValues={getValues}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-start gap-20 flex-wrap">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex items-start sm:gap-20 flex-wrap">
         <div>
           <FormField
             control={form.control}
@@ -103,26 +103,28 @@ export default function NewPostForm() {
           </div>
         </div>
         <div className="flex flex-col items-start justify-start">
-          <div className="flex flex-col gap-3 w-full">
-            <FormLabel>דחפות</FormLabel>
-            <div className="flex gap-2">
-              {timeOptions.map((option, index) => (
-                <Toggle
-                  pressed={activeToggle === option}
-                  key={`${option}-${index}`}
-                  variant="outline"
-                  onClick={() => setActiveToggle(option)}
-                >
-                  {option}
-                </Toggle>
-              ))}
+          {needHelp && (
+            <div className="flex flex-col gap-3 w-full">
+              <FormLabel>דחפות</FormLabel>
+              <div className="flex gap-2">
+                {timeOptions.map((option, index) => (
+                  <Toggle
+                    pressed={activeToggle === option}
+                    key={`${option}-${index}`}
+                    variant="outline"
+                    onClick={() => setActiveToggle(option)}
+                  >
+                    {option}
+                  </Toggle>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
           <FormField
             control={form.control}
             name="description"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="w-full">
                 <FormLabel>תיאור</FormLabel>
                 <FormControl>
                   <Textarea

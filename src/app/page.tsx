@@ -2,7 +2,6 @@
 
 import Header from '@/components/Header';
 import Post from '@/components/post';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toggle } from '@/components/ui/toggle';
 import { useState } from 'react';
@@ -70,9 +69,10 @@ export default function Home() {
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const selectedFilter = filters.find((key) => key.name === activeToggle);
   const [createMode, setCreateMode] = useState(false);
+  const [needHelp, setNeedHelp] = useState(true);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="flex min-h-screen flex-col items-center sm:p-10 p-3">
       <Header>
         <Button
           className="flex gap-1 items-center rtl:flex-row-reverse"
@@ -93,15 +93,15 @@ export default function Home() {
       </Header>
       <Tabs defaultValue="need-help" className="w-[50%] min-w[250px] mt-10">
         <TabsList className="w-full py-6 px-2">
-          <TabsTrigger value="offer-help" className="w-full">
+          <TabsTrigger value="offer-help" className="w-full" onClick={() => setNeedHelp(false)}>
             מציע עזרה
           </TabsTrigger>
-          <TabsTrigger value="need-help" className="w-full">
+          <TabsTrigger value="need-help" className="w-full" onClick={() => setNeedHelp(true)}>
             צריך עזרה
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <div className="flex gap-5 w-full mt-[60px] ">
+      <div className="flex gap-5 w-full mt-[60px] overflow-scroll">
         {filters.map((filter, index) => (
           <Toggle
             pressed={activeToggle === filter.name}
@@ -159,7 +159,7 @@ export default function Home() {
           })}
         </div>
       )}
-      {createMode && <NewPostForm />}
+      {createMode && <NewPostForm needHelp={needHelp} />}
     </main>
   );
 }
