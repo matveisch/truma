@@ -4,10 +4,12 @@ import Header from '@/components/Header';
 import Post from '@/components/post';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Toggle } from '@/components/ui/toggle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
 import { HomeIcon, Plus } from 'lucide-react';
+import { createClient } from '@supabase/supabase-js';
+import { Database } from '@/lib/supabase';
 
 export default function Home() {
   const filters = [
@@ -46,8 +48,23 @@ export default function Home() {
   const selectedFilter = filters.find((key) => key.name === activeToggle);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
+  const [backendPosts, setBackendPosts] = useState<any[] | null>(null);
   const d1 = new Date();
-  console.log(d1.getHours());
+
+  const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
+  const supabaseKey = process.env.SUPABASE_KEY;
+  const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
+
+  useEffect(() => {
+    async function getData() {
+      const { data: posts, error } = await supabase.from('posts').select();
+      return posts;
+    }
+    getData().then((posts) => {
+      setBackendPosts(posts);
+    });
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
       <Header>
@@ -120,24 +137,25 @@ export default function Home() {
       </div>
       {!createMode && (
         <div className="grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post, index) => {
-            return (
-              <Post
-                key={post.name + index}
-                id={1}
-                area={post.area}
-                description={post.description}
-                name={post.name}
-                phones={post.phones}
-                date={d1}
-                military={post.military}
-                urgency={post.urgency}
-                subCategory="hehe"
-                category="hehe"
-                need_help={post.needHelp}
-              />
-            );
-          })}
+          {backendPosts &&
+            backendPosts.map((post, index) => {
+              return (
+                <Post
+                  key={post.name + index}
+                  id={1}
+                  area={post.area}
+                  description={post.description}
+                  name={post.name}
+                  phones={post.phones}
+                  date={d1}
+                  military={post.military}
+                  urgency={post.urgency}
+                  subCategory="hehe"
+                  category="hehe"
+                  need_help={post.needHelp}
+                />
+              );
+            })}
         </div>
       )}
       {createMode && <NewPostForm needHelp={needHelp} />}
