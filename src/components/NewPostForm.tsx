@@ -84,10 +84,9 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
       phones: [phone],
       ...restValues,
     };
-    console.log(dataToPost);
 
-    // const { data, error } = await supabase.from('posts').insert([dataToPost]);
-    // console.log(data);
+    const { error } = await supabase.from('posts').insert([dataToPost]);
+    console.log(error?.message); //todo: deal with errors
   }
 
   useEffect(() => {
@@ -98,7 +97,7 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption, supa
     <Form {...form} setValue={setValue} getValues={getValues}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full justify-between sm:gap-20 flex-wrap"
+        className="flex w-full justify-between sm:gap-20 flex-wrap sm:flex-nowrap"
       >
         <div className="w-full">
           <FormField

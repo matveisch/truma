@@ -44,6 +44,7 @@ export default function Home() {
   useEffect(() => {
     async function getData() {
       const { data: posts, error } = await supabase.from('posts').select();
+      console.log(error?.message); //todo: deal with errors
       return posts;
     }
     getData().then((posts) => {
