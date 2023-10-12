@@ -145,7 +145,12 @@ export default function Home() {
         </div>
       )}
       {createMode && (
-        <NewPostForm needHelp={needHelp} activeOption={activeOption} activeFilter={activeToggle} />
+        <NewPostForm
+          needHelp={needHelp}
+          activeOption={activeOption}
+          activeFilter={activeToggle}
+          supabase={supabase}
+        />
       )}
     </main>
   );

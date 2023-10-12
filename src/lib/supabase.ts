@@ -62,3 +62,4 @@ export interface Database {
 }
 
 export type PostRow = Database['public']['Tables']['posts']['Row'];
+export type PostInsert = Database['public']['Tables']['posts']['Insert'];

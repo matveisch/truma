@@ -17,6 +17,8 @@ import { ComboBox } from '@/components/ComboBox';
 import { Textarea } from '@/components/ui/textarea';
 import { Toggle } from '@/components/ui/toggle';
 import { useEffect, useState } from 'react';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { Database, PostInsert } from '@/lib/supabase';
 
 interface ImportanceType {
   name: string;
@@ -27,6 +29,7 @@ interface PropsType {
   needHelp: boolean;
   activeFilter: string | null;
   activeOption: string | null;
+  supabase: SupabaseClient<Database>;
 }
 
 export const formSchema = z.object({
@@ -46,7 +49,7 @@ export const formSchema = z.object({
   military: z.boolean(),
 });
 
-export default function NewPostForm({ needHelp, activeFilter, activeOption }: PropsType) {
+export default function NewPostForm({ needHelp, activeFilter, activeOption, supabase }: PropsType) {
   const { getValues, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -69,15 +72,19 @@ export default function NewPostForm({ needHelp, activeFilter, activeOption }: Pr
     urgency: 0,
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const dataToPost = {
-      category: activeFilter,
-      subCategory: activeOption,
-      time: new Date(),
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { phone, ...restValues } = values;
+    const dataToPost: PostInsert = {
+      category: activeFilter || '',
+      subcategory: activeOption || '',
+      time: new Date().toISOString(),
       need_help: needHelp,
-      ...values,
+      phones: [phone],
+      ...restValues,
     };
-    console.log(dataToPost);
+
+    const { data, error } = await supabase.from('posts').insert([dataToPost]);
+    console.log(data);
   }
 
   useEffect(() => {
