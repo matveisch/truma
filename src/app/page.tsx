@@ -57,7 +57,7 @@ export default function Home() {
   const supabaseKey = process.env.SUPABASE_KEY;
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
 
-  const pageLength = 6;
+  const pageLength = 15;
   const [pagesCount, setPagesCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
 
@@ -82,8 +82,6 @@ export default function Home() {
     getData().then((posts) => {
       setBackendPosts(posts);
       posts && setFilteredPosts(filterByHelp(posts));
-
-      // setPagesCount(filteredPosts != undefined ? filteredPosts?.length / pageLength : 0);
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,8 +95,7 @@ export default function Home() {
     if (result && activeOption) result = filterBySubcategory(result);
 
     setFilteredPosts(result);
-    // console.log(filteredPosts + ' HERE');
-    // setPagesCount(filteredPosts != undefined ? filteredPosts?.length / pageLength : 0);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOption, activeToggle, needHelp]);
 
@@ -195,12 +192,12 @@ export default function Home() {
                 }}
                 className={
                   'py-2 px-2 rounded-md cursor-pointer ' +
-                  (option === activeOption ? 'bg-slate-200' : 'hover:bg-slate-100')
+                  (option === activeOption ? 'bg-blue-100' : 'hover:bg-slate-100')
                 }
               >
                 {option}
               </p>
-              {selectedFilter.options.length !== index && (
+              {selectedFilter.options.length !== index + 1 && (
                 <div className="w-[1px] h-6 m-auto bg-slate-300"></div>
               )}
             </div>
