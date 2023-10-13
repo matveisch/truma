@@ -41,7 +41,7 @@ export default function PostCard({
   return (
     <Card
       className={
-        'h-full p-1 border-2 flex flex-col justify-between ' +
+        'h-full p-1 border-2 flex flex-col justify-between overflow-hidden' +
         (urgency == 1
           ? ' border-red-600 h-full'
           : urgency == 2
@@ -57,11 +57,9 @@ export default function PostCard({
             <p className=" text-center">{military ? 'צבאי' : 'אזרחי'}</p>
           </div>
         )}
-
         <CardHeader>
           <p className="text-xs text-slate-500">{category + ', ' + subCategory}</p>
           <CardTitle className="ml-auto">{name}</CardTitle>
-
           <CardContent className="p-0 text-slate-500">
             <div className="flex items-center gap-1">
               <svg

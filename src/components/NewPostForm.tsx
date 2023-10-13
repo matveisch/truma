@@ -37,15 +37,25 @@ interface PropsType {
 }
 
 export const formSchema = z.object({
-  name: z.string().min(1, {
-    message: 'Must be filled',
-  }),
+  name: z
+    .string()
+    .min(1, {
+      message: 'Must be filled',
+    })
+    .max(15, {
+      message: 'Name is too long',
+    }),
   area: z.string().min(1, {
     message: 'Must be filled',
   }),
-  phone: z.string().min(1, {
-    message: 'Must be filled',
-  }),
+  phone: z
+    .string()
+    .min(1, {
+      message: 'Must be filled',
+    })
+    .max(15, {
+      message: 'Name is too long',
+    }),
   description: z.string().min(1, {
     message: 'Must be filled',
   }),
