@@ -35,6 +35,7 @@ interface PropsType {
   setBackendPosts: Dispatch<SetStateAction<PostRow[] | null>>;
   backendPosts: PostRow[] | null;
   setCreateMode: Dispatch<SetStateAction<boolean>>;
+  setHasFilters: Dispatch<SetStateAction<boolean>>;
 }
 
 export const formSchema = z.object({
@@ -54,15 +55,17 @@ export const formSchema = z.object({
   military: z.boolean(),
 });
 
-export default function NewPostForm({
-  needHelp,
-  activeFilter,
-  activeOption,
-  supabase,
-  setBackendPosts,
-  backendPosts,
-  setCreateMode,
-}: PropsType) {
+export default function NewPostForm(props: PropsType) {
+  const {
+    needHelp,
+    activeFilter,
+    activeOption,
+    supabase,
+    setBackendPosts,
+    backendPosts,
+    setCreateMode,
+    setHasFilters,
+  } = props;
   const { getValues, reset, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -96,15 +99,18 @@ export default function NewPostForm({
       ...restValues,
     };
 
-    const { data, error } = await supabase.from('posts').insert([dataToPost]).select();
-    let p: PostRow[] | null = null;
-    if (backendPosts && data) {
-      p = data.concat(backendPosts);
+    if (activeFilter && activeOption) {
+      const { data, error } = await supabase.from('posts').insert([dataToPost]).select();
+      let p: PostRow[] | null = null;
+      if (backendPosts && data) {
+        p = data.concat(backendPosts);
+      }
+      setBackendPosts(p);
+      console.log(error?.message); //todo: deal with errors
+      if (data) setCreateMode(false);
+    } else {
+      setHasFilters(false);
     }
-    setBackendPosts(p);
-    console.log(error?.message); //todo: deal with errors
-
-    if (data) setCreateMode(false);
   }
 
   useEffect(() => {
@@ -167,9 +173,13 @@ export default function NewPostForm({
               render={({ field }) => (
                 <FormItem className="w-full flex mt-2">
                   <div className="flex items-center space-x-2" style={{ direction: 'ltr' }}>
-                    <Label htmlFor="military">אזרחי</Label>
+                    <Label htmlFor="military" className="mt-0">
+                      אזרחי
+                    </Label>
                     <Switch id="military" onCheckedChange={field.onChange} checked={field.value} />
-                    <Label htmlFor="military">צבאי</Label>
+                    <Label htmlFor="military" className="mt-0">
+                      צבאי
+                    </Label>
                   </div>
                   <FormMessage />
                 </FormItem>
@@ -180,7 +190,7 @@ export default function NewPostForm({
         <div className="flex flex-col items-start justify-start w-full">
           {needHelp && (
             <div className="flex flex-col gap-3 w-full">
-              <FormLabel>דחפות</FormLabel>
+              <FormLabel className="mt-0">דחפות</FormLabel>
               <div className="flex gap-2">
                 {timeOptions.map((option, index) => (
                   <Toggle
