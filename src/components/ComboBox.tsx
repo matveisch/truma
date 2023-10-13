@@ -11,7 +11,7 @@ import {
   CommandItem,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import * as z from 'zod';
 import { formSchema } from '@/components/NewPostForm';
@@ -48,15 +48,21 @@ const areas = [
 ];
 
 interface PropsType {
-  setOuterValue: UseFormSetValue<z.infer<typeof formSchema>>;
+  setOuterValue?: UseFormSetValue<z.infer<typeof formSchema>>;
+  setArea?: Dispatch<SetStateAction<string>>;
 }
 
-export function ComboBox({ setOuterValue }: PropsType) {
+export function ComboBox({ setOuterValue, setArea }: PropsType) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    if (value) setOuterValue('area', value, { shouldValidate: true });
+    if (value && setOuterValue) setOuterValue('area', value, { shouldValidate: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  useEffect(() => {
+    if (value && setArea) setArea(value);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 

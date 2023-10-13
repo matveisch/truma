@@ -4,22 +4,21 @@ import Post from '@/components/post';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { Database, PostRow } from '@/lib/supabase';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 const PAGE_LENGTH = 15;
 
 interface PostsProps {
   activeToggle: string | null;
-  setActiveToggle: Dispatch<SetStateAction<string | null>>;
   activeOption: string | null;
-  setActiveOption: Dispatch<SetStateAction<string | null>>;
   supabase: SupabaseClient<Database>;
   needHelp: boolean;
+  selectedArea: string;
 }
 
 export default function Posts(props: PostsProps) {
-  const { needHelp, activeToggle, activeOption, supabase } = props;
+  const { needHelp, activeToggle, activeOption, supabase, selectedArea } = props;
   const [pageLength, setPageLength] = useState(PAGE_LENGTH);
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
@@ -31,6 +30,14 @@ export default function Posts(props: PostsProps) {
 
   function filterBySubcategory(posts: PostRow[]) {
     return posts.filter((post) => post.subcategory === activeOption);
+  }
+
+  function filterByHelp(posts: PostRow[]) {
+    return posts.filter((post) => post.need_help === needHelp);
+  }
+
+  function filterByArea(posts: PostRow[]) {
+    return posts.filter((post) => post.area === selectedArea);
   }
 
   useEffect(() => {
@@ -54,12 +61,14 @@ export default function Posts(props: PostsProps) {
   useEffect(() => {
     let result: PostRow[] | null = backendPosts;
 
+    if (result) result = filterByHelp(result);
+    if (result && selectedArea) result = filterByArea(result);
     if (result && activeToggle) result = filterByCategory(result);
     if (result && activeOption) result = filterBySubcategory(result);
 
     setFilteredPosts(result);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeOption, activeToggle, needHelp]);
+  }, [activeOption, activeToggle, needHelp, selectedArea]);
 
   useEffect(() => {
     setPageLength(PAGE_LENGTH);

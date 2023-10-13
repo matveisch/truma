@@ -1,5 +1,6 @@
 import { Toggle } from '@/components/ui/toggle';
 import { Dispatch, SetStateAction } from 'react';
+import { ComboBox } from '@/components/ComboBox';
 
 interface FilterType {
   name: string;
@@ -12,6 +13,8 @@ interface PropsType {
   setActiveToggle: Dispatch<SetStateAction<string | null>>;
   activeOption: string | null;
   setActiveOption: Dispatch<SetStateAction<string | null>>;
+  setSelectedArea?: Dispatch<SetStateAction<string>>;
+  createMode?: boolean;
 }
 
 export default function Filters({
@@ -19,6 +22,8 @@ export default function Filters({
   setActiveToggle,
   activeOption,
   setActiveOption,
+  setSelectedArea,
+  createMode,
 }: PropsType) {
   const filters: FilterType[] = [
     {
@@ -51,6 +56,7 @@ export default function Filters({
   return (
     <div className="w-full">
       <div className="flex gap-5 w-full mt-[10px] overflow-x-auto overflow-y-hidden direction-alternate-reverse">
+        {!createMode && <ComboBox setArea={setSelectedArea} />}
         {filters.map((filter, index) => (
           <Toggle
             size={'lg'}

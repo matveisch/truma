@@ -17,6 +17,7 @@ function Home() {
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
   const [hasFilters, setHasFilters] = useState(true);
+  const [selectedArea, setSelectedArea] = useState('');
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
@@ -46,18 +47,18 @@ function Home() {
       {!createMode && (
         <>
           <Filters
+            setSelectedArea={setSelectedArea}
             activeToggle={activeToggle}
             setActiveToggle={setActiveToggle}
             activeOption={activeOption}
             setActiveOption={setActiveOption}
           />
           <Posts
+            selectedArea={selectedArea}
             supabase={supabase}
             needHelp={needHelp}
             activeOption={activeOption}
-            setActiveOption={setActiveOption}
             activeToggle={activeToggle}
-            setActiveToggle={setActiveToggle}
           />
         </>
       )}
@@ -67,6 +68,7 @@ function Home() {
             בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה
           </p>
           <Filters
+            createMode={createMode}
             activeToggle={activeToggle}
             setActiveToggle={setActiveToggle}
             activeOption={activeOption}
