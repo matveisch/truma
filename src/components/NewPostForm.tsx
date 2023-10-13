@@ -42,7 +42,7 @@ export const formSchema = z.object({
     .min(1, {
       message: 'Must be filled',
     })
-    .max(15, {
+    .max(20, {
       message: 'Name is too long',
     }),
   area: z.string().min(1, {
@@ -90,7 +90,7 @@ export default function NewPostForm(props: PropsType) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { phone, ...restValues } = values;
     const dataToPost: PostInsert = {
-      category: activeFilter || '',
+      category: activeFilter || 'אחר',
       subcategory: activeOption || '',
       time: new Date().toISOString(),
       need_help: needHelp,
