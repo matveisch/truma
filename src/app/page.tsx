@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/Header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
 import { HomeIcon, Plus } from 'lucide-react';
@@ -21,7 +21,11 @@ function Home() {
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
-
+  //TODO start
+  useEffect(() => {
+    setActiveToggle(null);
+  }, [needHelp]);
+  //TODO end
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
       <Header>

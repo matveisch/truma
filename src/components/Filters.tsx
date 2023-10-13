@@ -1,5 +1,5 @@
 import { Toggle } from '@/components/ui/toggle';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { ComboBox } from '@/components/ComboBox';
 
 interface FilterType {
@@ -46,18 +46,18 @@ export default function Filters({
     {
       name: 'הסעות',
       options: [],
-      description: 'סיוע בהסעות, חיפוש מכוניות ונהגים',
+      description: 'חיפוש טראמף, סיוע במעבר בתוך הארץ',
     },
     {
-      name: 'הולות',
+      name: 'הובלות',
       options: [],
-      description: '',
+      description: 'סיוע בהובלת סחורות, תרומות',
     },
     { name: 'ביגוד', options: [], description: 'תרומת חפצים' },
     { name: 'אחר', options: [], description: '' },
   ];
-  const selectedFilter = filters.find((key) => key.name === activeToggle);
 
+  const selectedFilter = filters.find((key) => key.name === activeToggle);
   return (
     <div className="w-full">
       <div className="flex gap-5 w-full mt-[10px] overflow-x-auto overflow-y-hidden direction-alternate-reverse">
