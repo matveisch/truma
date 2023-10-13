@@ -31,7 +31,7 @@ export default function MainPage({ dict }: { dict: any }) {
 
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
-      <Header>
+      <Header dict={dict}>
         <Button
           className="flex gap-1 items-center rtl:flex-row-reverse"
           onClick={() => setCreateMode(!createMode)}
@@ -39,7 +39,7 @@ export default function MainPage({ dict }: { dict: any }) {
           {!createMode && (
             <>
               <Plus />
-              פרסום מודעה
+              {dict.header.newAd}
             </>
           )}
           {createMode && (

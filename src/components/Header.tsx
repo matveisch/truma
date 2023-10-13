@@ -14,6 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
 
 function DropdownLanguage() {
   return (
@@ -34,17 +35,16 @@ function DropdownLanguage() {
   );
 }
 
-export default function Header({ children }: { children: ReactNode }) {
+export default function Header({ children, dict }: { children: ReactNode; dict: any }) {
   return (
     <header className="w-full">
       <div className="invisible sm:visible flex justify-between items-center w-full relative rtl:flex-row-reverse">
         <h1 className="">מיד ליד</h1>
         <div className="flex gap-6 items-center">
           {children}
-
-          <a href="https://am-1.org.il/" target="_blank">
-            <Button variant="ghost">לאתר: עם אחד</Button>
-          </a>
+          <Link href="https://am-1.org.il/" target="_blank">
+            <Button variant="ghost">{dict.header.amEhad}</Button>
+          </Link>
           {/* <Button variant="ghost">ארגוני מתנדבים</Button> */}
           {/* <Button variant="ghost">מידע</Button> */}
           <DropdownLanguage />
@@ -59,11 +59,16 @@ export default function Header({ children }: { children: ReactNode }) {
             {/*todo: make direction dynamic*/}
             <MenubarContent style={{ direction: 'rtl' }}>
               <MenubarItem>
-                <Button variant="ghost">ארגוני מתנדבים</Button>
+                <Link href="https://am-1.org.il/" target="_blank">
+                  <Button variant="ghost">{dict.header.amEhad}</Button>
+                </Link>
               </MenubarItem>
-              <MenubarItem>
-                <Button variant="ghost">מידע</Button>
-              </MenubarItem>
+              {/*<MenubarItem>*/}
+              {/*  <Button variant="ghost">ארגוני מתנדבים</Button>*/}
+              {/*</MenubarItem>*/}
+              {/*<MenubarItem>*/}
+              {/*  <Button variant="ghost">מידע</Button>*/}
+              {/*</MenubarItem>*/}
 
               <MenubarItem>
                 <DropdownLanguage />
