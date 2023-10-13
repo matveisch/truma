@@ -7,7 +7,7 @@ import { Toggle } from '@/components/ui/toggle';
 import { useEffect, useState } from 'react';
 import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
-import { HomeIcon, Plus } from 'lucide-react';
+import { HomeIcon, Loader2, Plus } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import { Database, PostRow } from '@/lib/supabase';
 
@@ -49,17 +49,15 @@ export default function Home() {
   const selectedFilter = filters.find((key) => key.name === activeToggle);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
+  const [pageLength, setPageLength] = useState(6);
 
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
-
-  const pageLength = 6;
-  const [pagesCount, setPagesCount] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(0);
 
   function filterByCategory(posts: PostRow[]) {
     return posts.filter((post) => post.category === activeToggle);
@@ -75,19 +73,17 @@ export default function Home() {
 
   useEffect(() => {
     async function getData() {
-      const { data: posts, error } = await supabase.from('posts').select();
+      const { data: posts, error } = await supabase.from('posts').select().limit(pageLength);
       console.log(error?.message); //todo: deal with errors
       return posts;
     }
     getData().then((posts) => {
       setBackendPosts(posts);
+      setIsLoading(false);
       posts && setFilteredPosts(filterByHelp(posts));
-
-      // setPagesCount(filteredPosts != undefined ? filteredPosts?.length / pageLength : 0);
     });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [pageLength]);
 
   useEffect(() => {
     let result: PostRow[] | null = backendPosts;
@@ -97,36 +93,9 @@ export default function Home() {
     if (result && activeOption) result = filterBySubcategory(result);
 
     setFilteredPosts(result);
-    // console.log(filteredPosts + ' HERE');
-    // setPagesCount(filteredPosts != undefined ? filteredPosts?.length / pageLength : 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOption, activeToggle, needHelp]);
 
-  useEffect(() => {
-    console.log(filteredPosts + ' HERE');
-    setPagesCount(filteredPosts != undefined ? filteredPosts?.length / pageLength : 0);
-  }, [filteredPosts]);
-  const getPages = (pagesCount: number) => {
-    let content = [];
-
-    for (let i = 0; i < pagesCount; i++) {
-      content.push(
-        <Button
-          onClick={() => {
-            setCurrentPage(i);
-            window.scrollTo(0, 100);
-          }}
-          variant={'outline'}
-          className={
-            currentPage == i ? 'bg-slate-600 hover:bg-slate-700 hover:text-white text-white' : ''
-          }
-        >
-          {i + 1}
-        </Button>
-      );
-    }
-    return content;
-  };
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
       <Header>
@@ -216,28 +185,33 @@ export default function Home() {
       {!createMode && (
         <div className="relative pb-24  grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
           {filteredPosts &&
-            filteredPosts
-              .slice(currentPage * pageLength, currentPage * pageLength + pageLength)
-              .map((post, index) => {
-                return (
-                  <Post
-                    key={post.name + index}
-                    id={1}
-                    area={post.area}
-                    description={post.description}
-                    name={post.name}
-                    phones={post.phones}
-                    date={new Date(post.time)}
-                    military={post.military}
-                    urgency={post.urgency}
-                    subCategory={post.subcategory}
-                    category={post.category}
-                    need_help={post.need_help}
-                  />
-                );
-              })}
+            filteredPosts.map((post, index) => {
+              return (
+                <Post
+                  key={post.name + index}
+                  id={1}
+                  area={post.area}
+                  description={post.description}
+                  name={post.name}
+                  phones={post.phones}
+                  date={new Date(post.time)}
+                  military={post.military}
+                  urgency={post.urgency}
+                  subCategory={post.subcategory}
+                  category={post.category}
+                  need_help={post.need_help}
+                />
+              );
+            })}
           <div className="flex justify-center gap-[10px] w-full overflow-x-auto absolute bottom-7">
-            {getPages(pagesCount)}
+            <Button
+              onClick={() => {
+                setPageLength(pageLength * 2);
+                setIsLoading(true);
+              }}
+            >
+              {isLoading ? <Loader2 className="animate-spin" /> : 'Load more posts'}
+            </Button>
           </div>
         </div>
       )}
