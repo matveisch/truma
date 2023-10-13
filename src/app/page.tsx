@@ -16,7 +16,6 @@ function Home() {
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
-  const [hasFilters, setHasFilters] = useState(true);
   const [selectedArea, setSelectedArea] = useState('');
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
@@ -64,9 +63,7 @@ function Home() {
       )}
       {createMode && (
         <>
-          <p className="text-3xl ml-auto" style={hasFilters ? {} : { color: 'red' }}>
-            בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה
-          </p>
+          <p className="text-3xl ml-auto">בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה</p>
           <Filters
             createMode={createMode}
             activeToggle={activeToggle}
@@ -75,7 +72,6 @@ function Home() {
             setActiveOption={setActiveOption}
           />
           <NewPostForm
-            setHasFilters={setHasFilters}
             setCreateMode={setCreateMode}
             needHelp={needHelp}
             activeOption={activeOption}

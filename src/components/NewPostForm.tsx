@@ -33,7 +33,6 @@ interface PropsType {
   activeOption: string | null;
   supabase: SupabaseClient<Database>;
   setCreateMode: Dispatch<SetStateAction<boolean>>;
-  setHasFilters: Dispatch<SetStateAction<boolean>>;
 }
 
 export const formSchema = z.object({
