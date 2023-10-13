@@ -16,6 +16,7 @@ interface FilterType {
   options: string[];
   description: string;
 }
+
 export default function Home() {
   const filters: FilterType[] = [
     {
@@ -67,34 +68,37 @@ export default function Home() {
     return posts.filter((post) => post.subcategory === activeOption);
   }
 
-  function filterByHelp(posts: PostRow[]) {
-    return posts.filter((post) => post.need_help === needHelp);
-  }
-
   useEffect(() => {
     async function getData() {
-      const { data: posts, error } = await supabase.from('posts').select().limit(pageLength);
+      const { data: posts, error } = await supabase
+        .from('posts')
+        .select()
+        .eq('need_help', needHelp)
+        .limit(pageLength);
       console.log(error?.message); //todo: deal with errors
       return posts;
     }
     getData().then((posts) => {
       setBackendPosts(posts);
+      setFilteredPosts(posts);
       setIsLoading(false);
-      posts && setFilteredPosts(filterByHelp(posts));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageLength]);
+  }, [pageLength, needHelp]);
 
   useEffect(() => {
     let result: PostRow[] | null = backendPosts;
 
-    if (result) result = filterByHelp(result);
     if (result && activeToggle) result = filterByCategory(result);
     if (result && activeOption) result = filterBySubcategory(result);
 
     setFilteredPosts(result);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOption, activeToggle, needHelp]);
+
+  useEffect(() => {
+    setPageLength(6);
+  }, [needHelp]);
 
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
@@ -206,17 +210,26 @@ export default function Home() {
           <div className="flex justify-center gap-[10px] w-full overflow-x-auto absolute bottom-7">
             <Button
               onClick={() => {
-                setPageLength(pageLength * 2);
-                setIsLoading(true);
+                if (backendPosts && backendPosts?.length === pageLength) {
+                  setPageLength(pageLength * 2);
+                  setIsLoading(true);
+                }
               }}
             >
-              {isLoading ? <Loader2 className="animate-spin" /> : 'Load more posts'}
+              {isLoading ? (
+                <Loader2 className="animate-spin" />
+              ) : backendPosts && backendPosts?.length === pageLength ? (
+                'Load more posts'
+              ) : (
+                'No more posts'
+              )}
             </Button>
           </div>
         </div>
       )}
       {createMode && (
         <NewPostForm
+          setCreateMode={setCreateMode}
           needHelp={needHelp}
           activeOption={activeOption}
           activeFilter={activeToggle}
