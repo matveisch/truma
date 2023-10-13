@@ -33,7 +33,7 @@ function Home() {
           {!createMode && (
             <>
               <Plus />
-              פירסום מודעה
+              פרסום מודעה
             </>
           )}
           {createMode && (
