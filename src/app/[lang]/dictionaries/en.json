@@ -1,5 +1,78 @@
 {
-  "header":{
-    "newAd": "New ad"
+  "header": {
+    "newAd": "פרסום מודעה",
+    "amEhad": "לאתר: עם אחד",
+    "meyadLeyad": "מיד ליד"
+  },
+  "switcher": {
+    "need": "צריכים עזרה",
+    "dontNeed": "מוצעים עזרה"
+  },
+  "filters": {
+    "housing": "",
+    "food": "",
+    "animals": "",
+    "children": "",
+    "mental": "",
+    "tramps": "",
+    "transportation": "",
+    "clothing": "",
+    "other": ""
+  },
+  "subFilters": {
+    "1person": "",
+    "2person": "",
+    "3person": "",
+    "4preson": "",
+    "1animal": "",
+    "2animal": "",
+    "3animal": ""
+  },
+  "filtersText": {
+    "housingText": "",
+    "foodText": "",
+    "animalsText": "",
+    "childrenText": "",
+    "mentalText": "",
+    "trampsText": "",
+    "transportationText": "",
+    "clothingText": "",
+    "otherText": ""
+  },
+  "post": {
+    "military": "",
+    "civil": "",
+    "copy": "",
+    "open": "",
+    "close": "",
+    "copied": ""
+  },
+  "form": {
+    "title": "",
+    "fName": "",
+    "area": "",
+    "phone": "",
+    "military": "",
+    "civil": "",
+    "urgeny": "",
+    "1urgent": "",
+    "2urgent": "",
+    "3urgent": "",
+    "4urgent": "",
+    "textPlaceholder": "",
+    "textFooter": "",
+    "submit": ""
+  },
+  "misc": {
+    "loadMore": "",
+    "noMore": "",
+    "jerusalem": "",
+    "telAviv": "",
+    "north": "",
+    "haifa": "",
+    "center": "",
+    "south": "",
+    "yehuda": "",
+    "search": ""
   }
 }
