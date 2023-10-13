@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import {
   Menubar,
   MenubarContent,
@@ -15,6 +15,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import Link from 'next/link';
+import { Context, ContextType } from '@/components/MainPage';
 
 function DropdownLanguage() {
   return (
@@ -35,7 +36,9 @@ function DropdownLanguage() {
   );
 }
 
-export default function Header({ children, dict }: { children: ReactNode; dict: any }) {
+export default function Header({ children }: { children: ReactNode }) {
+  const { dict } = useContext(Context) as ContextType;
+
   return (
     <header className="w-full">
       <div className="invisible sm:visible flex justify-between items-center w-full relative rtl:flex-row-reverse">
@@ -43,7 +46,7 @@ export default function Header({ children, dict }: { children: ReactNode; dict: 
         <div className="flex gap-6 items-center">
           {children}
           <Link href="https://am-1.org.il/" target="_blank">
-            <Button variant="ghost">{dict.header.amEhad}</Button>
+            <Button variant="ghost">{dict?.header?.amEhad}</Button>
           </Link>
           {/* <Button variant="ghost">ארגוני מתנדבים</Button> */}
           {/* <Button variant="ghost">מידע</Button> */}
