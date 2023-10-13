@@ -57,6 +57,10 @@ export default function Home() {
   const supabaseKey = process.env.SUPABASE_KEY;
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
 
+  const pageLength = 6;
+  const [pagesCount, setPagesCount] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(0);
+
   function filterByCategory(posts: PostRow[]) {
     return posts.filter((post) => post.category === activeToggle);
   }
@@ -78,7 +82,10 @@ export default function Home() {
     getData().then((posts) => {
       setBackendPosts(posts);
       posts && setFilteredPosts(filterByHelp(posts));
+
+      // setPagesCount(filteredPosts != undefined ? filteredPosts?.length / pageLength : 0);
     });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -90,9 +97,36 @@ export default function Home() {
     if (result && activeOption) result = filterBySubcategory(result);
 
     setFilteredPosts(result);
+    // console.log(filteredPosts + ' HERE');
+    // setPagesCount(filteredPosts != undefined ? filteredPosts?.length / pageLength : 0);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOption, activeToggle, needHelp]);
 
+  useEffect(() => {
+    console.log(filteredPosts + ' HERE');
+    setPagesCount(filteredPosts != undefined ? filteredPosts?.length / pageLength : 0);
+  }, [filteredPosts]);
+  const getPages = (pagesCount: number) => {
+    let content = [];
+
+    for (let i = 0; i < pagesCount; i++) {
+      content.push(
+        <Button
+          onClick={() => {
+            setCurrentPage(i);
+            window.scrollTo(0, 100);
+          }}
+          variant={'outline'}
+          className={
+            currentPage == i ? 'bg-slate-600 hover:bg-slate-700 hover:text-white text-white' : ''
+          }
+        >
+          {i + 1}
+        </Button>
+      );
+    }
+    return content;
+  };
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
       <Header>
@@ -113,7 +147,7 @@ export default function Home() {
           )}
         </Button>
       </Header>
-      <Tabs defaultValue="need-help" className="min-w[250px] mt-10 sm:w-[50%] w-full">
+      <Tabs defaultValue="need-help" className="min-w[250px] my-10 w-full md:w-[50%]">
         <TabsList className="w-full py-8 px-2">
           <TabsTrigger value="offer-help" className="w-full" onClick={() => setNeedHelp(false)}>
             מציע עזרה
@@ -171,27 +205,33 @@ export default function Home() {
         </div>
         <h2 className="mt-2 text-right w-full text-xl">{selectedFilter?.description}</h2>
       </div>
+      <p className="text-s text-slate-500 ml-auto mt-10">בסך הכל {filteredPosts?.length} מודעות</p>
       {!createMode && (
-        <div className="mt-10 grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
+        <div className="relative pb-24  grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
           {filteredPosts &&
-            filteredPosts.map((post, index) => {
-              return (
-                <Post
-                  key={post.name + index}
-                  id={1}
-                  area={post.area}
-                  description={post.description}
-                  name={post.name}
-                  phones={post.phones}
-                  date={new Date(post.time)}
-                  military={post.military}
-                  urgency={post.urgency}
-                  subCategory={post.subcategory}
-                  category={post.category}
-                  need_help={post.need_help}
-                />
-              );
-            })}
+            filteredPosts
+              .slice(currentPage * pageLength, currentPage * pageLength + pageLength)
+              .map((post, index) => {
+                return (
+                  <Post
+                    key={post.name + index}
+                    id={1}
+                    area={post.area}
+                    description={post.description}
+                    name={post.name}
+                    phones={post.phones}
+                    date={new Date(post.time)}
+                    military={post.military}
+                    urgency={post.urgency}
+                    subCategory={post.subcategory}
+                    category={post.category}
+                    need_help={post.need_help}
+                  />
+                );
+              })}
+          <div className="flex justify-center gap-[10px] w-full overflow-x-auto absolute bottom-7">
+            {getPages(pagesCount)}
+          </div>
         </div>
       )}
       {createMode && (

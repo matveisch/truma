@@ -46,7 +46,7 @@ export default function Header({ children }: { children: ReactNode }) {
           <DropdownLanguage />
         </div>
       </div>
-      <div className="flex justify-between w-full items-center sm:invisible">
+      <div className="flex justify-between w-full items-center sm:hidden">
         <Menubar>
           <MenubarMenu>
             <MenubarTrigger>
