@@ -25,6 +25,8 @@ export default function Post({
   phones,
   date,
   military,
+  category,
+  subCategory,
   need_help,
   urgency,
 }: postProps) {
@@ -43,6 +45,8 @@ export default function Post({
           need_help={need_help}
           urgency={urgency}
           open={open}
+          category={category}
+          subCategory={subCategory}
         />
         <AlertDialogContent className="pt-11">
           <AlertDialogTrigger className="absolute top-[10px] right-[24px] gap-2 flex rounded-md bg-gray-200 px-2 hover:bg-gray-300">
@@ -59,6 +63,8 @@ export default function Post({
             need_help={need_help}
             urgency={urgency}
             open={open}
+            category={category}
+            subCategory={subCategory}
           />
         </AlertDialogContent>
       </AlertDialog>
