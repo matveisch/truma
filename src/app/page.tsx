@@ -10,7 +10,6 @@ import { Button } from '@/components/ui/button';
 import { HomeIcon, Plus } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import { Database, PostRow } from '@/lib/supabase';
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface FilterType {
   name: string;
@@ -50,12 +49,23 @@ export default function Home() {
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
-  const [noOptionsPosts, setNoOptionPosts] = useState<PostRow[] | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
+
+  function filterByCategory(posts: PostRow[]) {
+    return posts.filter((post) => post.category === activeToggle);
+  }
+
+  function filterBySubcategory(posts: PostRow[]) {
+    return posts.filter((post) => post.subcategory === activeOption);
+  }
+
+  function filterByHelp(posts: PostRow[]) {
+    return posts.filter((post) => post.need_help === needHelp);
+  }
 
   useEffect(() => {
     async function getData() {
@@ -64,21 +74,22 @@ export default function Home() {
       return posts;
     }
     getData().then((posts) => {
-      setFilteredPosts(posts);
       setBackendPosts(posts);
+      posts && setFilteredPosts(filterByHelp(posts));
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
+    backendPosts && setFilteredPosts(filterByHelp(backendPosts));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [needHelp]);
+
+  useEffect(() => {
     if (activeOption === null) {
-      setFilteredPosts(noOptionsPosts);
+      setFilteredPosts(backendPosts);
     } else {
-      let filteredInnerOptions: PostRow[] | null = null;
-      if (filteredPosts) {
-        filteredInnerOptions = filteredPosts.filter((post) => post.subcategory === activeOption);
-      }
-      setFilteredPosts(filteredInnerOptions);
+      backendPosts && setFilteredPosts(filterBySubcategory(backendPosts));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeOption]);
@@ -87,12 +98,7 @@ export default function Home() {
     if (activeToggle === null) {
       setFilteredPosts(backendPosts);
     } else {
-      let filteredInnerPosts: PostRow[] | null = null;
-      if (backendPosts) {
-        filteredInnerPosts = backendPosts.filter((post) => post.category === activeToggle);
-      }
-      setNoOptionPosts(filteredInnerPosts);
-      setFilteredPosts(filteredInnerPosts);
+      backendPosts && setFilteredPosts(filterByCategory(backendPosts));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeToggle]);
@@ -155,7 +161,6 @@ export default function Home() {
             <div className=" flex justify-between align-middle gap-2" key={`${option}-${index}`}>
               <p
                 onClick={() => {
-                  setFilteredPosts(noOptionsPosts);
                   if (option === activeOption) {
                     setActiveOption(null);
                   } else {
