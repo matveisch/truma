@@ -41,8 +41,12 @@ export default function Header({ children }: { children: ReactNode }) {
         <h1 className="">מיד ליד</h1>
         <div className="flex gap-6 items-center">
           {children}
-          <Button variant="ghost">ארגוני מתנדבים</Button>
-          <Button variant="ghost">מידע</Button>
+
+          <a href="https://am-1.org.il/" target="_blank">
+            <Button variant="ghost">לאתר: עם אחד</Button>
+          </a>
+          {/* <Button variant="ghost">ארגוני מתנדבים</Button> */}
+          {/* <Button variant="ghost">מידע</Button> */}
           <DropdownLanguage />
         </div>
       </div>
@@ -60,6 +64,7 @@ export default function Header({ children }: { children: ReactNode }) {
               <MenubarItem>
                 <Button variant="ghost">מידע</Button>
               </MenubarItem>
+
               <MenubarItem>
                 <DropdownLanguage />
               </MenubarItem>

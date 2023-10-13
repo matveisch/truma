@@ -4,7 +4,6 @@ import { Separator } from './separator';
 import { ScrollArea } from './scroll-area';
 import { AlertDialogTrigger } from './alert-dialog';
 import { Files } from 'lucide-react';
-import { Toaster } from './toaster';
 import { useToast } from '@/components/ui/use-toast';
 interface postProps {
   name: string;
@@ -178,7 +177,6 @@ export default function PostCard({
           </AlertDialogTrigger>
         )}
       </CardFooter>
-      <Toaster />
     </Card>
   );
 }

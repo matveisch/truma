@@ -6,6 +6,7 @@ import { Loader2 } from 'lucide-react';
 import { Database, PostRow } from '@/lib/supabase';
 import { useEffect, useState } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
+import Skeletons from './Skeletons';
 
 const PAGE_LENGTH = 15;
 
@@ -76,9 +77,13 @@ export default function Posts(props: PostsProps) {
 
   return (
     <div className="w-full">
-      <p className="text-s text-slate-500 ml-auto mt-10 mb-2">
-        בסך הכל {filteredPosts?.length} מודעות
-      </p>
+      {isLoading && <Skeletons amount={6} />}
+      {!isLoading && (
+        <p className="text-s text-slate-500 ml-auto mt-10 mb-2">
+          בסך הכל {filteredPosts?.length} מודעות
+        </p>
+      )}
+
       <div className="relative pb-24  grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
         {filteredPosts &&
           filteredPosts.map((post, index) => {

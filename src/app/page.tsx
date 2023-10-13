@@ -1,7 +1,7 @@
 'use client';
 
 import Header from '@/components/Header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
 import { HomeIcon, Plus } from 'lucide-react';
@@ -10,6 +10,7 @@ import { Database } from '@/lib/supabase';
 import Filters from '@/components/Filters';
 import TabSwitcher from '@/components/TabSwitcher';
 import Posts from '@/components/Posts';
+import { Toaster } from '@/components/ui/toaster';
 
 function Home() {
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
@@ -22,7 +23,9 @@ function Home() {
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
-
+  useEffect(() => {
+    setActiveToggle(null);
+  }, [createMode, needHelp]);
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
       <Header>
@@ -62,6 +65,7 @@ function Home() {
           />
         </>
       )}
+
       {createMode && (
         <>
           <p className="text-3xl ml-auto" style={hasFilters ? {} : { color: 'red' }}>
@@ -84,6 +88,7 @@ function Home() {
           />
         </>
       )}
+      <Toaster />
     </main>
   );
 }

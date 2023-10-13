@@ -60,8 +60,13 @@ export default function Filters({
 
   return (
     <div className="w-full">
-      <div className="flex gap-5 w-full mt-[10px] overflow-x-auto overflow-y-hidden direction-alternate-reverse">
-        {!createMode && <ComboBox setArea={setSelectedArea} />}
+      {!createMode && (
+        <div className="w-fit">
+          <ComboBox setArea={setSelectedArea} />
+        </div>
+      )}
+
+      <div className=" flex mt-3 gap-5 w-full items-ce overflow-x-auto overflow-y-hidden direction-alternate-reverse">
         {filters.map((filter, index) => (
           <Toggle
             size={'lg'}
@@ -82,6 +87,7 @@ export default function Filters({
           </Toggle>
         ))}
       </div>
+
       <div className="w-full mt-5">
         <div className="flex gap-2 w-full">
           {selectedFilter?.options.map((option, index) => (
