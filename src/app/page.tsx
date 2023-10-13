@@ -50,7 +50,7 @@ export default function Home() {
   const selectedFilter = filters.find((key) => key.name === activeToggle);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
-  const [pageLength, setPageLength] = useState(6);
+  const [pageLength, setPageLength] = useState(15);
 
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
@@ -97,7 +97,7 @@ export default function Home() {
   }, [activeOption, activeToggle, needHelp]);
 
   useEffect(() => {
-    setPageLength(6);
+    setPageLength(15);
   }, [needHelp]);
 
   return (
@@ -168,12 +168,12 @@ export default function Home() {
                 }}
                 className={
                   'py-2 px-2 rounded-md cursor-pointer ' +
-                  (option === activeOption ? 'bg-slate-200' : 'hover:bg-slate-100')
+                  (option === activeOption ? 'bg-blue-100' : 'hover:bg-slate-100')
                 }
               >
                 {option}
               </p>
-              {selectedFilter.options.length !== index && (
+              {selectedFilter.options.length !== index + 1 && (
                 <div className="w-[1px] h-6 m-auto bg-slate-300"></div>
               )}
             </div>

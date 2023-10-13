@@ -4,7 +4,8 @@ import { Separator } from './separator';
 import { ScrollArea } from './scroll-area';
 import { AlertDialogTrigger } from './alert-dialog';
 import { Files } from 'lucide-react';
-
+import { Toaster } from './toaster';
+import { useToast } from '@/components/ui/use-toast';
 interface postProps {
   name: string;
   area: string;
@@ -32,6 +33,7 @@ export default function PostCard({
   need_help,
   open,
 }: postProps) {
+  const { toast } = useToast();
   return (
     <Card
       className={
@@ -119,9 +121,9 @@ export default function PostCard({
           </div>
         </CardContent>
         <CardContent className="flex flex-col gap-1">
-          {phones.map((item, index) => {
+          {phones.map((phone, index) => {
             return (
-              <p key={index} className="flex items-center gap-1">
+              <a href={'tel:' + phone} key={index} className="flex items-center gap-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
@@ -135,8 +137,8 @@ export default function PostCard({
                   />
                 </svg>
 
-                {item}
-              </p>
+                {phone}
+              </a>
             );
           })}
         </CardContent>
@@ -155,6 +157,9 @@ export default function PostCard({
                   return 'טל: ' + phone + ' \n';
                 })
             );
+            toast({
+              description: 'המודעה הועתקה ללוח',
+            });
           }}
         >
           <Files className="ml-3" />
@@ -166,6 +171,7 @@ export default function PostCard({
           </AlertDialogTrigger>
         )}
       </CardFooter>
+      <Toaster />
     </Card>
   );
 }
