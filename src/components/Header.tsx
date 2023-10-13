@@ -22,15 +22,21 @@ function DropdownLanguage() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="flex gap-1 items-center">
+          Language
           <Globe size={18} />
-          עברית
         </Button>
       </DropdownMenuTrigger>
       {/*todo: make direction dynamic*/}
       <DropdownMenuContent style={{ direction: 'rtl' }}>
-        <DropdownMenuItem>עברית</DropdownMenuItem>
-        <DropdownMenuItem>English</DropdownMenuItem>
-        <DropdownMenuItem>Русский</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/he">עברית</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/en">English</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link href="/ru">Русский</Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -41,7 +47,7 @@ export default function Header({ children }: { children: ReactNode }) {
 
   return (
     <header className="w-full">
-      <div className="invisible sm:visible flex justify-between items-center w-full relative rtl:flex-row-reverse">
+      <div className="invisible sm:visible flex justify-between items-center w-full relative flex-row-reverse">
         <h1 className="">מיד ליד</h1>
         <div className="flex gap-6 items-center">
           {children}

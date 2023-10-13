@@ -14,11 +14,12 @@ import NewPostForm from '@/components/NewPostForm';
 
 export interface ContextType {
   dict: any;
+  lang: 'en' | 'ru' | 'he';
 }
 
 export const Context = createContext<ContextType | null>(null);
 
-export default function MainPage({ dict }: { dict: any }) {
+export default function MainPage({ dict, lang }: { dict: any; lang: 'en' | 'ru' | 'he' }) {
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const [createMode, setCreateMode] = useState(false);
@@ -34,8 +35,11 @@ export default function MainPage({ dict }: { dict: any }) {
   }, [createMode, needHelp]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
-      <Context.Provider value={{ dict }}>
+    <main
+      className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3"
+      style={lang === 'he' ? { direction: 'rtl' } : undefined}
+    >
+      <Context.Provider value={{ dict, lang }}>
         <Header>
           <Button
             className="flex gap-1 items-center rtl:flex-row-reverse"
@@ -97,6 +101,6 @@ export default function MainPage({ dict }: { dict: any }) {
         )}
         <Toaster />
       </Context.Provider>
-    </div>
+    </main>
   );
 }
