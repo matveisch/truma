@@ -1,23 +1,24 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+import { Database } from '@/lib/supabase';
 import Header from '@/components/Header';
 import { useEffect, useState } from 'react';
 import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
 import { HomeIcon, Plus } from 'lucide-react';
-import { createClient } from '@supabase/supabase-js';
-import { Database } from '@/lib/supabase';
-import Filters from '@/components/Filters';
 import TabSwitcher from '@/components/TabSwitcher';
+import Filters from '@/components/Filters';
 import Posts from '@/components/Posts';
 import { Toaster } from '@/components/ui/toaster';
+import NewPostForm from '@/components/NewPostForm';
 
-function Home() {
+export default function MainPage({ dict }: { dict: any }) {
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
-  const [hasFilters, setHasFilters] = useState(true);
   const [selectedArea, setSelectedArea] = useState('');
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
@@ -68,9 +69,7 @@ function Home() {
 
       {createMode && (
         <>
-          <p className="text-3xl ml-auto" style={hasFilters ? {} : { color: 'red' }}>
-            בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה
-          </p>
+          <p className="text-3xl ml-auto">בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה</p>
           <Filters
             createMode={createMode}
             activeToggle={activeToggle}
@@ -79,7 +78,6 @@ function Home() {
             setActiveOption={setActiveOption}
           />
           <NewPostForm
-            setHasFilters={setHasFilters}
             setCreateMode={setCreateMode}
             needHelp={needHelp}
             activeOption={activeOption}
@@ -92,5 +90,3 @@ function Home() {
     </main>
   );
 }
-
-export default Home;

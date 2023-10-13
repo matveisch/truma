@@ -62,7 +62,11 @@ export function ComboBox({ setOuterValue, setArea }: PropsType) {
   }, [value]);
 
   useEffect(() => {
-    if (value && setArea) setArea(value);
+    if (value && setArea) {
+      setArea(value);
+    } else {
+      setArea && setArea('');
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
