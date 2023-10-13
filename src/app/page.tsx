@@ -49,6 +49,7 @@ export default function Home() {
   const selectedFilter = filters.find((key) => key.name === activeToggle);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
+
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
 
@@ -122,7 +123,6 @@ export default function Home() {
           </TabsTrigger>
         </TabsList>
       </Tabs>
-      <h2 className="mt-[50px] text-right w-full text-xl">{selectedFilter?.description}</h2>
       <div className="flex gap-5 w-full mt-[10px] overflow-x-auto overflow-y-hidden direction-alternate-reverse">
         {filters.map((filter, index) => (
           <Toggle
@@ -169,6 +169,7 @@ export default function Home() {
             </div>
           ))}
         </div>
+        <h2 className="mt-2 text-right w-full text-xl">{selectedFilter?.description}</h2>
       </div>
       {!createMode && (
         <div className="mt-10 grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
