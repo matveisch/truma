@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/lib/supabase';
 import Header from '@/components/Header';
@@ -11,6 +11,12 @@ import Filters from '@/components/Filters';
 import Posts from '@/components/Posts';
 import { Toaster } from '@/components/ui/toaster';
 import NewPostForm from '@/components/NewPostForm';
+
+export interface ContextType {
+  dict: any;
+}
+
+export const Context = createContext<ContextType | null>(null);
 
 export default function MainPage({ dict }: { dict: any }) {
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
@@ -27,68 +33,70 @@ export default function MainPage({ dict }: { dict: any }) {
     setActiveToggle(null);
   }, [createMode, needHelp]);
 
-  console.log({ dict });
-
   return (
-    <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
-      <Header dict={dict}>
-        <Button
-          className="flex gap-1 items-center rtl:flex-row-reverse"
-          onClick={() => setCreateMode(!createMode)}
-        >
-          {!createMode && (
-            <>
-              <Plus />
-              {dict.header.newAd}
-            </>
-          )}
-          {createMode && (
-            <>
-              <HomeIcon />
-            </>
-          )}
-        </Button>
-      </Header>
-      <TabSwitcher setNeedHelp={setNeedHelp} />
-      {!createMode && (
-        <>
-          <Filters
-            setSelectedArea={setSelectedArea}
-            activeToggle={activeToggle}
-            setActiveToggle={setActiveToggle}
-            activeOption={activeOption}
-            setActiveOption={setActiveOption}
-          />
-          <Posts
-            selectedArea={selectedArea}
-            supabase={supabase}
-            needHelp={needHelp}
-            activeOption={activeOption}
-            activeToggle={activeToggle}
-          />
-        </>
-      )}
+    <div className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
+      <Context.Provider value={{ dict }}>
+        <Header>
+          <Button
+            className="flex gap-1 items-center rtl:flex-row-reverse"
+            onClick={() => setCreateMode(!createMode)}
+          >
+            {!createMode && (
+              <>
+                <Plus />
+                {dict.header.newAd}
+              </>
+            )}
+            {createMode && (
+              <>
+                <HomeIcon />
+              </>
+            )}
+          </Button>
+        </Header>
+        <TabSwitcher setNeedHelp={setNeedHelp} />
+        {!createMode && (
+          <>
+            <Filters
+              setSelectedArea={setSelectedArea}
+              activeToggle={activeToggle}
+              setActiveToggle={setActiveToggle}
+              activeOption={activeOption}
+              setActiveOption={setActiveOption}
+            />
+            <Posts
+              selectedArea={selectedArea}
+              supabase={supabase}
+              needHelp={needHelp}
+              activeOption={activeOption}
+              activeToggle={activeToggle}
+            />
+          </>
+        )}
 
-      {createMode && (
-        <>
-          <p className="text-3xl ml-auto">בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה</p>
-          <Filters
-            createMode={createMode}
-            activeToggle={activeToggle}
-            setActiveToggle={setActiveToggle}
-            activeOption={activeOption}
-            setActiveOption={setActiveOption}
-          />
-          <NewPostForm
-            setCreateMode={setCreateMode}
-            needHelp={needHelp}
-            activeOption={activeOption}
-            activeFilter={activeToggle}
-            supabase={supabase}
-          />
-        </>
-      )}
-      <Toaster />
-    </main>
+        {createMode && (
+          <>
+            <p className="text-3xl ml-auto">
+              בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה
+            </p>
+            <Filters
+              createMode={createMode}
+              activeToggle={activeToggle}
+              setActiveToggle={setActiveToggle}
+              activeOption={activeOption}
+              setActiveOption={setActiveOption}
+            />
+            <NewPostForm
+              setCreateMode={setCreateMode}
+              needHelp={needHelp}
+              activeOption={activeOption}
+              activeFilter={activeToggle}
+              supabase={supabase}
+            />
+          </>
+        )}
+        <Toaster />
+      </Context.Provider>
+    </div>
   );
 }
