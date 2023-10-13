@@ -27,8 +27,8 @@ export default function Skeletons({ amount }: skelProps) {
   }
   return (
     <div className="mt-12 grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
-      {cards.map((item) => {
-        return item;
+      {cards.map((item, index) => {
+        return <div key={`${item}-${index}`}>{item}</div>;
       })}
     </div>
   );

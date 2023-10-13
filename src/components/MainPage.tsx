@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '@/lib/supabase';
 import Header from '@/components/Header';
-import { useEffect, useState } from 'react';
-import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
 import { HomeIcon, Plus } from 'lucide-react';
 import TabSwitcher from '@/components/TabSwitcher';
@@ -24,9 +22,13 @@ export default function MainPage({ dict }: { dict: any }) {
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
+
   useEffect(() => {
     setActiveToggle(null);
   }, [createMode, needHelp]);
+
+  console.log({ dict });
+
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
       <Header>
