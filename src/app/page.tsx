@@ -2,7 +2,6 @@
 
 import Header from '@/components/Header';
 import Post from '@/components/post';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useEffect, useState } from 'react';
 import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
@@ -10,13 +9,16 @@ import { HomeIcon, Loader2, Plus } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
 import { Database, PostRow } from '@/lib/supabase';
 import Filters from '@/components/Filters';
+import TabSwitcher from '@/components/TabSwitcher';
+
+const PAGE_LENGTH = 15;
 
 function Home() {
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
-  const [pageLength, setPageLength] = useState(15);
+  const [pageLength, setPageLength] = useState(PAGE_LENGTH);
   const [hasFilters, setHasFilters] = useState(true);
 
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
@@ -64,7 +66,7 @@ function Home() {
   }, [activeOption, activeToggle, needHelp]);
 
   useEffect(() => {
-    setPageLength(15);
+    setPageLength(PAGE_LENGTH);
   }, [needHelp]);
 
   return (
@@ -87,16 +89,7 @@ function Home() {
           )}
         </Button>
       </Header>
-      <Tabs defaultValue="need-help" className="min-w[250px] my-10 w-full md:w-[50%]">
-        <TabsList className="w-full py-8 px-2">
-          <TabsTrigger value="offer-help" className="w-full" onClick={() => setNeedHelp(false)}>
-            מציע עזרה
-          </TabsTrigger>
-          <TabsTrigger value="need-help" className="w-full" onClick={() => setNeedHelp(true)}>
-            צריך עזרה
-          </TabsTrigger>
-        </TabsList>
-      </Tabs>
+      <TabSwitcher setNeedHelp={setNeedHelp} />
       {!createMode && (
         <>
           <Filters
@@ -114,7 +107,7 @@ function Home() {
                 return (
                   <Post
                     key={post.name + index}
-                    id={1}
+                    id={post.id}
                     area={post.area}
                     description={post.description}
                     name={post.name}
@@ -131,15 +124,15 @@ function Home() {
             <div className="flex justify-center gap-[10px] w-full overflow-x-auto absolute bottom-7">
               <Button
                 onClick={() => {
-                  if (backendPosts && backendPosts?.length === pageLength) {
-                    setPageLength(pageLength * 2);
+                  if (filteredPosts && filteredPosts?.length === pageLength) {
+                    setPageLength(pageLength + PAGE_LENGTH);
                     setIsLoading(true);
                   }
                 }}
               >
                 {isLoading ? (
                   <Loader2 className="animate-spin" />
-                ) : backendPosts && backendPosts?.length === pageLength ? (
+                ) : filteredPosts && filteredPosts?.length === pageLength ? (
                   'Load more posts'
                 ) : (
                   'No more posts'
