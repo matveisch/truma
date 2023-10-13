@@ -43,6 +43,7 @@ export default function Home() {
     { name: 'בגדים', options: [], description: 'תרומת חפצים' },
     { name: 'אחר', options: [], description: '' },
   ];
+
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const selectedFilter = filters.find((key) => key.name === activeToggle);
@@ -81,27 +82,15 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    backendPosts && setFilteredPosts(filterByHelp(backendPosts));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needHelp]);
+    let result: PostRow[] | null = backendPosts;
 
-  useEffect(() => {
-    if (activeOption === null) {
-      setFilteredPosts(backendPosts);
-    } else {
-      backendPosts && setFilteredPosts(filterBySubcategory(backendPosts));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeOption]);
+    if (result) result = filterByHelp(result);
+    if (result && activeToggle) result = filterByCategory(result);
+    if (result && activeOption) result = filterBySubcategory(result);
 
-  useEffect(() => {
-    if (activeToggle === null) {
-      setFilteredPosts(backendPosts);
-    } else {
-      backendPosts && setFilteredPosts(filterByCategory(backendPosts));
-    }
+    setFilteredPosts(result);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeToggle]);
+  }, [activeOption, activeToggle, needHelp]);
 
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
