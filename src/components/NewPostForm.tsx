@@ -34,6 +34,7 @@ interface PropsType {
   supabase: SupabaseClient<Database>;
   setBackendPosts: Dispatch<SetStateAction<PostRow[] | null>>;
   backendPosts: PostRow[] | null;
+  setCreateMode: Dispatch<SetStateAction<boolean>>;
 }
 
 export const formSchema = z.object({
@@ -60,8 +61,9 @@ export default function NewPostForm({
   supabase,
   setBackendPosts,
   backendPosts,
+  setCreateMode,
 }: PropsType) {
-  const { getValues, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
+  const { getValues, reset, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
@@ -101,6 +103,8 @@ export default function NewPostForm({
     }
     setBackendPosts(p);
     console.log(error?.message); //todo: deal with errors
+
+    if (data) setCreateMode(false);
   }
 
   useEffect(() => {
@@ -109,7 +113,7 @@ export default function NewPostForm({
   }, [activeToggle]);
 
   return (
-    <Form {...form} setValue={setValue} getValues={getValues}>
+    <Form {...form} setValue={setValue} getValues={getValues} reset={reset}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex w-full justify-between sm:gap-20 flex-wrap sm:flex-nowrap"
