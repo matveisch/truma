@@ -128,7 +128,11 @@ export default function PostCard({
         <CardContent className="flex flex-col gap-1">
           {phones.map((phone, index) => {
             return (
-              <a href={'tel:' + phone} key={index} className="flex items-center gap-1">
+              <a
+                href={'tel:' + phone}
+                key={index}
+                className="flex items-center gap-1 border-2 w-fit p-2 rounded-md hover:bg-slate-100"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
