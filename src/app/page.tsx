@@ -157,6 +157,9 @@ export default function Home() {
           </TabsTrigger>
         </TabsList>
       </Tabs>
+      {createMode && (
+        <p className="text-3xl ml-auto">בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה</p>
+      )}
       <div className="flex gap-5 w-full mt-[10px] overflow-x-auto overflow-y-hidden direction-alternate-reverse">
         {filters.map((filter, index) => (
           <Toggle
@@ -205,7 +208,11 @@ export default function Home() {
         </div>
         <h2 className="mt-2 text-right w-full text-xl">{selectedFilter?.description}</h2>
       </div>
-      <p className="text-s text-slate-500 ml-auto mt-10">בסך הכל {filteredPosts?.length} מודעות</p>
+      {!createMode && (
+        <p className="text-s text-slate-500 ml-auto mt-10 mb-2">
+          בסך הכל {filteredPosts?.length} מודעות
+        </p>
+      )}
       {!createMode && (
         <div className="relative pb-24  grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
           {filteredPosts &&
