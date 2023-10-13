@@ -18,7 +18,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Toggle } from '@/components/ui/toggle';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Database, PostInsert, PostRow } from '@/lib/supabase';
+import { Database, PostInsert } from '@/lib/supabase';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 
@@ -32,8 +32,6 @@ interface PropsType {
   activeFilter: string | null;
   activeOption: string | null;
   supabase: SupabaseClient<Database>;
-  setBackendPosts: Dispatch<SetStateAction<PostRow[] | null>>;
-  backendPosts: PostRow[] | null;
   setCreateMode: Dispatch<SetStateAction<boolean>>;
   setHasFilters: Dispatch<SetStateAction<boolean>>;
 }
@@ -56,16 +54,7 @@ export const formSchema = z.object({
 });
 
 export default function NewPostForm(props: PropsType) {
-  const {
-    needHelp,
-    activeFilter,
-    activeOption,
-    supabase,
-    setBackendPosts,
-    backendPosts,
-    setCreateMode,
-    setHasFilters,
-  } = props;
+  const { needHelp, activeFilter, activeOption, supabase, setCreateMode } = props;
   const { getValues, reset, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -99,18 +88,9 @@ export default function NewPostForm(props: PropsType) {
       ...restValues,
     };
 
-    if (activeFilter && activeOption) {
-      const { data, error } = await supabase.from('posts').insert([dataToPost]).select();
-      let p: PostRow[] | null = null;
-      if (backendPosts && data) {
-        p = data.concat(backendPosts);
-      }
-      setBackendPosts(p);
-      console.log(error?.message); //todo: deal with errors
-      if (data) setCreateMode(false);
-    } else {
-      setHasFilters(false);
-    }
+    const { data, error } = await supabase.from('posts').insert([dataToPost]).select();
+    console.log(error?.message); //todo: deal with errors
+    if (data) setCreateMode(false);
   }
 
   useEffect(() => {

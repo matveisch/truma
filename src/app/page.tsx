@@ -1,73 +1,26 @@
 'use client';
 
 import Header from '@/components/Header';
-import Post from '@/components/post';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NewPostForm from '@/components/NewPostForm';
 import { Button } from '@/components/ui/button';
-import { HomeIcon, Loader2, Plus } from 'lucide-react';
+import { HomeIcon, Plus } from 'lucide-react';
 import { createClient } from '@supabase/supabase-js';
-import { Database, PostRow } from '@/lib/supabase';
+import { Database } from '@/lib/supabase';
 import Filters from '@/components/Filters';
 import TabSwitcher from '@/components/TabSwitcher';
-
-const PAGE_LENGTH = 15;
+import Posts from '@/components/Posts';
 
 function Home() {
   const [activeToggle, setActiveToggle] = useState<string | null>(null);
   const [activeOption, setActiveOption] = useState<string | null>(null);
   const [createMode, setCreateMode] = useState(false);
   const [needHelp, setNeedHelp] = useState(true);
-  const [pageLength, setPageLength] = useState(PAGE_LENGTH);
   const [hasFilters, setHasFilters] = useState(true);
-
-  const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
-  const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const supabaseUrl = 'https://eszdtlbcthjrkryjrlaa.supabase.co';
   const supabaseKey = process.env.SUPABASE_KEY;
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
-
-  function filterByCategory(posts: PostRow[]) {
-    return posts.filter((post) => post.category === activeToggle);
-  }
-
-  function filterBySubcategory(posts: PostRow[]) {
-    return posts.filter((post) => post.subcategory === activeOption);
-  }
-
-  useEffect(() => {
-    async function getData() {
-      const { data: posts, error } = await supabase
-        .from('posts')
-        .select()
-        .eq('need_help', needHelp)
-        .limit(pageLength);
-      console.log(error?.message); //todo: deal with errors
-      return posts;
-    }
-    getData().then((posts) => {
-      setBackendPosts(posts);
-      setFilteredPosts(posts);
-      setIsLoading(false);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageLength, needHelp]);
-
-  useEffect(() => {
-    let result: PostRow[] | null = backendPosts;
-
-    if (result && activeToggle) result = filterByCategory(result);
-    if (result && activeOption) result = filterBySubcategory(result);
-
-    setFilteredPosts(result);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeOption, activeToggle, needHelp]);
-
-  useEffect(() => {
-    setPageLength(PAGE_LENGTH);
-  }, [needHelp]);
 
   return (
     <main className="flex min-h-screen flex-col items-center max-w-[1280px] m-auto sm:p-10 p-3">
@@ -98,48 +51,14 @@ function Home() {
             activeOption={activeOption}
             setActiveOption={setActiveOption}
           />
-          <p className="text-s text-slate-500 ml-auto mt-10 mb-2">
-            בסך הכל {filteredPosts?.length} מודעות
-          </p>
-          <div className="relative pb-24  grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
-            {filteredPosts &&
-              filteredPosts.map((post, index) => {
-                return (
-                  <Post
-                    key={post.name + index}
-                    id={post.id}
-                    area={post.area}
-                    description={post.description}
-                    name={post.name}
-                    phones={post.phones}
-                    date={new Date(post.time)}
-                    military={post.military}
-                    urgency={post.urgency}
-                    subCategory={post.subcategory}
-                    category={post.category}
-                    need_help={post.need_help}
-                  />
-                );
-              })}
-            <div className="flex justify-center gap-[10px] w-full overflow-x-auto absolute bottom-7">
-              <Button
-                onClick={() => {
-                  if (filteredPosts && filteredPosts?.length === pageLength) {
-                    setPageLength(pageLength + PAGE_LENGTH);
-                    setIsLoading(true);
-                  }
-                }}
-              >
-                {isLoading ? (
-                  <Loader2 className="animate-spin" />
-                ) : filteredPosts && filteredPosts?.length === pageLength ? (
-                  'Load more posts'
-                ) : (
-                  'No more posts'
-                )}
-              </Button>
-            </div>
-          </div>
+          <Posts
+            supabase={supabase}
+            needHelp={needHelp}
+            activeOption={activeOption}
+            setActiveOption={setActiveOption}
+            activeToggle={activeToggle}
+            setActiveToggle={setActiveToggle}
+          />
         </>
       )}
       {createMode && (
@@ -160,8 +79,6 @@ function Home() {
             activeOption={activeOption}
             activeFilter={activeToggle}
             supabase={supabase}
-            backendPosts={backendPosts}
-            setBackendPosts={setBackendPosts}
           />
         </>
       )}
