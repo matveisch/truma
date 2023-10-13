@@ -47,16 +47,16 @@ const areas = [
   },
 ];
 
-export function ComboBox({
-  setOuterValue,
-}: {
+interface PropsType {
   setOuterValue: UseFormSetValue<z.infer<typeof formSchema>>;
-}) {
+}
+
+export function ComboBox({ setOuterValue }: PropsType) {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
 
   useEffect(() => {
-    setOuterValue('area', value);
+    if (value) setOuterValue('area', value, { shouldValidate: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
