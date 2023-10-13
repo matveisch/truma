@@ -10,10 +10,10 @@ export default function TabSwitcher({ setNeedHelp }: PropsType) {
     <Tabs defaultValue="need-help" className="min-w[250px] my-10 w-full md:w-[50%]">
       <TabsList className="w-full py-8 px-2">
         <TabsTrigger value="offer-help" className="w-full" onClick={() => setNeedHelp(false)}>
-          אני מציע/ה עזרה
+          מוצעים עזרה{' '}
         </TabsTrigger>
         <TabsTrigger value="need-help" className="w-full" onClick={() => setNeedHelp(true)}>
-          אני זקוק/ה לעזרה
+          צריכים עזרה{' '}
         </TabsTrigger>
       </TabsList>
     </Tabs>

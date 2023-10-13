@@ -46,12 +46,12 @@ export default function Filters({
     {
       name: 'הסעות',
       options: [],
-      description: 'סיוע בהסעות, חיפוש מכוניות ונהגים',
+      description: 'חיפוש טראמף, סיוע במעבר בתוך הארץ',
     },
     {
-      name: 'הולות',
+      name: 'הובלות',
       options: [],
-      description: '',
+      description: 'סיוע בהובלת סחורות, תרומות',
     },
     { name: 'ביגוד', options: [], description: 'תרומת חפצים' },
     { name: 'אחר', options: [], description: '' },
