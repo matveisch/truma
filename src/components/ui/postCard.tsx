@@ -16,6 +16,8 @@ interface postProps {
   urgency: number;
   need_help: boolean;
   open: boolean;
+  category: string;
+  subCategory: string;
 }
 
 function toTwoDigits(num: number) {
@@ -31,6 +33,8 @@ export default function PostCard({
   military,
   urgency,
   need_help,
+  category,
+  subCategory,
   open,
 }: postProps) {
   const { toast } = useToast();
@@ -53,10 +57,11 @@ export default function PostCard({
             <p className=" text-center">{military ? 'צבאי' : 'אזרחי'}</p>
           </div>
         )}
+
         <CardHeader>
-          <div className="flex flex-row-reverse justify-between align-middle">
-            <CardTitle className="ml-auto">{name}</CardTitle>
-          </div>
+          <p className="text-xs text-slate-500">{category + ', ' + subCategory}</p>
+          <CardTitle className="ml-auto">{name}</CardTitle>
+
           <CardContent className="p-0 text-slate-500">
             <div className="flex items-center gap-1">
               <svg
