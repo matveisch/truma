@@ -67,7 +67,7 @@ export function ComboBox({ setOuterValue }: PropsType) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between"
+          className="w-full justify-between border-slate-400"
         >
           {value ? value : 'בחר אזור'}
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />

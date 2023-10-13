@@ -22,28 +22,33 @@ export default function Filters({
 }: PropsType) {
   const filters: FilterType[] = [
     {
-      name: 'דיור',
+      name: 'מיגורים',
       options: ['בן אדם 1', '1-3 אנשים', '3-10 אנשים', 'יותר מ-10 אנשים'],
-      description: 'מתן פתרונות דיור',
+      description: 'מתן פתרונות מגורים',
     },
     {
-      name: 'אוכל',
+      name: 'מזון',
       options: [],
       description: 'עזרה במציאת מזון, משלוח מזון',
     },
     {
       name: 'בעלי חיים',
       options: ['חיה 1', '2 חיות', '3+ חיות'],
-      description: 'מציאת מקלט לחיות מחמד חסרות בית. חפש גם תרופות לבעלי חיים.',
+      description: 'מציאת מקלט לחיות מחמד חסרות בית וחיפוש עבור סיוע תרופת',
     },
-    { name: 'ילדים', options: [], description: 'עזרה במציאת מזון לתינוקות וחלב אם' },
-    { name: 'עזרה רוחנית', options: [], description: 'תמיכה פסיכולוגית לנפגעים' },
+    { name: 'ילדים', options: [], description: 'במציאת מזון לתינוקות וחלב אם' },
+    { name: 'עזרה נפשית', options: [], description: 'עזרה נפשית למי שצריך' },
     {
-      name: 'תובלה',
-      options: ['מכונית קלה', 'רכב משא'],
+      name: 'הסעות',
+      options: [],
       description: 'סיוע בהסעות, חיפוש מכוניות ונהגים',
     },
-    { name: 'בגדים', options: [], description: 'תרומת חפצים' },
+    {
+      name: 'הולות',
+      options: [],
+      description: '',
+    },
+    { name: 'ביגוד', options: [], description: 'תרומת חפצים' },
     { name: 'אחר', options: [], description: '' },
   ];
   const selectedFilter = filters.find((key) => key.name === activeToggle);

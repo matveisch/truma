@@ -162,12 +162,15 @@ export default function NewPostForm(props: PropsType) {
               name="military"
               render={({ field }) => (
                 <FormItem className="w-full flex mt-2">
-                  <div className="flex items-center space-x-2" style={{ direction: 'ltr' }}>
-                    <Label htmlFor="military" className="mt-0">
+                  <div
+                    className="flex items-center space-x-2 align-middle"
+                    style={{ direction: 'ltr' }}
+                  >
+                    <Label htmlFor="military" className="m-0">
                       אזרחי
                     </Label>
                     <Switch id="military" onCheckedChange={field.onChange} checked={field.value} />
-                    <Label htmlFor="military" className="mt-0">
+                    <Label htmlFor="military" className="m-0">
                       צבאי
                     </Label>
                   </div>
@@ -212,7 +215,7 @@ export default function NewPostForm(props: PropsType) {
                 <FormLabel>תיאור</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder="עם מה אתם יכולים לעזור"
+                    placeholder={needHelp ? 'במה את/ה צריכ/ה עזרה?' : 'במה את/ה יכול/ה לעזור?'}
                     className="resize-none"
                     {...field}
                   />
@@ -222,7 +225,9 @@ export default function NewPostForm(props: PropsType) {
             )}
           />
           <p className="mt-1 mb-3 text-sm text-muted-foreground">
-            כתוב בקצרה וברורה במה אתם יכולים לעזור
+            {needHelp
+              ? 'כתוב בקצרה ובצורה ברורה במה את/ה צריכ/ה עזרה'
+              : 'כתוב בקצרה ובצורה ברורה במה את/ה יכול/ה לעזור'}
           </p>
           <Button type="submit">Submit</Button>
         </div>

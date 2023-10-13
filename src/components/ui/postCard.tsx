@@ -165,7 +165,7 @@ export default function PostCard({
                 })
             );
             toast({
-              description: 'המודעה הועתקה ללוח',
+              title: 'המודעה הועתקה ללוח',
             });
           }}
         >
