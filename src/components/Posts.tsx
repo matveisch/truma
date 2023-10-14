@@ -28,7 +28,12 @@ export default function Posts(props: PostsProps) {
 
   useEffect(() => {
     async function getData() {
-      let query = supabase.from('posts').select().eq('need_help', needHelp).limit(pageLength);
+      let query = supabase
+        .from('posts')
+        .select()
+        .eq('need_help', needHelp)
+        .limit(pageLength)
+        .order('id', { ascending: false });
 
       if (selectedArea) {
         query = query.filter('area', 'eq', selectedArea);
