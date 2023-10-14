@@ -27,21 +27,9 @@ export default function Posts(props: PostsProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { dict } = useContext(Context) as ContextType;
 
-  // function filterByCategory(posts: PostRow[]) {
-  //   return posts.filter((post) => post.category === activeToggle);
-  // }
-
   function filterBySubcategory(posts: PostRow[]) {
     return posts.filter((post) => post.subcategory === activeOption);
   }
-
-  function filterByHelp(posts: PostRow[]) {
-    return posts.filter((post) => post.need_help === needHelp);
-  }
-
-  // function filterByArea(posts: PostRow[]) {
-  //   return posts.filter((post) => post.area === selectedArea);
-  // }
 
   useEffect(() => {
     async function getData() {
@@ -69,10 +57,6 @@ export default function Posts(props: PostsProps) {
 
   useEffect(() => {
     let result: PostRow[] | null = backendPosts;
-
-    // if (result) result = filterByHelp(result);
-    // if (result && selectedArea) result = filterByArea(result);
-    // if (result && activeToggle) result = filterByCategory(result);
     if (result && activeOption) result = filterBySubcategory(result);
 
     setFilteredPosts(result);

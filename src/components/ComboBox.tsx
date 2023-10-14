@@ -35,15 +35,15 @@ export function ComboBox({ setOuterValue, setArea }: PropsType) {
   const areas = AreasData();
 
   useEffect(() => {
-    if (value && setOuterValue) setOuterValue('area', value.value, { shouldValidate: true });
+    if (value && setOuterValue) {
+      setOuterValue('area', value.value, { shouldValidate: true });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   useEffect(() => {
     if (value && setArea) {
-      setArea(value.value);
-    } else {
-      setArea && setArea('');
+      setArea(value.value === 'all' ? '' : value.value);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
