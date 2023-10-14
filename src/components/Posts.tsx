@@ -27,9 +27,9 @@ export default function Posts(props: PostsProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { dict } = useContext(Context) as ContextType;
 
-  function filterByCategory(posts: PostRow[]) {
-    return posts.filter((post) => post.category === activeToggle);
-  }
+  // function filterByCategory(posts: PostRow[]) {
+  //   return posts.filter((post) => post.category === activeToggle);
+  // }
 
   function filterBySubcategory(posts: PostRow[]) {
     return posts.filter((post) => post.subcategory === activeOption);
@@ -39,17 +39,23 @@ export default function Posts(props: PostsProps) {
     return posts.filter((post) => post.need_help === needHelp);
   }
 
-  function filterByArea(posts: PostRow[]) {
-    return posts.filter((post) => post.area === selectedArea);
-  }
+  // function filterByArea(posts: PostRow[]) {
+  //   return posts.filter((post) => post.area === selectedArea);
+  // }
 
   useEffect(() => {
     async function getData() {
-      const { data: posts, error } = await supabase
-        .from('posts')
-        .select()
-        .eq('need_help', needHelp)
-        .limit(pageLength);
+      let query = supabase.from('posts').select().eq('need_help', needHelp).limit(pageLength);
+
+      if (selectedArea) {
+        query = query.filter('area', 'eq', selectedArea);
+      }
+
+      if (activeToggle) {
+        query = query.filter('category', 'eq', activeToggle);
+      }
+
+      const { data: posts, error } = await query;
       console.log(error?.message); //todo: deal with errors
       return posts;
     }
@@ -59,14 +65,14 @@ export default function Posts(props: PostsProps) {
       setIsLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageLength, needHelp]);
+  }, [pageLength, needHelp, selectedArea, activeToggle]);
 
   useEffect(() => {
     let result: PostRow[] | null = backendPosts;
 
-    if (result) result = filterByHelp(result);
-    if (result && selectedArea) result = filterByArea(result);
-    if (result && activeToggle) result = filterByCategory(result);
+    // if (result) result = filterByHelp(result);
+    // if (result && selectedArea) result = filterByArea(result);
+    // if (result && activeToggle) result = filterByCategory(result);
     if (result && activeOption) result = filterBySubcategory(result);
 
     setFilteredPosts(result);
