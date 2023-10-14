@@ -82,7 +82,7 @@ export default function Posts(props: PostsProps) {
       {isLoading && <Skeletons amount={6} />}
       {!isLoading && (
         <p className="text-s text-slate-500 ml-auto mt-2 mb-2">
-          {dict.misc.inTotal} {filteredPosts?.length}
+          {dict.misc.inTotal}: {filteredPosts?.length}
         </p>
       )}
 
