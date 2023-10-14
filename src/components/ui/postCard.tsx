@@ -5,6 +5,8 @@ import { ScrollArea } from './scroll-area';
 import { AlertDialogTrigger } from './alert-dialog';
 import { Files } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { useContext } from 'react';
+import { Context, ContextType } from '@/components/MainPage';
 interface postProps {
   name: string;
   area: string;
@@ -37,6 +39,8 @@ export default function PostCard({
   open,
 }: postProps) {
   const { toast } = useToast();
+  const { dict } = useContext(Context) as ContextType;
+
   return (
     <Card
       className={
@@ -92,15 +96,15 @@ export default function PostCard({
               <div>
                 <small className="text-gray-600 font-bold inline text-right">
                   <span>
-                    דחפות:{'     '}
+                    {dict.post.urgency}:{'     '}
                     {urgency == 1 ? (
-                      <p className="text-red-600 inline">שעה 1</p>
+                      <p className="text-red-600 inline">{dict.post.oneUrgent}</p>
                     ) : urgency == 2 ? (
-                      <p className="text-orange-600 inline">12 שעות</p>
+                      <p className="text-orange-600 inline">{dict.post.twoUrgent}</p>
                     ) : urgency == 3 ? (
-                      <p className="text-blue-600 inline">24 שעות</p>
+                      <p className="text-blue-600 inline">{dict.post.threeUrgent}</p>
                     ) : (
-                      <p>לא דחוף</p>
+                      <p>{dict.post.fourUrgent}</p>
                     )}
                   </span>
                 </small>
@@ -142,7 +146,6 @@ export default function PostCard({
                     clipRule="evenodd"
                   />
                 </svg>
-
                 {phone}
               </a>
             );
@@ -164,16 +167,16 @@ export default function PostCard({
                 })
             );
             toast({
-              title: 'המודעה הועתקה ללוח',
+              title: dict.post.copied,
             });
           }}
         >
           <Files className="ml-3" />
-          עותק
+          {dict.post.copy}
         </Button>
         {!open && (
           <AlertDialogTrigger className="w-full" asChild>
-            <Button className="w-full">לפתוח</Button>
+            <Button className="w-full">{dict.post.open}</Button>
           </AlertDialogTrigger>
         )}
       </CardFooter>

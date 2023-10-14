@@ -16,11 +16,12 @@ import { Input } from '@/components/ui/input';
 import { ComboBox } from '@/components/ComboBox';
 import { Textarea } from '@/components/ui/textarea';
 import { Toggle } from '@/components/ui/toggle';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database, PostInsert } from '@/lib/supabase';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Context, ContextType } from '@/components/MainPage';
 
 interface ImportanceType {
   name: string;
@@ -64,6 +65,7 @@ export const formSchema = z.object({
 
 export default function NewPostForm(props: PropsType) {
   const { needHelp, activeFilter, activeOption, supabase, setCreateMode } = props;
+  const { dict } = useContext(Context) as ContextType;
   const { getValues, reset, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,15 +78,12 @@ export default function NewPostForm(props: PropsType) {
     },
   });
   const timeOptions = [
-    { name: 'שעה 1', urgency: 1 },
-    { name: '12 שעות', urgency: 2 },
-    { name: '24 שעות', urgency: 3 },
-    { name: 'לא דחוף', urgency: 0 },
+    { name: dict.form.oneUrgent, urgency: 1 },
+    { name: dict.form.twoUrgent, urgency: 2 },
+    { name: dict.form.threeUrgent, urgency: 3 },
+    { name: dict.form.fourUrgent, urgency: 0 },
   ];
-  const [activeToggle, setActiveToggle] = useState<ImportanceType>({
-    name: 'לא דחוף',
-    urgency: 0,
-  });
+  const [activeToggle, setActiveToggle] = useState<ImportanceType>(timeOptions[3]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { phone, ...restValues } = values;
@@ -119,9 +118,9 @@ export default function NewPostForm(props: PropsType) {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>שם מלא</FormLabel>
+                <FormLabel>{dict.form.fName}</FormLabel>
                 <FormControl>
-                  <Input placeholder="שם מלא" {...field} />
+                  <Input placeholder={dict.form.fName} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -132,7 +131,7 @@ export default function NewPostForm(props: PropsType) {
             name="area"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>אזור</FormLabel>
+                <FormLabel>{dict.form.area}</FormLabel>
                 <FormControl>
                   <ComboBox setOuterValue={setValue} />
                 </FormControl>
@@ -146,9 +145,9 @@ export default function NewPostForm(props: PropsType) {
               name="phone"
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>טלפון</FormLabel>
+                  <FormLabel>{dict.form.phone}</FormLabel>
                   <FormControl>
-                    <Input placeholder="טלפון" {...field} />
+                    <Input placeholder={dict.form.phone} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -166,11 +165,11 @@ export default function NewPostForm(props: PropsType) {
                     style={{ direction: 'ltr' }}
                   >
                     <Label htmlFor="military" className="m-0">
-                      אזרחי
+                      {dict.form.civil}
                     </Label>
                     <Switch id="military" onCheckedChange={field.onChange} checked={field.value} />
                     <Label htmlFor="military" className="m-0">
-                      צבאי
+                      {dict.form.military}
                     </Label>
                   </div>
                   <FormMessage />
@@ -211,10 +210,12 @@ export default function NewPostForm(props: PropsType) {
             name="description"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>תיאור</FormLabel>
+                <FormLabel>{dict.form.textArea}</FormLabel>
                 <FormControl>
                   <Textarea
-                    placeholder={needHelp ? 'במה את/ה צריכ/ה עזרה?' : 'במה את/ה יכול/ה לעזור?'}
+                    placeholder={
+                      needHelp ? dict.form.textPlaceholderNeed : dict.form.textPlaceholder
+                    }
                     className="resize-none"
                     {...field}
                   />
@@ -224,11 +225,9 @@ export default function NewPostForm(props: PropsType) {
             )}
           />
           <p className="mt-1 mb-3 text-sm text-muted-foreground">
-            {needHelp
-              ? 'כתוב בקצרה ובצורה ברורה במה את/ה צריכ/ה עזרה'
-              : 'כתוב בקצרה ובצורה ברורה במה את/ה יכול/ה לעזור'}
+            {needHelp ? dict.form.textFooterNeed : dict.form.textFooter}
           </p>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{dict.form.submit}</Button>
         </div>
       </form>
     </Form>

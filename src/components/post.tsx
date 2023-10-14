@@ -1,9 +1,10 @@
 'use client';
 
 import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import PostCard from './ui/postCard';
 import { X } from 'lucide-react';
+import { Context, ContextType } from '@/components/MainPage';
 
 interface postProps {
   id: number;
@@ -31,6 +32,7 @@ export default function Post({
   urgency,
 }: postProps) {
   const [open, setOpen] = useState<boolean>(false);
+  const { dict } = useContext(Context) as ContextType;
 
   return (
     <>
@@ -51,7 +53,7 @@ export default function Post({
         <AlertDialogContent className="pt-11">
           <AlertDialogTrigger className="absolute top-[10px] right-[24px] gap-2 flex rounded-md bg-gray-200 px-2 hover:bg-gray-300">
             <X />
-            <p>לסגור</p>
+            <p>{dict.post.close}</p>
           </AlertDialogTrigger>
           <PostCard
             area={area}

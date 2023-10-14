@@ -1,6 +1,7 @@
 import { Toggle } from '@/components/ui/toggle';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction, useContext } from 'react';
 import { ComboBox } from '@/components/ComboBox';
+import { Context, ContextType } from '@/components/MainPage';
 
 interface FilterType {
   name: string;
@@ -25,39 +26,49 @@ export default function Filters({
   setSelectedArea,
   createMode,
 }: PropsType) {
+  const { dict } = useContext(Context) as ContextType;
   const filters: FilterType[] = [
     {
-      name: 'מיגורים',
-      options: ['בן אדם 1', '1-3 אנשים', '3-10 אנשים', 'יותר מ-10 אנשים'],
-      description: 'מתן פתרונות מגורים',
+      name: dict.filters.housing,
+      options: [
+        dict.subFilters.onePerson,
+        dict.subFilters.twoPeople,
+        dict.subFilters.threePeople,
+        dict.subFilters.fourPeople,
+      ],
+      description: dict.filtersText.housingText,
     },
     {
-      name: 'מזון',
+      name: dict.filters.food,
       options: [],
-      description: 'עזרה במציאת מזון, משלוח מזון',
+      description: dict.filtersText.foodText,
     },
     {
-      name: 'בעלי חיים',
-      options: ['חיה 1', '2 חיות', '3+ חיות'],
-      description: 'מציאת מקלט לחיות מחמד חסרות בית וחיפוש עבור סיוע תרופת',
+      name: dict.filters.animals,
+      options: [
+        dict.subFilters.oneAnimal,
+        dict.subFilters.twoAnimals,
+        dict.subFilters.threeAnimals,
+      ],
+      description: dict.filtersText.animalsText,
     },
-    { name: 'ילדים', options: [], description: 'במציאת מזון לתינוקות וחלב אם' },
-    { name: 'עזרה נפשית', options: [], description: 'עזרה נפשית למי שצריך' },
+    { name: dict.filters.children, options: [], description: dict.filtersText.childrenText },
+    { name: dict.filters.mental, options: [], description: dict.filtersText.mentalText },
     {
-      name: 'הסעות',
+      name: dict.filters.tramps,
       options: [],
-      description: 'חיפוש טראמף, סיוע במעבר בתוך הארץ',
+      description: dict.filtersText.trampsText,
     },
     {
-      name: 'הובלות',
+      name: dict.filters.transportation,
       options: [],
-      description: 'סיוע בהובלת סחורות, תרומות',
+      description: dict.filtersText.transportationText,
     },
-    { name: 'ביגוד', options: [], description: 'תרומת חפצים' },
-    { name: 'אחר', options: [], description: '' },
+    { name: dict.filters.clothing, options: [], description: dict.filtersText.clothingText },
+    { name: dict.filters.other, options: [], description: dict.filtersText.otherText },
   ];
-
   const selectedFilter = filters.find((key) => key.name === activeToggle);
+
   return (
     <div className="w-full">
       {!createMode && (

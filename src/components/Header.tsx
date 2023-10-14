@@ -52,7 +52,7 @@ export default function Header({ children }: { children: ReactNode }) {
         <div className="flex gap-6 items-center">
           {children}
           <Link href="https://am-1.org.il/" target="_blank">
-            <Button variant="ghost">{dict?.header?.amEhad}</Button>
+            <Button variant="ghost">{dict.header.amEhad}</Button>
           </Link>
           {/* <Button variant="ghost">ארגוני מתנדבים</Button> */}
           {/* <Button variant="ghost">מידע</Button> */}

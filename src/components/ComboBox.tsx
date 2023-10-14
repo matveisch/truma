@@ -11,41 +11,11 @@ import {
   CommandItem,
 } from '@/components/ui/command';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
 import * as z from 'zod';
 import { formSchema } from '@/components/NewPostForm';
-
-const areas = [
-  {
-    value: 'North',
-    label: 'צפון',
-  },
-  {
-    value: 'Haifa',
-    label: 'חיפה',
-  },
-  {
-    value: 'Center',
-    label: 'מרכז',
-  },
-  {
-    value: 'Tel Aviv',
-    label: 'תל אביב',
-  },
-  {
-    value: 'Jerusalem',
-    label: 'ירושלים',
-  },
-  {
-    value: 'South',
-    label: 'דרום',
-  },
-  {
-    value: 'Judea and Samaria',
-    label: 'יהודה ושומרון',
-  },
-];
+import { Context, ContextType } from '@/components/MainPage';
 
 interface PropsType {
   setOuterValue?: UseFormSetValue<z.infer<typeof formSchema>>;
@@ -53,8 +23,40 @@ interface PropsType {
 }
 
 export function ComboBox({ setOuterValue, setArea }: PropsType) {
+  const { dict } = useContext(Context) as ContextType;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
+
+  const areas = [
+    {
+      value: 'North',
+      label: dict.misc.north,
+    },
+    {
+      value: 'Haifa',
+      label: dict.misc.haifa,
+    },
+    {
+      value: 'Center',
+      label: dict.misc.center,
+    },
+    {
+      value: 'Tel Aviv',
+      label: dict.misc.telAviv,
+    },
+    {
+      value: 'Jerusalem',
+      label: dict.misc.jerusalem,
+    },
+    {
+      value: 'South',
+      label: dict.misc.south,
+    },
+    {
+      value: 'Judea and Samaria',
+      label: dict.misc.yehuda,
+    },
+  ];
 
   useEffect(() => {
     if (value && setOuterValue) setOuterValue('area', value, { shouldValidate: true });
@@ -79,7 +81,7 @@ export function ComboBox({ setOuterValue, setArea }: PropsType) {
           aria-expanded={open}
           className="w-full justify-between border-slate-400"
         >
-          {value ? value : 'בחר אזור'}
+          {value ? value : dict.misc.choose}
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
