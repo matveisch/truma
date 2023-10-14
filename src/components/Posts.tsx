@@ -27,10 +27,6 @@ export default function Posts(props: PostsProps) {
   const [isLoading, setIsLoading] = useState(true);
   const { dict } = useContext(Context) as ContextType;
 
-  function filterBySubcategory(posts: PostRow[]) {
-    return posts.filter((post) => post.subcategory === activeOption);
-  }
-
   useEffect(() => {
     async function getData() {
       let query = supabase.from('posts').select().eq('need_help', needHelp).limit(pageLength);
@@ -43,6 +39,10 @@ export default function Posts(props: PostsProps) {
         query = query.filter('category', 'eq', activeToggle);
       }
 
+      if (activeOption) {
+        query = query.filter('subcategory', 'eq', activeOption);
+      }
+
       const { data: posts, error } = await query;
       console.log(error?.message); //todo: deal with errors
       return posts;
@@ -53,15 +53,7 @@ export default function Posts(props: PostsProps) {
       setIsLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageLength, needHelp, selectedArea, activeToggle]);
-
-  useEffect(() => {
-    let result: PostRow[] | null = backendPosts;
-    if (result && activeOption) result = filterBySubcategory(result);
-
-    setFilteredPosts(result);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeOption, activeToggle, needHelp, selectedArea]);
+  }, [pageLength, needHelp, selectedArea, activeToggle, activeOption]);
 
   useEffect(() => {
     setPageLength(PAGE_LENGTH);
