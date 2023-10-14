@@ -82,7 +82,8 @@
     "allowPublication": "אני מאשר את פרסום מספר הטלפון וכל מידע אחר",
     "allowPublication1": "אני מסכים",
     "allowPublication2": "לתנאי השימוש",
-    "allowPublication3": "ולמדיניות הפרטיות"
+    "allowPublication3": "",
+    "allowPublication4": "ולמדיניות הפרטיות"
   },
   "misc": {
     "inTotal": "בסך הכל",

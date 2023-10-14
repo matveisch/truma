@@ -80,9 +80,10 @@
     "mustBeFilled": "Не должно быть пустым",
     "tooLong": "Значение слишком длинное",
     "allowPublication": "Я разрешаю к публикации номер телефона и остальную заполненную информацию",
-    "allowPublication1": "אני מסכים",
-    "allowPublication2": "לתנאי השימוש",
-    "allowPublication3": "ולמדיניות הפרטיות"
+    "allowPublication1": "Я соглашаюсь с",
+    "allowPublication2": "условиями использования",
+    "allowPublication3": "и",
+    "allowPublication4": "политикой конфиденциальности"
   },
   "misc": {
     "all": "Вся страна",

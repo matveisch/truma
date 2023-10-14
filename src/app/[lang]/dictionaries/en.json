@@ -81,10 +81,10 @@
     "mustBeFilled": "Must be filled",
     "tooLong": "The value is too long",
     "allowPublication": "I allow the publication of the phone number and the rest of the filled information",
-    "allowPublication1": "אני מסכים",
-    "allowPublication2": "לתנאי השימוש",
-    "allowPublication3": "ולמדיניות הפרטיות",
-    "allowPublication4": ""
+    "allowPublication1": "I agree to the",
+    "allowPublication2": "terms of use",
+    "allowPublication3": "and",
+    "allowPublication4": "privacy policy"
   },
   "misc": {
     "all": "Whole country",

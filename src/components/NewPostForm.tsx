@@ -238,11 +238,15 @@ export default function NewPostForm(props: PropsType) {
                   className="mr-2 text-sm mt-0 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   {dict.form.allowPublication1 + ' '}
-                  <Link href={'/'} className="underline text-blue-800 hover:text-blue-400">
+                  <Link
+                    href={'/[lang]/terms/page.tsx'}
+                    className="underline text-blue-800 hover:text-blue-400"
+                  >
                     {dict.form.allowPublication2}
-                  </Link>{' '}
-                  <Link href={'/'} className="underline text-blue-800 hover:text-blue-400">
-                    {dict.form.allowPublication3 + ' '}
+                  </Link>
+                  {' ' + dict.form.allowPublication3 + ' '}
+                  <Link href={'/privacy'} className="underline text-blue-800 hover:text-blue-400">
+                    {dict.form.allowPublication4}
                   </Link>
                 </label>
               </div>
