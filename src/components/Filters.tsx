@@ -4,6 +4,7 @@ import { ComboBox } from '@/components/ComboBox';
 import { Context, ContextType } from '@/components/MainPage';
 
 interface FilterType {
+  value: string;
   name: string;
   options: string[];
   description: string;
@@ -29,6 +30,7 @@ export default function Filters({
   const { dict } = useContext(Context) as ContextType;
   const filters: FilterType[] = [
     {
+      value: 'housing',
       name: dict.filters.housing,
       options: [
         dict.subFilters.onePerson,
@@ -39,11 +41,13 @@ export default function Filters({
       description: dict.filtersText.housingText,
     },
     {
+      value: 'food',
       name: dict.filters.food,
       options: [],
       description: dict.filtersText.foodText,
     },
     {
+      value: 'animals',
       name: dict.filters.animals,
       options: [
         dict.subFilters.oneAnimal,
@@ -52,22 +56,44 @@ export default function Filters({
       ],
       description: dict.filtersText.animalsText,
     },
-    { name: dict.filters.children, options: [], description: dict.filtersText.childrenText },
-    { name: dict.filters.mental, options: [], description: dict.filtersText.mentalText },
     {
+      value: 'children',
+      name: dict.filters.children,
+      options: [],
+      description: dict.filtersText.childrenText,
+    },
+    {
+      value: 'mental',
+      name: dict.filters.mental,
+      options: [],
+      description: dict.filtersText.mentalText,
+    },
+    {
+      value: 'tramps',
       name: dict.filters.tramps,
       options: [],
       description: dict.filtersText.trampsText,
     },
     {
+      value: 'transportation',
       name: dict.filters.transportation,
       options: [],
       description: dict.filtersText.transportationText,
     },
-    { name: dict.filters.clothing, options: [], description: dict.filtersText.clothingText },
-    { name: dict.filters.other, options: [], description: dict.filtersText.otherText },
+    {
+      value: 'clothing',
+      name: dict.filters.clothing,
+      options: [],
+      description: dict.filtersText.clothingText,
+    },
+    {
+      value: 'other',
+      name: dict.filters.other,
+      options: [],
+      description: dict.filtersText.otherText,
+    },
   ];
-  const selectedFilter = filters.find((key) => key.name === activeToggle);
+  const selectedFilter = filters.find((key) => key.value === activeToggle);
 
   return (
     <div className="w-full">
@@ -82,14 +108,14 @@ export default function Filters({
           <Toggle
             size={'lg'}
             className="text-lg w-fit whitespace-nowrap"
-            pressed={activeToggle === filter.name}
-            key={`${filter.name}-${index}`}
+            pressed={activeToggle === filter.value}
+            key={`${filter.value}-${index}`}
             variant="outline"
             onClick={() => {
-              if (filter.name === activeToggle) {
+              if (filter.value === activeToggle) {
                 setActiveToggle(null);
               } else {
-                setActiveToggle(filter.name);
+                setActiveToggle(filter.value);
               }
               setActiveOption(null);
             }}

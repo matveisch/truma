@@ -16,6 +16,7 @@ import { UseFormSetValue } from 'react-hook-form';
 import * as z from 'zod';
 import { formSchema } from '@/components/NewPostForm';
 import { Context, ContextType } from '@/components/MainPage';
+import AreasData from '@/lib/AreasData';
 
 interface PropsType {
   setOuterValue?: UseFormSetValue<z.infer<typeof formSchema>>;
@@ -25,52 +26,24 @@ interface PropsType {
 export function ComboBox({ setOuterValue, setArea }: PropsType) {
   const { dict } = useContext(Context) as ContextType;
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
-
-  const areas = [
-    {
-      value: 'North',
-      label: dict.misc.north,
-    },
-    {
-      value: 'Haifa',
-      label: dict.misc.haifa,
-    },
-    {
-      value: 'Center',
-      label: dict.misc.center,
-    },
-    {
-      value: 'Tel Aviv',
-      label: dict.misc.telAviv,
-    },
-    {
-      value: 'Jerusalem',
-      label: dict.misc.jerusalem,
-    },
-    {
-      value: 'South',
-      label: dict.misc.south,
-    },
-    {
-      value: 'Judea and Samaria',
-      label: dict.misc.yehuda,
-    },
-  ];
+  const [value, setValue] = useState<{ value: string; label: string } | null>(null);
+  const areas = AreasData();
 
   useEffect(() => {
-    if (value && setOuterValue) setOuterValue('area', value, { shouldValidate: true });
+    if (value && setOuterValue) setOuterValue('area', value.value, { shouldValidate: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
   useEffect(() => {
     if (value && setArea) {
-      setArea(value);
+      setArea(value.value);
     } else {
       setArea && setArea('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
+
+  console.log({ value });
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -81,27 +54,30 @@ export function ComboBox({ setOuterValue, setArea }: PropsType) {
           aria-expanded={open}
           className="w-full justify-between border-slate-400"
         >
-          {value ? value : dict.misc.choose}
+          {value ? value.label : dict.misc.choose}
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="חיפוש" />
+          <CommandInput placeholder={dict.misc.search} />
           <CommandEmpty>No framework found.</CommandEmpty>
           <CommandGroup>
             {areas.map((area) => (
               <CommandItem
                 key={area.value}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? '' : currentValue);
+                onSelect={() => {
+                  setValue(area?.value === value?.value ? null : area);
                   setOpen(false);
                 }}
               >
                 <Check
-                  className={cn('h-4 w-4', value === area.value ? 'opacity-100' : 'opacity-0')}
+                  className={cn(
+                    'h-4 w-4',
+                    value?.value === area.value ? 'opacity-100' : 'opacity-0'
+                  )}
                 />
-                {area.label}
+                {dict.misc[area.value]}
               </CommandItem>
             ))}
           </CommandGroup>

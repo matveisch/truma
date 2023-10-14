@@ -7,6 +7,7 @@ import { Files } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { useContext } from 'react';
 import { Context, ContextType } from '@/components/MainPage';
+import AreasData from '@/lib/AreasData';
 interface postProps {
   name: string;
   area: string;
@@ -40,6 +41,8 @@ export default function PostCard({
 }: postProps) {
   const { toast } = useToast();
   const { dict } = useContext(Context) as ContextType;
+  const areas = AreasData();
+  const postArea = areas.find((areaItem) => areaItem.value === area);
 
   return (
     <Card
@@ -57,7 +60,7 @@ export default function PostCard({
       <div>
         {need_help && (
           <div className={'w-full rounded-md ' + (military ? 'bg-green-200' : 'bg-blue-200')}>
-            <p className=" text-center">{military ? 'צבאי' : 'אזרחי'}</p>
+            <p className=" text-center">{military ? dict.post.military : dict.post.civil}</p>
           </div>
         )}
         <CardHeader>
@@ -77,7 +80,7 @@ export default function PostCard({
                   clipRule="evenodd"
                 />
               </svg>
-              <p>{area}</p>
+              <p>{postArea?.label}</p>
               {date && (
                 <div className="flex gap-2 align-middle">
                   <Separator orientation="vertical" className="h-5" />
