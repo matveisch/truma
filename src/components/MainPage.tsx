@@ -31,6 +31,16 @@ export default function MainPage({ dict, lang }: { dict: any; lang: 'en' | 'ru' 
   const supabase = createClient<Database>(supabaseUrl, supabaseKey || '');
 
   useEffect(() => {
+    document.documentElement.lang = lang;
+
+    if (lang === 'he') {
+      document.documentElement.dir = 'rtl';
+    } else {
+      document.documentElement.dir = 'ltr';
+    }
+  }, [lang]);
+
+  useEffect(() => {
     setActiveToggle(null);
   }, [createMode, needHelp]);
 
