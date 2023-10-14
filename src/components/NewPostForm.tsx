@@ -26,6 +26,7 @@ import FormSchema from '@/lib/FormSchema';
 import { verifyCaptcha } from '../../ServerActions';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Checkbox } from '@/components/ui/checkbox';
+import Link from 'next/link';
 
 interface ImportanceType {
   name: string;
@@ -217,12 +218,13 @@ export default function NewPostForm(props: PropsType) {
             {needHelp ? dict.form.textFooterNeed : dict.form.textFooter}
           </p>
           <div className="flex items-center gap-3 flex-wrap">
-            <ReCAPTCHA
-              // style={{ transform: 'scale(0.8)', transformOrigin: '0 0' }}
+            {/* <ReCAPTCHA
+              //style={{ transform: 'scale(0.8)', transformOrigin: '0 0' }}
+              
               sitekey={process.env.RECAPTCHA_SITE_KEY || ''}
               ref={recaptchaRef}
               onChange={handleCaptchaSubmission}
-            />
+            /> */}
             <div className="items-top flex space-x-2 w-full">
               <Checkbox
                 id="terms1"
@@ -235,7 +237,13 @@ export default function NewPostForm(props: PropsType) {
                   htmlFor="terms1"
                   className="mr-2 text-sm mt-0 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
-                  {dict.form.allowPublication}
+                  {dict.form.allowPublication1 + ' '}
+                  <Link href={'/'} className="underline text-blue-800 hover:text-blue-400">
+                    {dict.form.allowPublication2}
+                  </Link>{' '}
+                  <Link href={'/'} className="underline text-blue-800 hover:text-blue-400">
+                    {dict.form.allowPublication3 + ' '}
+                  </Link>
                 </label>
               </div>
             </div>

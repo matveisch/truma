@@ -79,7 +79,10 @@
     "submit": "לפרסם",
     "mustBeFilled": "שדה חובה",
     "tooLong": "ארוך מדי",
-    "allowPublication": "אני מאשר את פרסום מספר הטלפון וכל מידע אחר"
+    "allowPublication": "אני מאשר את פרסום מספר הטלפון וכל מידע אחר",
+    "allowPublication1": "אני מסכים",
+    "allowPublication2": "לתנאי השימוש",
+    "allowPublication3": "ולמדיניות הפרטיות"
   },
   "misc": {
     "inTotal": "בסך הכל",

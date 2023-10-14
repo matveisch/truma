@@ -55,9 +55,9 @@ export default function Filters({
         className={
           'w-full mt-5 relative transition-all duration-200 ' +
           (selectedFilter?.options.length && selectedFilter?.options.length > 0
-            ? 'h-[100px]'
+            ? 'h-fit'
             : selectedFilter != null
-            ? 'h-12'
+            ? 'h-fit'
             : 'h-0')
         }
       >

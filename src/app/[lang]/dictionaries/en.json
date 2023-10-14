@@ -80,7 +80,11 @@
     "submit": "Publish",
     "mustBeFilled": "Must be filled",
     "tooLong": "The value is too long",
-    "allowPublication": "I allow the publication of the phone number and the rest of the filled information"
+    "allowPublication": "I allow the publication of the phone number and the rest of the filled information",
+    "allowPublication1": "אני מסכים",
+    "allowPublication2": "לתנאי השימוש",
+    "allowPublication3": "ולמדיניות הפרטיות",
+    "allowPublication4": ""
   },
   "misc": {
     "all": "Whole country",
