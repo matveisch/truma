@@ -1,8 +1,8 @@
-import { Card, CardContent, CardTitle, CardHeader, CardFooter } from './card';
-import { Button } from './button';
-import { Separator } from './separator';
-import { ScrollArea } from './scroll-area';
-import { AlertDialogTrigger } from './alert-dialog';
+import { Card, CardContent, CardTitle, CardHeader, CardFooter } from './ui/card';
+import { Button } from './ui/button';
+import { Separator } from './ui/separator';
+import { ScrollArea } from './ui/scroll-area';
+import { AlertDialogTrigger } from './ui/alert-dialog';
 import { Files, Phone } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { useContext } from 'react';
@@ -41,7 +41,7 @@ export default function PostCard({
   open,
 }: postProps) {
   const { toast } = useToast();
-  const { dict } = useContext(Context) as ContextType;
+  const { dict, lang } = useContext(Context) as ContextType;
   const areas = AreasData();
   const postArea = areas.find((areaItem) => areaItem.value === area);
   const filters = FiltersData();
@@ -80,7 +80,9 @@ export default function PostCard({
           <p className="text-xs text-slate-500">
             {getFilterName(category) + getSubFilterName(category, subCategory)}
           </p>
-          <CardTitle className="ml-auto">{name}</CardTitle>
+          <div className="flex">
+            <CardTitle>{name}</CardTitle>
+          </div>
           <CardContent className="p-0 text-slate-500">
             <div className="flex items-center gap-1">
               <svg
@@ -132,12 +134,14 @@ export default function PostCard({
         </CardHeader>
         <CardContent>
           <div className={'' + (open ? 'border-gray-300 border-2 rounded-md p-2' : '')}>
-            <ScrollArea type="always" dir="rtl" className={'pl-6 ' + (open ? 'h-52' : 'h-fit')}>
+            <ScrollArea type="always" className={'flex' + (open ? 'h-52' : 'h-fit')}>
               <p
-                className={
-                  'text-right ' + (open ? 'max-h-full' : 'h-fit overflow-hidden text-ellipsis')
+                className={'' + (open ? 'max-h-full' : 'h-fit overflow-hidden text-ellipsis')}
+                style={
+                  lang === 'he'
+                    ? { textAlign: 'end' }
+                    : { display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical' }
                 }
-                style={{ display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical' }}
               >
                 {description}
               </p>
@@ -156,7 +160,6 @@ export default function PostCard({
                   className="flex items-center gap-1 border-2 w-fit p-2 rounded-md hover:bg-slate-100"
                 >
                   <Phone className="w-4 h-4" />
-
                   {phone}
                 </a>
                 <a
