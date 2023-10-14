@@ -233,7 +233,7 @@ export default function NewPostForm(props: PropsType) {
               <div>
                 <label
                   htmlFor="terms1"
-                  className="text-sm mt-0 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="mr-2 text-sm mt-0 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   {dict.form.allowPublication}
                 </label>
