@@ -137,11 +137,7 @@ export default function PostCard({
             <ScrollArea type="always" className={'flex' + (open ? 'h-52' : 'h-fit')}>
               <p
                 className={'' + (open ? 'max-h-full' : 'h-fit overflow-hidden text-ellipsis')}
-                style={
-                  lang === 'he'
-                    ? { textAlign: 'end' }
-                    : { display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical' }
-                }
+                style={{ display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical' }}
               >
                 {description}
               </p>
