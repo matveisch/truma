@@ -122,7 +122,7 @@ export default function NewPostForm(props: PropsType) {
                 <FormItem className="w-full">
                   <FormLabel>{dict.form.phone}</FormLabel>
                   <FormControl>
-                    <Input placeholder={dict.form.phone} {...field} type="number" />
+                    <Input placeholder={dict.form.phone} {...field} type="phone" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
