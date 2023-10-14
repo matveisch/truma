@@ -24,13 +24,14 @@ export default function Filters({
   const selectedFilter = filters.find((key) => key.value === activeToggle);
 
   const subfilterRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<number>(2);
+  const textRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number>(0);
   useEffect(() => {
-    subfilterRef.current != null
-      ? //console.log(subfilterRef)
-        setHeight(subfilterRef.current.clientHeight + 28)
+    subfilterRef.current != null && textRef.current != null
+      ? setHeight(subfilterRef.current.offsetHeight + textRef.current.offsetHeight)
       : undefined;
-    console.log(height);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFilter]);
   return (
     <div className="w-full">
@@ -62,10 +63,12 @@ export default function Filters({
       </div>
       <div
         className={
-          'mt-5 relative transition-all duration-200 h-[' +
-          (subfilterRef.current ? subfilterRef.current.clientHeight : 0) +
-          'px]'
+          'mt-5 relative transition-all duration-200 overflow-hidden'
+          // h-[' +
+          // (subfilterRef.current ? subfilterRef.current.clientHeight : 0) +
+          // 'px]'
         }
+        style={{ height: height }}
         //selectedFilter != null
         // ? 'h-fit'
         // : 'h-0')
@@ -100,7 +103,9 @@ export default function Filters({
             </div>
           ))}
         </div>
-        <h2 className="mt-2 w-full text-xl">{selectedFilter?.description}</h2>
+        <h2 ref={textRef} className=" w-full text-xl">
+          {selectedFilter?.description}
+        </h2>
       </div>
     </div>
   );
