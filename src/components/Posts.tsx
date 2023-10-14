@@ -79,9 +79,7 @@ export default function Posts(props: PostsProps) {
     <div className="w-full">
       {isLoading && <Skeletons amount={6} />}
       {!isLoading && (
-        <p className="text-s text-slate-500 ml-auto mt-10 mb-2">
-          בסך הכל {filteredPosts?.length} מודעות
-        </p>
+        <p className="text-s text-slate-500 ml-auto mt-10 mb-2">סה"כ: {filteredPosts?.length}</p>
       )}
 
       <div className="relative pb-24  grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
