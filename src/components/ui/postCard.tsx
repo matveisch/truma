@@ -146,6 +146,8 @@ export default function PostCard({
         </CardContent>
         <CardContent className="flex flex-col gap-1">
           {phones.map((phone, index) => {
+            let phoneLink = phone.slice(0, 3) == '972' ? phone : '972' + phone.slice(1);
+
             return (
               <div className="flex gap-2" key={index}>
                 <a
@@ -157,7 +159,8 @@ export default function PostCard({
                   {phone}
                 </a>
                 <a
-                  href={'https://api.whatsapp.com/send?phone=' + phone}
+                  target="_blank"
+                  href={'https://api.whatsapp.com/send?phone=' + phoneLink}
                   className="flex items-center gap-1 border-2 w-fit p-2 rounded-md hover:bg-slate-100"
                 >
                   <svg

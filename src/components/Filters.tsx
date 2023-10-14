@@ -67,8 +67,10 @@ export default function Filters({
                   }
                 }}
                 className={
-                  'py-2 px-2 rounded-md cursor-pointer whitespace-nowrap w-max' +
-                  (option.value === activeOption ? 'bg-blue-100' : 'hover:bg-slate-100')
+                  'py-2 px-2 rounded-md cursor-pointer whitespace-nowrap w-max ' +
+                  (option.value === activeOption
+                    ? 'bg-blue-100 hover:bg-blue-200'
+                    : 'hover:bg-slate-100')
                 }
               >
                 {option.label}
