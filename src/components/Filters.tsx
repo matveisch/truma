@@ -1,5 +1,5 @@
 import { Toggle } from '@/components/ui/toggle';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useRef, useState, useEffect } from 'react';
 import { ComboBox } from '@/components/ComboBox';
 import FiltersData from '@/lib/FiltersData';
 
@@ -22,7 +22,6 @@ export default function Filters({
 }: PropsType) {
   const filters = FiltersData();
   const selectedFilter = filters.find((key) => key.value === activeToggle);
-
   const subfilterRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number>(0);
@@ -62,17 +61,8 @@ export default function Filters({
         ))}
       </div>
       <div
-        className={
-          'mt-5 relative transition-all duration-200 overflow-hidden'
-          // h-[' +
-          // (subfilterRef.current ? subfilterRef.current.clientHeight : 0) +
-          // 'px]'
-        }
+        className={'mt-5 relative transition-all duration-200 overflow-hidden'}
         style={{ height: height }}
-        //selectedFilter != null
-        // ? 'h-fit'
-        // : 'h-0')
-        //}
       >
         <div ref={subfilterRef} className="flex gap-2 w-full pb-3 overflow-x-auto">
           {selectedFilter?.options.map((option, index) => (
