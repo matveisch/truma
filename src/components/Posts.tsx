@@ -4,9 +4,10 @@ import Post from '@/components/post';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import { Database, PostRow } from '@/lib/supabase';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import Skeletons from './Skeletons';
+import { Context, ContextType } from '@/components/MainPage';
 
 const PAGE_LENGTH = 15;
 
@@ -24,6 +25,7 @@ export default function Posts(props: PostsProps) {
   const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
   const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const { dict } = useContext(Context) as ContextType;
 
   function filterByCategory(posts: PostRow[]) {
     return posts.filter((post) => post.category === activeToggle);
@@ -79,7 +81,9 @@ export default function Posts(props: PostsProps) {
     <div className="w-full">
       {isLoading && <Skeletons amount={6} />}
       {!isLoading && (
-        <p className="text-s text-slate-500 ml-auto mt-10 mb-2">סה"כ: {filteredPosts?.length}</p>
+        <p className="text-s text-slate-500 ml-auto mt-2 mb-2">
+          {dict.misc.inTotal}: {filteredPosts?.length}
+        </p>
       )}
 
       <div className="relative pb-24  grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
@@ -114,9 +118,9 @@ export default function Posts(props: PostsProps) {
             {isLoading ? (
               <Loader2 className="animate-spin" />
             ) : filteredPosts && filteredPosts?.length === pageLength ? (
-              'Load more posts'
+              dict.misc.loadMore
             ) : (
-              'No more posts'
+              dict.misc.noMore
             )}
           </Button>
         </div>

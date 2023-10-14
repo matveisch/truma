@@ -72,9 +72,12 @@
     "textPlaceholder": "במה את/ה יכול/ה לעזור?",
     "textFooterNeed": "כתוב בקצרה ובצורה ברורה במה את/ה צריכ/ה עזרה",
     "textFooter": "כתוב בקצרה ובצורה ברורה במה את/ה יכול/ה לעזור",
-    "submit": "לפרסם"
+    "submit": "לפרסם",
+    "mustBeFilled": "",
+    "tooLong": ""
   },
   "misc": {
+    "inTotal": "בסך הכל",
     "loadMore": "טען עוד",
     "noMore": "אין יותר פרסומות",
     "jerusalem": "ירושלים",
