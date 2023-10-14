@@ -8,6 +8,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useContext } from 'react';
 import { Context, ContextType } from '@/components/MainPage';
 import AreasData from '@/lib/AreasData';
+import FiltersData from '@/lib/FiltersData';
 interface postProps {
   name: string;
   area: string;
@@ -43,6 +44,18 @@ export default function PostCard({
   const { dict } = useContext(Context) as ContextType;
   const areas = AreasData();
   const postArea = areas.find((areaItem) => areaItem.value === area);
+  const filters = FiltersData();
+
+  function getFilterName(value: string) {
+    const foundFilter = filters.find((filter) => filter.value === value);
+    return foundFilter ? foundFilter.name : '';
+  }
+
+  function getSubFilterName(value: string, subValue: string) {
+    const foundFilter = filters.find((filter) => filter.value === value);
+    const foundSubFilter = foundFilter?.options.find((option) => option.value === subValue);
+    return foundSubFilter ? foundSubFilter.label : '';
+  }
 
   return (
     <Card
@@ -64,7 +77,9 @@ export default function PostCard({
           </div>
         )}
         <CardHeader>
-          <p className="text-xs text-slate-500">{category + ', ' + subCategory}</p>
+          <p className="text-xs text-slate-500">
+            {getFilterName(category) + ', ' + getSubFilterName(category, subCategory)}
+          </p>
           <CardTitle className="ml-auto">{name}</CardTitle>
           <CardContent className="p-0 text-slate-500">
             <div className="flex items-center gap-1">

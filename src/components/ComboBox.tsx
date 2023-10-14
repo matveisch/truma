@@ -43,8 +43,6 @@ export function ComboBox({ setOuterValue, setArea }: PropsType) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  console.log({ value });
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
