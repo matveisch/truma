@@ -80,9 +80,7 @@ export default function MainPage({ dict, lang }: { dict: any; lang: 'en' | 'ru' 
 
         {createMode && (
           <>
-            <p className="text-3xl ml-auto">
-              בחר את הקטגוריה שבה {needHelp ? 'צריך' : 'מציע'} עזרה
-            </p>
+            <p className="text-3xl ml-auto">{needHelp ? dict.form.title : dict.form.toHelpTitle}</p>
             <Filters
               createMode={createMode}
               activeToggle={activeToggle}

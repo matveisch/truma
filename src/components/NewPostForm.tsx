@@ -88,7 +88,7 @@ export default function NewPostForm(props: PropsType) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { phone, ...restValues } = values;
     const dataToPost: PostInsert = {
-      category: activeFilter || 'אחר',
+      category: activeFilter || 'other',
       subcategory: activeOption || '',
       time: new Date().toISOString(),
       need_help: needHelp,

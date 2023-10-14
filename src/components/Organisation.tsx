@@ -1,8 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import PostCard from './ui/postCard';
-import { X } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
 
 interface orgProps {
@@ -13,7 +10,7 @@ interface orgProps {
   phones: string[];
   link: string;
 }
-export default function Organisation({ name, area, description, phones, link }: orgProps) {
+export default function Organisation({ name, area, description, phones }: orgProps) {
   return (
     <Card>
       <CardHeader>
