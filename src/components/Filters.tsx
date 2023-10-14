@@ -54,7 +54,7 @@ export default function Filters({
       </div>
 
       <div className="w-full mt-5">
-        <div className="flex gap-2 w-full">
+        <div className="flex gap-2 w-full  overflow-x-auto">
           {selectedFilter?.options.map((option, index) => (
             <div className=" flex justify-between align-middle gap-2" key={`${option}-${index}`}>
               <p
@@ -66,7 +66,7 @@ export default function Filters({
                   }
                 }}
                 className={
-                  'py-2 px-2 rounded-md cursor-pointer ' +
+                  'py-2 px-2 rounded-md cursor-pointer whitespace-nowrap w-max' +
                   (option.value === activeOption ? 'bg-blue-100' : 'hover:bg-slate-100')
                 }
               >
