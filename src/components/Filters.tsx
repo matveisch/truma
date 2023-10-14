@@ -1,5 +1,5 @@
 import { Toggle } from '@/components/ui/toggle';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import { ComboBox } from '@/components/ComboBox';
 import FiltersData from '@/lib/FiltersData';
 
@@ -23,6 +23,15 @@ export default function Filters({
   const filters = FiltersData();
   const selectedFilter = filters.find((key) => key.value === activeToggle);
 
+  const subfilterRef = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState<number>(2);
+  useEffect(() => {
+    subfilterRef.current != null
+      ? //console.log(subfilterRef)
+        setHeight(subfilterRef.current.clientHeight + 28)
+      : undefined;
+    console.log(height);
+  }, [selectedFilter]);
   return (
     <div className="w-full">
       {!createMode && (
@@ -53,15 +62,16 @@ export default function Filters({
       </div>
       <div
         className={
-          'w-full mt-5 relative transition-all duration-200 ' +
-          (selectedFilter?.options.length && selectedFilter?.options.length > 0
-            ? 'h-fit'
-            : selectedFilter != null
-            ? 'h-fit'
-            : 'h-0')
+          'mt-5 relative transition-all duration-200 h-[' +
+          (subfilterRef.current ? subfilterRef.current.clientHeight : 0) +
+          'px]'
         }
+        //selectedFilter != null
+        // ? 'h-fit'
+        // : 'h-0')
+        //}
       >
-        <div className="flex gap-2 w-full pb-3 overflow-x-auto">
+        <div ref={subfilterRef} className="flex gap-2 w-full pb-3 overflow-x-auto">
           {selectedFilter?.options.map((option, index) => (
             <div
               className="flex justify-between align-middle gap-2 w-fit"

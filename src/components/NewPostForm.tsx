@@ -43,7 +43,7 @@ interface PropsType {
 
 export default function NewPostForm(props: PropsType) {
   const { needHelp, activeFilter, activeOption, supabase, setCreateMode } = props;
-  const { dict } = useContext(Context) as ContextType;
+  const { dict, lang } = useContext(Context) as ContextType;
   const formSchema = FormSchema();
   const { getValues, reset, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -239,13 +239,18 @@ export default function NewPostForm(props: PropsType) {
                 >
                   {dict.form.allowPublication1 + ' '}
                   <Link
-                    href={'/[lang]/terms/page.tsx'}
+                    href={`/${lang}/terms`}
+                    target="_blank"
                     className="underline text-blue-800 hover:text-blue-400"
                   >
                     {dict.form.allowPublication2}
                   </Link>
                   {' ' + dict.form.allowPublication3 + ' '}
-                  <Link href={'/privacy'} className="underline text-blue-800 hover:text-blue-400">
+                  <Link
+                    href={`/${lang}/privacy`}
+                    target="_blank"
+                    className="underline text-blue-800 hover:text-blue-400"
+                  >
                     {dict.form.allowPublication4}
                   </Link>
                 </label>
