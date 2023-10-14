@@ -25,6 +25,7 @@ import { Context, ContextType } from '@/components/MainPage';
 import FormSchema from '@/lib/FormSchema';
 import { verifyCaptcha } from '../../ServerActions';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { Checkbox } from '@/components/ui/checkbox';
 
 interface ImportanceType {
   name: string;
@@ -64,6 +65,7 @@ export default function NewPostForm(props: PropsType) {
   const [activeToggle, setActiveToggle] = useState<ImportanceType>(timeOptions[3]);
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [isVerified, setIsverified] = useState<boolean>(false);
+  const [allowPublication, setAllowPublication] = useState(false);
 
   async function handleCaptchaSubmission(token: string | null) {
     // Server function to verify captcha
@@ -221,7 +223,23 @@ export default function NewPostForm(props: PropsType) {
               ref={recaptchaRef}
               onChange={handleCaptchaSubmission}
             />
-            <Button type="submit" disabled={!isVerified}>
+            <div className="items-top flex space-x-2 w-full">
+              <Checkbox
+                id="terms1"
+                className="mt-1"
+                checked={allowPublication}
+                onCheckedChange={() => setAllowPublication(!allowPublication)}
+              />
+              <div>
+                <label
+                  htmlFor="terms1"
+                  className="text-sm mt-0 font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {dict.form.allowPublication}
+                </label>
+              </div>
+            </div>
+            <Button type="submit" disabled={!isVerified || !allowPublication}>
               {dict.form.submit}
             </Button>
           </div>

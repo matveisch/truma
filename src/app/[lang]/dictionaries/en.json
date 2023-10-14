@@ -79,7 +79,8 @@
     "textFooter": "Write briefly and clearly how you can help",
     "submit": "Publish",
     "mustBeFilled": "Must be filled",
-    "tooLong": "The value is too long"
+    "tooLong": "The value is too long",
+    "allowPublication": "I allow the publication of the phone number and the rest of the filled information"
   },
   "misc": {
     "all": "Whole country",
