@@ -92,7 +92,7 @@ export default function NewPostForm(props: PropsType) {
       subcategory: activeOption || '',
       time: new Date().toISOString(),
       need_help: needHelp,
-      phones: [phone],
+      phones: [phone.toString()],
       ...restValues,
     };
 
@@ -147,7 +147,7 @@ export default function NewPostForm(props: PropsType) {
                 <FormItem className="w-full">
                   <FormLabel>{dict.form.phone}</FormLabel>
                   <FormControl>
-                    <Input placeholder={dict.form.phone} {...field} />
+                    <Input placeholder={dict.form.phone} {...field} type="number" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
