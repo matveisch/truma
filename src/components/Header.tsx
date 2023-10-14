@@ -29,13 +29,19 @@ function DropdownLanguage() {
       {/*todo: make direction dynamic*/}
       <DropdownMenuContent style={{ direction: 'rtl' }}>
         <DropdownMenuItem>
-          <Link href="/he">עברית</Link>
+          <Link href="/he" className="w-full">
+            עברית
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/en">English</Link>
+          <Link href="/en" className="w-full">
+            English
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Link href="/ru">Русский</Link>
+          <Link href="/ru" className="w-full">
+            Русский
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -78,7 +84,6 @@ export default function Header({ children }: { children: ReactNode }) {
               {/*<MenubarItem>*/}
               {/*  <Button variant="ghost">מידע</Button>*/}
               {/*</MenubarItem>*/}
-
               <MenubarItem>
                 <DropdownLanguage />
               </MenubarItem>
