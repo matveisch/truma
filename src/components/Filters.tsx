@@ -24,7 +24,7 @@ export default function Filters({
   const selectedFilter = filters.find((key) => key.value === activeToggle);
 
   return (
-    <div className="w-full min-h-[200px]">
+    <div className="w-full">
       {!createMode && (
         <div className="w-fit">
           <ComboBox setArea={setSelectedArea} />
@@ -51,7 +51,16 @@ export default function Filters({
           </Toggle>
         ))}
       </div>
-      <div className="w-full mt-5">
+      <div
+        className={
+          'w-full mt-5 relative transition-all duration-200 ' +
+          (selectedFilter?.options.length && selectedFilter?.options.length > 0
+            ? 'h-[100px]'
+            : selectedFilter != null
+            ? 'h-12'
+            : 'h-0')
+        }
+      >
         <div className="flex gap-2 w-full  overflow-x-auto">
           {selectedFilter?.options.map((option, index) => (
             <div
