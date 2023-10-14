@@ -22,8 +22,7 @@ interface PostsProps {
 export default function Posts(props: PostsProps) {
   const { needHelp, activeToggle, activeOption, supabase, selectedArea } = props;
   const [pageLength, setPageLength] = useState(PAGE_LENGTH);
-  const [backendPosts, setBackendPosts] = useState<PostRow[] | null>(null);
-  const [filteredPosts, setFilteredPosts] = useState<PostRow[] | null>(null);
+  const [posts, setPosts] = useState<PostRow[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { dict } = useContext(Context) as ContextType;
 
@@ -48,8 +47,7 @@ export default function Posts(props: PostsProps) {
       return posts;
     }
     getData().then((posts) => {
-      setBackendPosts(posts);
-      setFilteredPosts(posts);
+      setPosts(posts);
       setIsLoading(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,13 +62,13 @@ export default function Posts(props: PostsProps) {
       {isLoading && <Skeletons amount={6} />}
       {!isLoading && (
         <p className="text-s text-slate-500 ml-auto mt-2 mb-2">
-          {dict.misc.inTotal}: {filteredPosts?.length}
+          {dict.misc.inTotal}: {posts?.length}
         </p>
       )}
 
       <div className="relative pb-24  grid grid-cols-1 items-stretch gap-[20px] md:grid-cols-2 lg:grid-cols-3 w-full">
-        {filteredPosts &&
-          filteredPosts.map((post, index) => {
+        {posts &&
+          posts.map((post, index) => {
             return (
               <Post
                 key={post.name + index}
@@ -91,7 +89,7 @@ export default function Posts(props: PostsProps) {
         <div className="flex justify-center gap-[10px] w-full overflow-x-auto absolute bottom-7">
           <Button
             onClick={() => {
-              if (filteredPosts && filteredPosts?.length === pageLength) {
+              if (posts && posts?.length === pageLength) {
                 setPageLength(pageLength + PAGE_LENGTH);
                 setIsLoading(true);
               }
@@ -99,7 +97,7 @@ export default function Posts(props: PostsProps) {
           >
             {isLoading ? (
               <Loader2 className="animate-spin" />
-            ) : filteredPosts && filteredPosts?.length === pageLength ? (
+            ) : posts && posts?.length === pageLength ? (
               dict.misc.loadMore
             ) : (
               dict.misc.noMore
