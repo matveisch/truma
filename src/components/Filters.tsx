@@ -33,8 +33,8 @@ export default function Filters({
       <div className=" flex mt-3 gap-5 w-full items-ce overflow-x-auto overflow-y-hidden direction-alternate-reverse">
         {filters.map((filter, index) => (
           <Toggle
-            size={'lg'}
-            className="text-lg w-fit whitespace-nowrap"
+            size={'sm'}
+            className="text-sm sm:text-lg w-fit whitespace-nowrap"
             pressed={activeToggle === filter.value}
             key={`${filter.value}-${index}`}
             variant="outline"
