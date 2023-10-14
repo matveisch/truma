@@ -80,7 +80,9 @@ export default function MainPage({ dict, lang }: { dict: any; lang: 'en' | 'ru' 
 
         {createMode && (
           <>
-            <p className="text-3xl ml-auto">{needHelp ? dict.form.title : dict.form.toHelpTitle}</p>
+            <div className="flex justify-start w-full">
+              <p className="text-3xl">{needHelp ? dict.form.title : dict.form.toHelpTitle}</p>
+            </div>
             <Filters
               createMode={createMode}
               activeToggle={activeToggle}
