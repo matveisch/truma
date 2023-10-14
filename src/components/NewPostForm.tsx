@@ -45,6 +45,7 @@ export default function NewPostForm(props: PropsType) {
   const formSchema = FormSchema();
   const { getValues, reset, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: 'onChange',
     defaultValues: {
       name: '',
       area: '',
@@ -213,14 +214,16 @@ export default function NewPostForm(props: PropsType) {
           <p className="mt-1 mb-3 text-sm text-muted-foreground">
             {needHelp ? dict.form.textFooterNeed : dict.form.textFooter}
           </p>
-          <div className="flex items-center gap-3">
-            <Button type="submit">{dict.form.submit}</Button>
+          <div className="flex items-center gap-3 flex-wrap">
             <ReCAPTCHA
               // style={{ transform: 'scale(0.8)', transformOrigin: '0 0' }}
               sitekey={process.env.RECAPTCHA_SITE_KEY || ''}
               ref={recaptchaRef}
               onChange={handleCaptchaSubmission}
             />
+            <Button type="submit" disabled={!isVerified}>
+              {dict.form.submit}
+            </Button>
           </div>
         </div>
       </form>
