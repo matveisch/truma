@@ -54,7 +54,7 @@ export default function PostCard({
   function getSubFilterName(value: string, subValue: string) {
     const foundFilter = filters.find((filter) => filter.value === value);
     const foundSubFilter = foundFilter?.options.find((option) => option.value === subValue);
-    return foundSubFilter ? foundSubFilter.label : '';
+    return foundSubFilter ? ', ' + foundSubFilter.label : '';
   }
 
   return (
@@ -78,7 +78,7 @@ export default function PostCard({
         )}
         <CardHeader>
           <p className="text-xs text-slate-500">
-            {getFilterName(category) + ', ' + getSubFilterName(category, subCategory)}
+            {getFilterName(category) + getSubFilterName(category, subCategory)}
           </p>
           <CardTitle className="ml-auto">{name}</CardTitle>
           <CardContent className="p-0 text-slate-500">
