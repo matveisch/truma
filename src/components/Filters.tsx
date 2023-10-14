@@ -30,7 +30,7 @@ export default function Filters({
           <ComboBox setArea={setSelectedArea} />
         </div>
       )}
-      <div className=" flex mt-3 gap-5 w-full items-ce overflow-x-auto overflow-y-hidden direction-alternate-reverse">
+      <div className=" flex mt-3 pb-3 gap-5 w-full items-ce overflow-x-auto overflow-y-hidden direction-alternate-reverse">
         {filters.map((filter, index) => (
           <Toggle
             size={'sm'}
@@ -61,7 +61,7 @@ export default function Filters({
             : 'h-0')
         }
       >
-        <div className="flex gap-2 w-full  overflow-x-auto">
+        <div className="flex gap-2 w-full pb-3 overflow-x-auto">
           {selectedFilter?.options.map((option, index) => (
             <div
               className="flex justify-between align-middle gap-2 w-fit"
