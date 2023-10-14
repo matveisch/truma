@@ -13,14 +13,18 @@ export default function TabSwitcher({ setNeedHelp }: PropsType) {
       <TabsList className="w-full py-8 px-2">
         <TabsTrigger
           value="offer-help"
-          className={'w-full ' + (lang == 'ru' ? 'text-base md:text-lg' : 'text-lg md:text-2xl')}
+          className={
+            'w-full ' + (lang == 'ru' ? 'text-sm sm:text-base md:text-lg' : 'text-lg md:text-2xl')
+          }
           onClick={() => setNeedHelp(false)}
         >
           {dict.switcher.dontNeed}{' '}
         </TabsTrigger>
         <TabsTrigger
           value="need-help"
-          className={'w-full ' + (lang == 'ru' ? 'text-base md:text-lg' : 'text-lg md:text-2xl')}
+          className={
+            'w-full ' + (lang == 'ru' ? 'text-sm sm:text-base md:text-lg' : 'text-lg md:text-2xl')
+          }
           onClick={() => setNeedHelp(true)}
         >
           {dict.switcher.need}{' '}
