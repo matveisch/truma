@@ -16,13 +16,15 @@ import { Input } from '@/components/ui/input';
 import { ComboBox } from '@/components/ComboBox';
 import { Textarea } from '@/components/ui/textarea';
 import { Toggle } from '@/components/ui/toggle';
-import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from 'react';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Database, PostInsert } from '@/lib/supabase';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Context, ContextType } from '@/components/MainPage';
 import FormSchema from '@/lib/FormSchema';
+import { verifyCaptcha } from '../../ServerActions';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 interface ImportanceType {
   name: string;
@@ -43,6 +45,7 @@ export default function NewPostForm(props: PropsType) {
   const formSchema = FormSchema();
   const { getValues, reset, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    mode: 'onChange',
     defaultValues: {
       name: '',
       area: '',
@@ -59,6 +62,15 @@ export default function NewPostForm(props: PropsType) {
     { name: dict.form.fourUrgent, urgency: 0 },
   ];
   const [activeToggle, setActiveToggle] = useState<ImportanceType>(timeOptions[3]);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const [isVerified, setIsverified] = useState<boolean>(false);
+
+  async function handleCaptchaSubmission(token: string | null) {
+    // Server function to verify captcha
+    await verifyCaptcha(token)
+      .then(() => setIsverified(true))
+      .catch(() => setIsverified(false));
+  }
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { phone, ...restValues } = values;
@@ -202,7 +214,17 @@ export default function NewPostForm(props: PropsType) {
           <p className="mt-1 mb-3 text-sm text-muted-foreground">
             {needHelp ? dict.form.textFooterNeed : dict.form.textFooter}
           </p>
-          <Button type="submit">{dict.form.submit}</Button>
+          <div className="flex items-center gap-3 flex-wrap">
+            <ReCAPTCHA
+              // style={{ transform: 'scale(0.8)', transformOrigin: '0 0' }}
+              sitekey={process.env.RECAPTCHA_SITE_KEY || ''}
+              ref={recaptchaRef}
+              onChange={handleCaptchaSubmission}
+            />
+            <Button type="submit" disabled={!isVerified}>
+              {dict.form.submit}
+            </Button>
+          </div>
         </div>
       </form>
     </Form>
