@@ -22,7 +22,7 @@ export default function FormSchema() {
       .min(1, {
         message: dict.form.mustBeFilled,
       })
-      .max(15, {
+      .max(13, {
         message: dict.form.tooLong,
       }),
     description: z.string().min(1, {
