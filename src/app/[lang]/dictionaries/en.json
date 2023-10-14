@@ -1,7 +1,7 @@
 {
   "header": {
-    "newAd": "Advertisement",
-    "amEhad": "Website: With One",
+    "newAd": "Add advertisement",
+    "amEhad": "To website: Am Echad",
     "meyadLeyad": "Immediately"
   },
   "switcher": {
@@ -9,7 +9,7 @@
     "dontNeed": "Offering Help"
   },
   "filters": {
-    "housing": "Shelters",
+    "housing": "Housing",
     "food": "Food",
     "animals": "Animals",
     "children": "Children",
@@ -29,12 +29,12 @@
     "threeAnimals": "3+ Animals"
   },
   "filtersText": {
-    "housingText": "Providing Housing Solutions",
+    "housingText": "Providing housing solutions",
     "foodText": "Help in finding food, food delivery",
-    "animalsText": "Finding shelter for homeless pets and searching for medical assistance",
-    "childrenText": "Finding food for babies and mother's milk",
+    "animalsText": "Finding shelter and medical assistance for animals",
+    "childrenText": "Finding food for babies and breast milk",
     "mentalText": "Mental assistance for those in need",
-    "trampsText": "Looking for a ride, assistance in domestic transport",
+    "trampsText": "Search for transport, travel companion, movement within the country",
     "transportationText": "Help in transporting goods, donations",
     "clothingText": "Donation of items",
     "otherText": ""
@@ -52,7 +52,7 @@
     "twoUrgent": "12 Hours",
     "threeUrgent": "24 Hours",
     "fourUrgent": "Not urgent",
-    "copied": "The post was copied to the board"
+    "copied": "The post was copied to the clipboard"
   },
   "form": {
     "title": "Choose the category in which help is needed",
