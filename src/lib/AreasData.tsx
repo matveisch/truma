@@ -6,6 +6,10 @@ export default function AreasData(): { value: string; label: string }[] {
 
   return [
     {
+      value: 'all',
+      label: dict.misc.all,
+    },
+    {
       value: 'north',
       label: dict.misc.north,
     },

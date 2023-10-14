@@ -77,6 +77,7 @@
     "tooLong": "The value is too long"
   },
   "misc": {
+    "all": "Whole country",
     "inTotal": "Ads in total",
     "loadMore": "Load More",
     "noMore": "No More Ads",
