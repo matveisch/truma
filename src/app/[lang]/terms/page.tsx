@@ -42,6 +42,7 @@ export default function Home() {
       </p>
       <p className="mb-2">
         <strong className="font-semibold">8. Changes to Terms</strong> - We may update these terms
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         from time to time. You will be notified of any changes, and it's your responsibility to
         review the updated terms.
       </p>

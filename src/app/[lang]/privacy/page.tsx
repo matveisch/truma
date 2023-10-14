@@ -29,6 +29,7 @@ export default function Home() {
         websites.
       </p>
       <p className="mb-2">
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
         <strong className="font-semibold">6. Children's Privacy</strong> - Meyad-Leyad is intended
         for use by adults, and we do not knowingly collect or store information from children under
         the age of 13.

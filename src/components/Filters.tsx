@@ -1,5 +1,5 @@
 import { Toggle } from '@/components/ui/toggle';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import { ComboBox } from '@/components/ComboBox';
 import FiltersData from '@/lib/FiltersData';
 
@@ -22,16 +22,17 @@ export default function Filters({
 }: PropsType) {
   const filters = FiltersData();
   const selectedFilter = filters.find((key) => key.value === activeToggle);
-
   const subfilterRef = useRef<HTMLDivElement>(null);
-  const [height, setHeight] = useState<number>(2);
-  useEffect(() => {
-    subfilterRef.current != null
-      ? //console.log(subfilterRef)
-        setHeight(subfilterRef.current.clientHeight + 28)
-      : undefined;
-    console.log(height);
-  }, [selectedFilter]);
+
+  // const [height, setHeight] = useState<number>(2);
+  // useEffect(() => {
+  //   subfilterRef.current != null
+  //     ? //console.log(subfilterRef)
+  //       setHeight(subfilterRef.current.clientHeight + 28)
+  //     : undefined;
+  //   console.log(height);
+  // }, [selectedFilter]);
+
   return (
     <div className="w-full">
       {!createMode && (
@@ -62,14 +63,15 @@ export default function Filters({
       </div>
       <div
         className={
-          'mt-5 relative transition-all duration-200 h-[' +
-          (subfilterRef.current ? subfilterRef.current.clientHeight : 0) +
-          'px]'
+          'mt-5 relative transition-all duration-200' +
+          // (subfilterRef.current ? subfilterRef.current.clientHeight : 0) +
+          // 'px]'
+          (subfilterRef.current && subfilterRef.current.clientHeight
+            ? 'h-fit'
+            : selectedFilter != null
+            ? 'h-fit'
+            : 'h-0')
         }
-        //selectedFilter != null
-        // ? 'h-fit'
-        // : 'h-0')
-        //}
       >
         <div ref={subfilterRef} className="flex gap-2 w-full pb-3 overflow-x-auto">
           {selectedFilter?.options.map((option, index) => (
