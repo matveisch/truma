@@ -146,7 +146,8 @@ export default function PostCard({
         </CardContent>
         <CardContent className="flex flex-col gap-1">
           {phones.map((phone, index) => {
-            let phoneLink = phone.slice(0, 3) == '972' ? phone : '972' + phone;
+            let phoneLink =
+              phone.slice(0, 4) == '+972' || phone.slice(0, 3) == '972' ? phone : '972' + phone;
 
             return (
               <div className="flex gap-2" key={index}>
