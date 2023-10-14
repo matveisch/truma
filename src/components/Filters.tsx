@@ -90,7 +90,7 @@ export default function Filters({
             </div>
           ))}
         </div>
-        <h2 className="mt-2 text-right w-full text-xl">{selectedFilter?.description}</h2>
+        <h2 className="mt-2 w-full text-xl">{selectedFilter?.description}</h2>
       </div>
     </div>
   );

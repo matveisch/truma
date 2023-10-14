@@ -2,7 +2,7 @@
 
 import { AlertDialog, AlertDialogContent, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { useContext, useState } from 'react';
-import PostCard from './ui/postCard';
+import PostCard from './postCard';
 import { X } from 'lucide-react';
 import { Context, ContextType } from '@/components/MainPage';
 
