@@ -48,7 +48,7 @@ export default function Header({ children }: { children: ReactNode }) {
   return (
     <header className="w-full">
       <div className="invisible sm:visible flex justify-between items-center w-full relative flex-row-reverse">
-        <h1 className="">מיד ליד</h1>
+        <h1 className="text-[#0054F6] text-lg font-semibold">מיד ליד</h1>
         <div className="flex gap-6 items-center">
           {children}
           <Link href="https://am-1.org.il/" target="_blank">
