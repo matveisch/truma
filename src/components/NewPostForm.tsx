@@ -218,13 +218,13 @@ export default function NewPostForm(props: PropsType) {
             {needHelp ? dict.form.textFooterNeed : dict.form.textFooter}
           </p>
           <div className="flex items-center gap-3 flex-wrap">
-            {/* <ReCAPTCHA
+            <ReCAPTCHA
               //style={{ transform: 'scale(0.8)', transformOrigin: '0 0' }}
-              
+
               sitekey={process.env.RECAPTCHA_SITE_KEY || ''}
               ref={recaptchaRef}
               onChange={handleCaptchaSubmission}
-            /> */}
+            />
             <div className="items-top flex space-x-2 w-full">
               <Checkbox
                 id="terms1"
