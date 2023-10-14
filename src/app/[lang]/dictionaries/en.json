@@ -72,7 +72,9 @@
     "textPlaceholder": "How can you help?",
     "textFooterNeed": "Write briefly and clearly what you need help with",
     "textFooter": "Write briefly and clearly how you can help",
-    "submit": "Publish"
+    "submit": "Publish",
+    "mustBeFilled": "Must be filled",
+    "tooLong": "The value is too long"
   },
   "misc": {
     "inTotal": "Ads in total",

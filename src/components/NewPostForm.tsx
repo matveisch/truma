@@ -22,6 +22,7 @@ import { Database, PostInsert } from '@/lib/supabase';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
 import { Context, ContextType } from '@/components/MainPage';
+import FormSchema from '@/lib/FormSchema';
 
 interface ImportanceType {
   name: string;
@@ -36,36 +37,10 @@ interface PropsType {
   setCreateMode: Dispatch<SetStateAction<boolean>>;
 }
 
-export const formSchema = z.object({
-  name: z
-    .string()
-    .min(1, {
-      message: 'Must be filled',
-    })
-    .max(20, {
-      message: 'Name is too long',
-    }),
-  area: z.string().min(1, {
-    message: 'Must be filled',
-  }),
-  phone: z
-    .string()
-    .min(1, {
-      message: 'Must be filled',
-    })
-    .max(15, {
-      message: 'Name is too long',
-    }),
-  description: z.string().min(1, {
-    message: 'Must be filled',
-  }),
-  urgency: z.number(),
-  military: z.boolean(),
-});
-
 export default function NewPostForm(props: PropsType) {
   const { needHelp, activeFilter, activeOption, supabase, setCreateMode } = props;
   const { dict } = useContext(Context) as ContextType;
+  const formSchema = FormSchema();
   const { getValues, reset, setValue, ...form } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

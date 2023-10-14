@@ -13,13 +13,18 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Dispatch, SetStateAction, useContext, useEffect, useState } from 'react';
 import { UseFormSetValue } from 'react-hook-form';
-import * as z from 'zod';
-import { formSchema } from '@/components/NewPostForm';
 import { Context, ContextType } from '@/components/MainPage';
 import AreasData from '@/lib/AreasData';
 
 interface PropsType {
-  setOuterValue?: UseFormSetValue<z.infer<typeof formSchema>>;
+  setOuterValue?: UseFormSetValue<{
+    name: string;
+    area: string;
+    phone: string;
+    description: string;
+    urgency: number;
+    military: boolean;
+  }>;
   setArea?: Dispatch<SetStateAction<string>>;
 }
 
