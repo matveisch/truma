@@ -75,6 +75,7 @@
     "submit": "Publish"
   },
   "misc": {
+    "inTotal": "Ads in total",
     "loadMore": "Load More",
     "noMore": "No More Ads",
     "jerusalem": "Jerusalem",

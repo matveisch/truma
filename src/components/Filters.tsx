@@ -24,13 +24,12 @@ export default function Filters({
   const selectedFilter = filters.find((key) => key.value === activeToggle);
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-[200px]">
       {!createMode && (
         <div className="w-fit">
           <ComboBox setArea={setSelectedArea} />
         </div>
       )}
-
       <div className=" flex mt-3 gap-5 w-full items-ce overflow-x-auto overflow-y-hidden direction-alternate-reverse">
         {filters.map((filter, index) => (
           <Toggle
@@ -52,11 +51,13 @@ export default function Filters({
           </Toggle>
         ))}
       </div>
-
       <div className="w-full mt-5">
         <div className="flex gap-2 w-full">
           {selectedFilter?.options.map((option, index) => (
-            <div className=" flex justify-between align-middle gap-2" key={`${option}-${index}`}>
+            <div
+              className="flex justify-between align-middle gap-2 w-fit"
+              key={`${option}-${index}`}
+            >
               <p
                 onClick={() => {
                   if (option.value === activeOption) {
