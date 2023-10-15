@@ -17,13 +17,13 @@ import {
 import Link from 'next/link';
 import { Context, ContextType } from '@/components/MainPage';
 
-function DropdownLanguage() {
+function DropdownLanguage({ isMobile }: { isMobile: boolean }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="flex gap-1 items-center">
-          Language
-          <Globe size={18} />
+          {!isMobile && 'Language'}
+          <Globe size={22} />
         </Button>
       </DropdownMenuTrigger>
       {/*todo: make direction dynamic*/}
@@ -53,7 +53,10 @@ export default function Header({ children }: { children: ReactNode }) {
 
   return (
     <header className="w-full">
-      <div className="invisible sm:visible flex justify-between items-center w-full relative flex-row-reverse">
+      <h1 className="w-full text-center sm:hidden text-[#0054F6] text-lg font-semibold mb-5 mt-2">
+        מיד ליד
+      </h1>
+      <div className="sm:flex hidden justify-between items-center w-full relative flex-row-reverse">
         <h1 className="text-[#0054F6] text-lg font-semibold">מיד ליד</h1>
         <div className="flex gap-6 items-center">
           {children}
@@ -62,7 +65,7 @@ export default function Header({ children }: { children: ReactNode }) {
           </Link>
           {/* <Button variant="ghost">ארגוני מתנדבים</Button> */}
           {/* <Button variant="ghost">מידע</Button> */}
-          <DropdownLanguage />
+          <DropdownLanguage isMobile={false} />
         </div>
       </div>
       <div className="flex justify-between w-full items-center sm:hidden">
@@ -84,14 +87,14 @@ export default function Header({ children }: { children: ReactNode }) {
               {/*<MenubarItem>*/}
               {/*  <Button variant="ghost">מידע</Button>*/}
               {/*</MenubarItem>*/}
-              <MenubarItem>
-                <DropdownLanguage />
-              </MenubarItem>
+              {/*<MenubarItem>*/}
+              {/*  <DropdownLanguage isMobile={false} />*/}
+              {/*</MenubarItem>*/}
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
         {children}
-        <h1 className="">מיד ליד</h1>
+        <DropdownLanguage isMobile />
       </div>
     </header>
   );
