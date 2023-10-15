@@ -30,5 +30,9 @@ export default function FormSchema() {
     }),
     urgency: z.number(),
     military: z.boolean(),
+    category: z.string().min(1, {
+      message: dict.form.mustBeFilled,
+    }),
+    subcategory: z.string(),
   });
 }

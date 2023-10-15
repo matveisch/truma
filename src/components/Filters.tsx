@@ -1,7 +1,9 @@
 import { Toggle } from '@/components/ui/toggle';
-import { Dispatch, SetStateAction, useRef, useState, useEffect } from 'react';
+import { Dispatch, SetStateAction, useRef, useState, useEffect, useContext } from 'react';
 import { ComboBox } from '@/components/ComboBox';
 import FiltersData from '@/lib/FiltersData';
+import { Context, ContextType } from '@/components/MainPage';
+import AreasData from '@/lib/AreasData';
 
 interface PropsType {
   activeToggle: string | null;
@@ -25,6 +27,9 @@ export default function Filters({
   const subfilterRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const [height, setHeight] = useState<number>(0);
+  const { dict } = useContext(Context) as ContextType;
+  const areas = AreasData();
+
   useEffect(() => {
     subfilterRef.current != null && textRef.current != null
       ? setHeight(subfilterRef.current.offsetHeight + textRef.current.offsetHeight)
@@ -32,11 +37,17 @@ export default function Filters({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFilter]);
+
   return (
     <div className="w-full">
       {!createMode && (
         <div className="w-fit">
-          <ComboBox setArea={setSelectedArea} />
+          <ComboBox
+            setArea={setSelectedArea}
+            startingValue={dict.misc.choose}
+            sectionInDictionary={dict.misc}
+            options={areas}
+          />
         </div>
       )}
       <div className=" flex mt-3 pb-3 gap-5 w-full items-ce overflow-x-auto overflow-y-hidden direction-alternate-reverse">
@@ -56,7 +67,7 @@ export default function Filters({
               setActiveOption(null);
             }}
           >
-            {filter.name}
+            {filter.label}
           </Toggle>
         ))}
       </div>

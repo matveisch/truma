@@ -27,6 +27,8 @@ import { verifyCaptcha } from '../../ServerActions';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { Checkbox } from '@/components/ui/checkbox';
 import Link from 'next/link';
+import AreasData from '@/lib/AreasData';
+import FiltersData from '@/lib/FiltersData';
 
 interface ImportanceType {
   name: string;
@@ -55,6 +57,8 @@ export default function NewPostForm(props: PropsType) {
       description: '',
       urgency: 0,
       military: false,
+      category: '',
+      subcategory: '',
     },
   });
   const timeOptions = [
@@ -67,6 +71,11 @@ export default function NewPostForm(props: PropsType) {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [isVerified, setIsverified] = useState<boolean>(false);
   const [allowPublication, setAllowPublication] = useState(false);
+  const areas = AreasData();
+  const filters = FiltersData();
+  const [currentOptions, setCurrentOptions] = useState(
+    filters.find((filter) => filter.value === getValues('category'))?.options
+  );
 
   async function handleCaptchaSubmission(token: string | null) {
     // Server function to verify captcha
@@ -78,8 +87,6 @@ export default function NewPostForm(props: PropsType) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { phone, ...restValues } = values;
     const dataToPost: PostInsert = {
-      category: activeFilter || 'other',
-      subcategory: activeOption || '',
       time: new Date().toISOString(),
       need_help: needHelp,
       phones: [phone.toString()],
@@ -87,7 +94,7 @@ export default function NewPostForm(props: PropsType) {
     };
 
     const { data, error } = await supabase.from('posts').insert([dataToPost]).select();
-    console.log(error?.message); //todo: deal with errors
+    error && console.log(error?.message); //todo: deal with errors
     if (data) setCreateMode(false);
   }
 
@@ -95,6 +102,10 @@ export default function NewPostForm(props: PropsType) {
     setValue('urgency', activeToggle.urgency);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeToggle]);
+
+  useEffect(() => {
+    setCurrentOptions(filters.find((filter) => filter.value === getValues('category'))?.options);
+  }, [getValues('category')]);
 
   return (
     <Form {...form} setValue={setValue} getValues={getValues} reset={reset}>
@@ -123,12 +134,59 @@ export default function NewPostForm(props: PropsType) {
               <FormItem className="flex flex-col">
                 <FormLabel>{dict.form.area}</FormLabel>
                 <FormControl>
-                  <ComboBox setOuterValue={setValue} />
+                  <ComboBox
+                    setOuterValue={setValue}
+                    formValueToChange="area"
+                    startingValue={dict.misc.choose}
+                    sectionInDictionary={dict.misc}
+                    options={areas}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem className="flex flex-col">
+                <FormLabel>{'הקטגוריה'}</FormLabel>
+                <FormControl>
+                  <ComboBox
+                    setOuterValue={setValue}
+                    formValueToChange="category"
+                    startingValue="בחר את הקטגוריה"
+                    sectionInDictionary={dict.filters}
+                    options={filters}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {currentOptions && currentOptions.length && getValues('category') && (
+            <FormField
+              control={form.control}
+              name="subcategory"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>{'sub הקטגוריה'}</FormLabel>
+                  <FormControl>
+                    <ComboBox
+                      setOuterValue={setValue}
+                      formValueToChange="subcategory"
+                      startingValue="בחר את הקטגוריה"
+                      sectionInDictionary={dict.subFilters}
+                      options={currentOptions}
+                      parentCategory={getValues('category')}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <div className="flex items-end gap-2">
             <FormField
               control={form.control}
@@ -219,8 +277,6 @@ export default function NewPostForm(props: PropsType) {
           </p>
           <div className="flex items-center gap-3 flex-wrap">
             <ReCAPTCHA
-              //style={{ transform: 'scale(0.8)', transformOrigin: '0 0' }}
-
               sitekey={process.env.RECAPTCHA_SITE_KEY || ''}
               ref={recaptchaRef}
               onChange={handleCaptchaSubmission}
@@ -256,7 +312,13 @@ export default function NewPostForm(props: PropsType) {
                 </label>
               </div>
             </div>
-            <Button type="submit" disabled={!isVerified || !allowPublication}>
+            <Button
+              type="submit"
+              disabled={
+                // !isVerified ||
+                !allowPublication
+              }
+            >
               {dict.form.submit}
             </Button>
           </div>

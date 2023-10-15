@@ -3,7 +3,7 @@ import { Context, ContextType } from '@/components/MainPage';
 
 interface FilterType {
   value: string;
-  name: string;
+  label: string;
   options: { value: string; label: string }[];
   description: string;
 }
@@ -14,7 +14,7 @@ export default function FiltersData(): FilterType[] {
   return [
     {
       value: 'housing',
-      name: dict.filters.housing,
+      label: dict.filters.housing,
       options: [
         { value: 'onePerson', label: dict.subFilters.onePerson },
         { value: 'twoPeople', label: dict.subFilters.twoPeople },
@@ -25,13 +25,13 @@ export default function FiltersData(): FilterType[] {
     },
     {
       value: 'food',
-      name: dict.filters.food,
+      label: dict.filters.food,
       options: [],
       description: dict.filtersText.foodText,
     },
     {
       value: 'animals',
-      name: dict.filters.animals,
+      label: dict.filters.animals,
       options: [
         { value: 'oneAnimal', label: dict.subFilters.oneAnimal },
         { value: 'twoAnimals', label: dict.subFilters.twoAnimals },
@@ -41,37 +41,37 @@ export default function FiltersData(): FilterType[] {
     },
     {
       value: 'children',
-      name: dict.filters.children,
+      label: dict.filters.children,
       options: [],
       description: dict.filtersText.childrenText,
     },
     {
       value: 'mental',
-      name: dict.filters.mental,
+      label: dict.filters.mental,
       options: [],
       description: dict.filtersText.mentalText,
     },
     {
       value: 'tramps',
-      name: dict.filters.tramps,
+      label: dict.filters.tramps,
       options: [],
       description: dict.filtersText.trampsText,
     },
     {
       value: 'transportation',
-      name: dict.filters.transportation,
+      label: dict.filters.transportation,
       options: [],
       description: dict.filtersText.transportationText,
     },
     {
       value: 'clothing',
-      name: dict.filters.clothing,
+      label: dict.filters.clothing,
       options: [],
       description: dict.filtersText.clothingText,
     },
     {
       value: 'other',
-      name: dict.filters.other,
+      label: dict.filters.other,
       options: [],
       description: dict.filtersText.otherText,
     },

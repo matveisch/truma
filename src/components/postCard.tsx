@@ -48,7 +48,7 @@ export default function PostCard({
 
   function getFilterName(value: string) {
     const foundFilter = filters.find((filter) => filter.value === value);
-    return foundFilter ? foundFilter.name : '';
+    return foundFilter ? foundFilter.label : '';
   }
 
   function getSubFilterName(value: string, subValue: string) {
