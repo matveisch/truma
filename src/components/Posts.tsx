@@ -48,7 +48,7 @@ export default function Posts(props: PostsProps) {
       }
 
       const { data: posts, error } = await query;
-      console.log(error?.message); //todo: deal with errors
+      error && console.log(error.message); //todo: deal with errors
       return posts;
     }
     getData().then((posts) => {
