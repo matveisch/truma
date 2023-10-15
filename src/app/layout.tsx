@@ -13,9 +13,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html>
-      <body className={inter.className}>
+      <body className={`relative ${inter.className}`}>
         {children}
-        <footer className="w-full bg-slate-100 py-3">
+        <footer className="w-full bg-slate-100 py-3 absolute bottom-[-48px]">
           <a
             href="mailto:support@desight.co"
             className="w-fit text-center mx-auto block hover:text-blue-600"
