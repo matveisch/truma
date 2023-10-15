@@ -134,13 +134,19 @@ export default function PostCard({
         </CardHeader>
         <CardContent>
           <div className={'' + (open ? 'border-gray-300 border-2 rounded-md p-2' : '')}>
-            <ScrollArea type="always" className={'' + (open ? 'h-52' : 'h-fit')}>
+            <ScrollArea
+              type="hover"
+              dir={lang === 'he' ? 'rtl' : 'ltr'}
+              className={'' + (open ? 'h-52' : 'h-fit')}
+            >
               <p
-                className={'' + (open ? 'max-h-full' : 'h-fit overflow-hidden text-ellipsis')}
+                className={
+                  'whitespace-pre-wrap ' +
+                  (open ? 'max-h-full' : 'h-fit overflow-hidden text-ellipsis')
+                }
                 style={
                   lang === 'he'
                     ? {
-                        textAlign: 'end',
                         display: '-webkit-box',
                         WebkitLineClamp: 5,
                         WebkitBoxOrient: 'vertical',
