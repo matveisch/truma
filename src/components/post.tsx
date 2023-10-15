@@ -50,7 +50,7 @@ export default function Post({
           category={category}
           subCategory={subCategory}
         />
-        <AlertDialogContent className="pt-11">
+        <AlertDialogContent className="pt-11 h-full max-h-[650px]">
           <AlertDialogTrigger className="absolute top-[10px] right-[24px] gap-2 flex rounded-md bg-gray-200 px-2 hover:bg-gray-300">
             <X />
             <p>{dict.post.close}</p>

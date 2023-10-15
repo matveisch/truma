@@ -60,13 +60,13 @@ export default function PostCard({
   return (
     <Card
       className={
-        'h-full p-1 border-2 flex flex-col justify-between overflow-hidden' +
+        'h-full p-1 border-2 flex flex-col justify-between gap-2 overflow-hidden' +
         (urgency == 1
-          ? ' border-red-600 h-full'
+          ? ' border-red-600'
           : urgency == 2
-          ? ' border-orange-600 h-full'
+          ? ' border-orange-600'
           : urgency == 3
-          ? ' border-blue-600 h-full'
+          ? ' border-blue-600'
           : '')
       }
     >
@@ -80,7 +80,7 @@ export default function PostCard({
           <p className="text-xs text-slate-500">
             {getFilterName(category) + getSubFilterName(category, subCategory)}
           </p>
-          <div className="flex">
+          <div>
             <CardTitle>{name}</CardTitle>
           </div>
           <CardContent className="p-0 text-slate-500">
@@ -134,7 +134,7 @@ export default function PostCard({
         </CardHeader>
         <CardContent>
           <div className={'' + (open ? 'border-gray-300 border-2 rounded-md p-2' : '')}>
-            <ScrollArea type="always" className={'flex' + (open ? 'h-52' : 'h-fit')}>
+            <ScrollArea type="always" className={'' + (open ? 'h-52' : 'h-fit')}>
               <p
                 className={'' + (open ? 'max-h-full' : 'h-fit overflow-hidden text-ellipsis')}
                 style={
