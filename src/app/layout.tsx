@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html>
-      <body className={`relative ${inter.className}`}>
+      <body className={`relative min-h-[calc(100vh-48px)] ${inter.className}`}>
         {children}
         <footer className="w-full bg-slate-100 py-3 absolute bottom-[-48px]">
           <a
