@@ -4,7 +4,7 @@ export default async function Home({ params: { lang } }: { params: { lang: 'en' 
   const dict: any = await getDictionary(lang);
 
   return (
-    <div className="p-4 max-w-lg mx-auto">
+    <div className="p-4 max-w-lg mx-auto" style={lang === 'he' ? { direction: 'rtl' } : undefined}>
       <h1 className="font-bold text-2xl mb-4">{dict.privacy_policy.title}</h1>
       {dict.privacy_policy.sections.map((section: any, index: number) => (
         <div className="mb-2" key={index}>
