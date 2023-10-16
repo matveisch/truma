@@ -171,7 +171,7 @@ export default function NewPostForm(props: PropsType) {
         <div className="flex flex-col items-start justify-start w-full">
           {needHelp && (
             <div className="flex flex-col gap-3 w-full">
-              <FormLabel className="mt-0">דחפות</FormLabel>
+              <FormLabel className="mt-0">{dict.form.urgency}</FormLabel>
               <div className="flex gap-2">
                 {timeOptions.map((option, index) => (
                   <Toggle
