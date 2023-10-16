@@ -77,7 +77,7 @@ export default function PostCard({
           </div>
         )}
         <CardHeader>
-          <p className="text-xs text-slate-500">
+          <p className="text-sm text-slate-500">
             {getFilterName(category) + getSubFilterName(category, subCategory)}
           </p>
           <div>
