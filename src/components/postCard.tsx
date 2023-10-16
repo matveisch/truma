@@ -163,11 +163,11 @@ export default function PostCard({
           {phones.map((phone, index) => {
             let phoneLink =
               phone.slice(0, 4) == '+972'
-                ? phone
+                ? phone.replaceAll(' ', '')
                 : phone.slice(0, 3) == '972'
-                ? '+' + phone
+                ? '+' + phone.replaceAll(' ', '')
                 : phone.slice(0, 2) == '05'
-                ? '+972' + phone.slice(1)
+                ? '+972' + phone.slice(1).replaceAll(' ', '')
                 : '';
 
             return (
