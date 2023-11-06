@@ -77,16 +77,17 @@ export default function MainPage({ dict, lang }: { dict: any; lang: 'en' | 'ru' 
               )}
             </Button>
           </Header>
-          <div className="mt-6 flex border-8 p-4 border-blue-50 rounded-md flex-col md:flex-row">
-            <div className="bg-blue-50 rounded-md p-6  flex items-center justify-center flex-col gap-4 w-full">
-              <p className=" text-center text-lg md:text-start">{dict.seo.text1}</p>
-              {/* <p>
+          {!createMode && (
+            <div className="mt-6 flex border-8 p-4 border-blue-50 rounded-md flex-col md:flex-row">
+              <div className="bg-blue-50 rounded-md p-6  flex items-center justify-center flex-col gap-4 w-full">
+                <p className=" text-center text-lg md:text-start">{dict.seo.text1}</p>
+                {/* <p>
                 Наш ресурс предоставляет платформу для тех, кто готов оказать поддержку и для тех,
                 кто ищет содействие в различных сферах жизни. Независимо от того, нужна вам
                 поддержка с жильем, транспортом, питанием, одеждой или чем-либо еще, у нас вы
                 найдете ответы на свои потребности
               </p> */}
-              {/* <p>
+                {/* <p>
                 Что делает нашу платформу особенной - это возможность создать объявление абсолютно
                 бесплатно. Вы можете разместить свою просьбу или предложение о содействии, чтобы
                 найти тех, кто готов прийти на помощь в трудную минуту.
@@ -95,12 +96,12 @@ export default function MainPage({ dict, lang }: { dict: any; lang: 'en' | 'ru' 
                 Присоединяйтесь к מיד ליד и используйте нашу платформу для того, чтобы делать добро
                 и находить поддержку в своем сообществе. Вместе мы можем сделать мир лучше.
               </p> */}
+              </div>
+              <div className="w-full flex items-center justify-center">
+                <Image src={heroImage} alt="support help" className="h-60 w-auto" />
+              </div>
             </div>
-            <div className="w-full flex items-center justify-center">
-              <Image src={heroImage} alt="support help" className="h-60 w-auto" />
-            </div>
-          </div>
-
+          )}
           <TabSwitcher setNeedHelp={setNeedHelp} />
           {!createMode && (
             <>
@@ -144,11 +145,13 @@ export default function MainPage({ dict, lang }: { dict: any; lang: 'en' | 'ru' 
           )}
           <Toaster />
         </Context.Provider>
-        <div className="p-6 flex flex-col gap-4 bg-blue-50 rounded-md">
-          <p>{dict.seo.text2}</p>
-          <p>{dict.seo.text3}</p>
-          <p>{dict.seo.text4}</p>
-        </div>
+        {!createMode && (
+          <div className="p-6 flex flex-col gap-4 bg-blue-50 rounded-md">
+            <p>{dict.seo.text2}</p>
+            <p>{dict.seo.text3}</p>
+            <p>{dict.seo.text4}</p>
+          </div>
+        )}
       </div>
     </main>
   );
