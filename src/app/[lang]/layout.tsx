@@ -1,4 +1,4 @@
-import './globals.css';
+import '../globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
@@ -10,6 +10,10 @@ const inter = Inter({ subsets: ['latin'] });
 //   description:
 //     'אתר הפרסום המוביל למציאת עזרה והצפת מודעות. זקוק לעזרה? רוצה לסייע? הצטרף אלינו ותרום לקהילה. מודעות עזרה, פרסום בחינם',
 // };
+
+export async function generateStaticParams() {
+  return [{ lang: 'en' }, { lang: 'he' }, { lang: 'ru' }];
+}
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const russianMetadata: Metadata = {
@@ -39,9 +43,6 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     return hebrewMetadata;
   }
 }
-export async function generateStaticParams() {
-  return [{ lang: 'en' }, { lang: 'he' }, { lang: 'ru' }];
-}
 export default function RootLayout({
   children,
   params,
@@ -49,7 +50,6 @@ export default function RootLayout({
   children: React.ReactNode;
   params: { lang: string };
 }) {
-  console.log(params.lang + ' PARANS');
   return (
     <html lang={params.lang}>
       <body className={`relative min-h-[calc(100vh-48px)] ${inter.className}`}>
